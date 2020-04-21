@@ -19,7 +19,7 @@ mix.copy('../assets/img/', 'public/assets/img/');
 
 mix.copy('../assets/js/', 'public/assets/js/');
 
-mix.copy('../assets/css/default', 'public/assets/css/default/');
+mix.copy('../assets/css/material', 'public/assets/css/material/');
 
 mix.copy('node_modules/jquery-migrate/dist/', 'public/assets/plugins/jquery-migrate/');
 

@@ -53,7 +53,7 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
     5.5  Plugin - Gritter Notification
     5.6  Plugin - Bootstrap Datetimepicker
     5.7  Plugin - Pace Progress Loader (Added in V1.5)
-    5.8  Plugin - DataTables 2.0 (Added in V1.9)
+    5.8 Plugin - DataTables 2.0 (Added in V1.9)
 
 ::  6.0 Pages
 -------------------------------------------
@@ -84,8 +84,9 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 
 
 /* -------------------------------
-	 1.0 Page Structure
+   1.0 Page Structure
 ------------------------------- */
+
 
 /* 1.1 Page Header */
 
@@ -236,7 +237,7 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 	}
 	.header .navbar-collapse .dropdown-menu,
 	.header .navbar-collapse .navbar-nav > li + li {
-		border-top: 1px solid #f2f3f4;
+		border-top: 1px solid #eee;
 	}
 	.header .navbar-collapse .dropdown.show {
 		display: block;
@@ -252,14 +253,39 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 	.header .navbar-collapse.show {
 		overflow-y: auto !important;
 	}
+	.header .navbar-toggle.navbar-toggle-left {
+		display: none;
+	}
 	.header .navbar-toggle,
 	.header .navbar-toggle.pull-left {
-		margin-left: 10px;
-		margin-right: 15px;
+		float: left;
+		margin-left: 0;
+		height: 50px;
 	}
-	.header .navbar-toggle.pull-right {
-		margin-left: 15px;
-		margin-right: 10px;
+	.header .navbar-brand {
+		float: none;
+		padding: 10px 50px;
+		height: 50px;
+		width: auto;
+		text-align: center;
+		display: block;
+		margin: 0;
+	}
+	.header .navbar-nav>li>a,
+	.header .navbar-nav>li .dropdown-toggle {
+		padding: 10px 15px;
+	}
+	.header .navbar-nav>li>a .label,
+	.header .navbar-nav>li .dropdown-toggle .label {
+		top: 4px;
+	}
+	.header .search-form {
+		transition: none;
+		height: 50px;
+	}
+	.header .search-form .close i,
+	.header .search-form .search-btn i {
+		line-height: 50px;
 	}
 }
 
@@ -273,14 +299,14 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 @media (max-width: 340px) {
 	.header .navbar-nav>li>a,
 	.header .navbar-nav>li .dropdown-toggle {
-		padding: 15px 12px;
+		padding: 10px 12px;
 	}
 	.header .navbar-user img,
 	.header .navbar-user .image,
 	.header .navbar-user .image.image-icon {
 		margin-right: 3px;
 	}
-	.header .navbar-user>a .caret.
+	.header .navbar-user>a .caret,
 	.header .navbar-user .dropown-toggle .caret {
 		margin-right: -5px;
 	}
@@ -340,6 +366,7 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 	.sidebar-bg {
 		left: -220px;
 		z-index: 1020;
+		box-shadow: none;
 	}
 	@keyframes sidebarSlideInLeft {
 		from {
@@ -384,6 +411,7 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 		left: 0;
 		animation: sidebarSlideInLeft .2s;
 		-webkit-animation: sidebarSlideInLeft .2s;
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
 	}
 	.page-sidebar-toggled.page-with-right-sidebar .sidebar,
 	.page-sidebar-toggled.page-with-right-sidebar .sidebar-bg {
@@ -1928,11 +1956,11 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 		margin: 20px;
 	}
 	.rtl-mode .header .navbar-toggle.pull-left {
-		margin-right: 10px;
+		margin-right: 0;
 		margin-left: 15px;
 	}
 	.rtl-mode .header .navbar-toggle.pull-right {
-		margin-left: 10px;
+		margin-left: 0;
 		margin-right: 15px;
 	}
 	.rtl-mode .page-sidebar-toggled.page-with-right-sidebar .sidebar,
@@ -1955,10 +1983,10 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 		-webkit-animation: none;
 		animation: none;
 	}
-	.rtl-mode .page-with-two-sidebar.page-with-wide-sidebar .sidebar.sidebar-right,
-	.rtl-mode .page-with-two-sidebar.page-with-wide-sidebar .sidebar-bg.sidebar-right {
-		left: -250px !important;
-		right: auto !important;
+	.rtl-mode .page-with-wide-sidebar.page-with-two-sidebar .sidebar-bg.sidebar-right,
+	.rtl-mode .page-with-wide-sidebar.page-with-two-sidebar .sidebar.sidebar-right {
+		left: -250px!important;
+		right: auto!important;
 	}
 	.rtl-mode .page-with-two-sidebar.page-right-sidebar-toggled .sidebar.sidebar-right,
 	.rtl-mode .page-with-two-sidebar.page-right-sidebar-toggled .sidebar-bg.sidebar-right {
@@ -2003,8 +2031,8 @@ Website: http://www.seantheme.com/color-admin-v4.3/admin/
 	}
 	.rtl-mode .header .navbar-toggle {
 		float: left;
-		margin-right: 0;
-		margin-left: 15px;
+		margin-right: 15px;
+		margin-left: 0px;
 	}
 	.rtl-mode .page-with-two-sidebar .header .navbar-brand {
 		float: none;

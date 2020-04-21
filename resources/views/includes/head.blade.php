@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 <link href="/assets/css/app.css" rel="stylesheet" />
 <link href="/assets/css/jqueryui/jquery-ui.min.css" rel="stylesheet" />
-<link href="/assets/css/default/style.min.css" rel="stylesheet" />
-<link href="/assets/css/default/style-responsive.min.css" rel="stylesheet" />
-<link href="/assets/css/default/theme/default.css" rel="stylesheet" id="theme" />
+<link href="/assets/css/material/style.min.css" rel="stylesheet" />
+<link href="/assets/css/material/style-responsive.min.css" rel="stylesheet" />
+<link href="/assets/css/material/theme/default.css" rel="stylesheet" id="theme" />
 <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 <!-- ================== END BASE CSS STYLE ================== -->
 
