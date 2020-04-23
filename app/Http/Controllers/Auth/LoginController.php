@@ -104,8 +104,7 @@ class LoginController extends Controller
                 'gritter_teks' => 'Selamat bekerja dan semoga sukses',
                 'gritter_gambar' => (Auth::user()->pengguna_foto? Storage::url(Auth::user()->pengguna_foto): '../assets/img/user/user.png')]);
         }
-        alert()->error('Login Gagal','ID atau Kata Sandi salah');
-        return Redirect::back()->withInput();
+        return Redirect::back()->withInput()->with('alert', 'ID atau Kata Sandi salah');
     }
 
     private function username()
