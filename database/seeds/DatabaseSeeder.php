@@ -16,8 +16,7 @@ class DatabaseSeeder extends Seeder
             PenggunaTable::class,
             RoleTable::class,
             PermissionTable::class,
-            ModelHasRolesTable::class,
-            PeriodeTable::class
+            ModelHasRolesTable::class
         ]);
     }
 }

@@ -7,33 +7,42 @@
 @endpush
 
 @section('content')
-	<div class="login-cover">
-	    <div class="login-cover-image" style="background-image: url(../assets/img/login-bg/login-bg.jpg)" data-id="login-cover-image"></div>
-	    <div class="login-cover-bg"></div>
+<!-- begin login -->
+<div class="login login-with-news-feed">
+	<!-- begin news-feed -->
+	<div class="news-feed">
+	    <div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg.jpg)"></div>
+		<div class="news-caption">
+			<h4 class="caption-title"><b>Color</b> Admin App</h4>
+			<p>
+				Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			</p>
+		</div>
 	</div>
-	<!-- begin login -->
-	<div class="login login-v2" data-pageload-addclass="animated fadeIn">
-		<!-- begin brand -->
+	<!-- end news-feed -->
+	<!-- begin right-content -->
+	<div class="right-content">
+		<!-- begin login-header -->
 		<div class="login-header">
 			<div class="brand">
 	            <img src="/assets/img/logo/favicon.png" height="30"> {{ config("app.name") }}
-				<small>{{ env('APP_COMPANY') }}</small>
+				<small>{{ env('APP_DESKRIPSI') }}</small>
 			</div>
 			<div class="icon">
-				<i class="fad fa-lock-alt"></i>
+				<i class="fad fa-sign-in"></i>
 			</div>
 		</div>
-		<!-- end brand -->
+		<!-- end login-header -->
 		<!-- begin login-content -->
 		<div class="login-content">
 			<form action="{{ route('login') }}" method="POST" class="margin-bottom-0" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
-				<div class="form-group m-b-20">
+				<div class="form-group m-b-15">
 					<input type="text" class="form-control form-control-lg" autocomplete="off" name="uid" placeholder="NIK" value="{{ old('uid') }}" required />
 				</div>
-				<div class="form-group m-b-20">
+				<div class="form-group m-b-15">
 					<input type="password" class="form-control form-control-lg" name="password" placeholder="Kata Sandi" value="{{ old('password') }}" required />
 				</div>
-				<div class="checkbox checkbox-css m-b-20">
+				<div class="checkbox checkbox-css m-b-30">
 					<input type="checkbox" id="remember" name="remember" />
 					<label for="remember">
 						Ingat Saya
@@ -44,14 +53,17 @@
                         <i class="fad fa-sign-in-alt"></i> Login
                     </button>
 				</div>
+				<hr />
+				<p class="text-center text-grey-darker">
+					&copy; {{ env('APP_COMPANY') }} <br><small>{{ env('APP_COMPANY_DESKRIPSI') }}</small>
+				</p>
 			</form>
-			<br>
-			© 2019 | <a href="http://www.pdamgirimenang.com" target="_blank">IT {{ env('APP_COMPANY') }}</a>
-			<small class="float-right pt-1">V1.0</small>
 		</div>
 		<!-- end login-content -->
 	</div>
-	<!-- end login -->
+	<!-- end right-container -->
+</div>
+<!-- end login -->
     @include('sweetalert::alert')
 @endsection
 

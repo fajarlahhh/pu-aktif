@@ -13,12 +13,11 @@ class CreateBarangDanPekerjaanTable extends Migration
      */
     public function up()
     {
-        Schema::create('barang_dan_pekerjaan', function (Blueprint $table) {
-            $table->bigIncrements('barang_dan_pekerjaan_id');
-            $table->string('barang_dan_pekerjaan_nama')->unique();
-            $table->decimal('barang_dan_pekerjaan_harga', 12, 2);
-            $table->string('barang_dan_pekerjaan_jenis');
-            $table->string('barang_dan_pekerjaan_satuan');
+        Schema::create('berita', function (Blueprint $table) {
+            $table->bigIncrements('berita_id');
+            $table->string('berita_judul')->unique();
+            $table->decimal('berita_deskripsi', 12, 2);
+            $table->string('berita_gambar');
             $table->string('operator', 10);
             $table->softDeletes();
             $table->timestamps();
@@ -32,6 +31,6 @@ class CreateBarangDanPekerjaanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barang_dan_pekerjaan');
+        Schema::dropIfExists('berita');
     }
 }

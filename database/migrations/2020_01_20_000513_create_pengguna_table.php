@@ -15,6 +15,7 @@ class CreatePenggunaTable extends Migration
     {
         Schema::create('pengguna', function (Blueprint $table) {
             $table->string('pengguna_id', 10);
+            $table->string('pengguna_nama');
             $table->string('pengguna_sandi');
             $table->string('pengguna_foto')->nullable();
             $table->boolean('pengguna_status');
