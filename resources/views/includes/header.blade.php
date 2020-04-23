@@ -7,18 +7,23 @@
 @endphp
 <!-- begin #header -->
 <div id="header" class="header {{ $headerClass }}">
-	<!-- begin navbar-header -->
-	<div class="navbar-header">
-	    <a href="/" class="navbar-brand">
-	      	<b>PUPR</b> {{ config("app.name") }}
-	    </a>
-	    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-	    </button>
-  	</div>
-	<!-- end navbar-header -->
+    <!-- begin navbar-header -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed navbar-toggle-left" data-click="sidebar-minify">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="index.html" class="navbar-brand">
+            <b>PUPR</b> {{ config("app.name") }}
+        </a>
+    </div>
+    <!-- end navbar-header -->
 
 	<!-- begin header-nav -->
 	<ul class="navbar-nav navbar-right">

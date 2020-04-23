@@ -24,10 +24,10 @@
 	$contentClass = (!empty($contentFullWidth) || !empty($contentFullHeight)) ? 'content-full-width ' : '';
 	$contentClass .= (!empty($contentInverseMode)) ? 'content-inverse-mode ' : '';
 @endphp
-<body class="{{ $bodyClass }}">
+<body>
 	@include('includes.component.page-loader')
 
-	<div id="page-container" class="page-container fade page-sidebar-fixed page-header-fixed gradient-enabled {{ $pageContainerClass }}">
+	<div id="page-container" class="fade page-sidebar-fixed page-header-fixed page-with-wide-sidebar">
 
 		@include('includes.header')
 
