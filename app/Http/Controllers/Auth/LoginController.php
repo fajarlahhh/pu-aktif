@@ -111,4 +111,9 @@ class LoginController extends Controller
     {
         return 'pengguna_id';
     }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/login');
+    }
 }
