@@ -21,6 +21,8 @@ mix.copy('../assets/js/', 'public/assets/js/');
 
 mix.copy('../assets/css/material', 'public/assets/css/material/');
 
+mix.copy('../assets/plugins/animate', 'public/assets/plugins/animate/');
+
 mix.copy('node_modules/jquery-migrate/dist/', 'public/assets/plugins/jquery-migrate/');
 
 mix.copy('node_modules/bootstrap-datepicker/dist/', 'public/assets/plugins/bootstrap-datepicker/');

@@ -19,7 +19,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a href="index.html" class="navbar-brand">
+        <a href="/" class="navbar-brand">
             <b>PUPR</b> {{ config("app.name") }}
         </a>
     </div>
