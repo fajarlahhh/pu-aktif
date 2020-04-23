@@ -63,7 +63,7 @@ class LoginController extends Controller
             'uid' => 'required',
             'password' => 'required'
         ],[
-            'uid.required'  => 'NIK tidak boleh kosong',
+            'uid.required'  => 'ID tidak boleh kosong',
             'password.required'  => 'Kata Sandi tidak boleh kosong'
         ]);
 
@@ -72,6 +72,13 @@ class LoginController extends Controller
             return Redirect::back()->withInput();
         }
 
+        $pengguna = Pengguna::findOrFail($req->uid);
+        if($pengguna){
+            if ($pengguna->pengguna_status == 0){
+                alert()->error('Login Gagal','ID sudah tidak aktif');
+                return Redirect::back();
+            }
+        }
         $remember = ($req->remember == 'on') ? true : false;
 
         if (Auth::attempt(['pengguna_id' => $req->uid, 'password' => $req->password], $remember)) {
@@ -97,7 +104,7 @@ class LoginController extends Controller
                 'gritter_teks' => 'Selamat bekerja dan semoga sukses',
                 'gritter_gambar' => (Auth::user()->pengguna_foto? Storage::url(Auth::user()->pengguna_foto): '../assets/img/user/user.png')]);
         }
-        alert()->error('Login Gagal','NIK atau Kata Sandi salah');
+        alert()->error('Login Gagal','ID atau Kata Sandi salah');
         return Redirect::back()->withInput();
     }
 

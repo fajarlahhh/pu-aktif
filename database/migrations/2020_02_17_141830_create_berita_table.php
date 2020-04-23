@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBarangDanPekerjaanTable extends Migration
+class CreateBeritaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class CreateBarangDanPekerjaanTable extends Migration
             $table->string('berita_judul')->unique();
             $table->decimal('berita_deskripsi', 12, 2);
             $table->string('berita_gambar');
-            $table->string('operator', 10);
+            $table->string('operator', 100);
             $table->softDeletes();
             $table->timestamps();
         });

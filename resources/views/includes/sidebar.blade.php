@@ -1,5 +1,5 @@
 <!-- begin #sidebar -->
-<div id="sidebar" class="sidebar">
+<div id="sidebar" class="sidebar" data-disable-slide-animation="true">
 	<!-- begin sidebar scrollbar -->
 	<div data-scrollbar="true" data-height="100%">
 		<!-- begin sidebar user -->

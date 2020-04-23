@@ -34,10 +34,8 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view){
             if(Auth::check()){
-                $periode = collect(json_decode(Redis::get('periode_aktif')));
-                $pegawai = collect(json_decode(Redis::get(Session::getId())));
                 $foto = Auth::user() && Auth::user()->pengguna_foto? Storage::url(Auth::user()->pengguna_foto): '/assets/img/user/user.png';
-                return $view->with('foto_pegawai', $foto)->with('nama_pegawai', $pegawai['nama'])->with('bagian_pegawai', $pegawai['bagian'])->with('periode_aktif', $periode);
+                return $view->with('foto_pegawai', $foto)->with('nama_pegawai', Auth::user()->pengguna_nama);
             }
         });
     }

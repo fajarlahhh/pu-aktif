@@ -14,6 +14,7 @@ class PenggunaTable extends Seeder
     {
         DB::table('pengguna')->insert([
             'pengguna_id' => "admin",
+            'pengguna_nama' => "Administrator",
             'pengguna_sandi' => Hash::make('admin'), // password
             'pengguna_status' => 1,
             'remember_token' => Str::random(10),

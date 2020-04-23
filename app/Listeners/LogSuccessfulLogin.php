@@ -30,27 +30,5 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         //
-        $id = Auth::id();
-        $pegawai = Pegawai::with('bagian')->where('nip', $id)->first();
-        $data_pegawai = [
-            'nama' => $pegawai->nm_pegawai,
-            'bagian' => $pegawai->bagian->nm_bagian,
-        ];
-        Redis::set(Session::getId(), $pegawai? collect($data_pegawai): $id);
-
-        $options = array(
-            'cluster' => env('PUSHER_APP_CLUSTER'),
-            'useTLS' => true
-        );
-
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options
-        );
-
-        $data = ['user' => Auth::id(), 'session' => Session::getId()];
-        $pusher->trigger('my-channel', 'my-event', $data);
     }
 }

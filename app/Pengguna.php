@@ -26,7 +26,7 @@ class Pengguna extends Authenticatable
     protected $keyType = 'string';
 
     protected $fillable = [
-        'pengguna_id', 'pengguna_sandi'
+        'pengguna_id', 'pengguna_sandi', 'pengguna_nama'
     ];
 
     protected $hidden = [
@@ -37,8 +37,4 @@ class Pengguna extends Authenticatable
     {
         return $this->pengguna_sandi;
     }
-
-    public function pegawai(){
-        return $this->hasOne('App\Pegawai', 'nip', 'pengguna_id');
-	}
 }

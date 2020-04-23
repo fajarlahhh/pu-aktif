@@ -10,7 +10,7 @@
 	<!-- begin navbar-header -->
 	<div class="navbar-header">
 	    <a href="/" class="navbar-brand">
-	      	<b>PT AM GM</b> {{ config("app.name") }}
+	      	<b>PUPR</b> {{ config("app.name") }}
 	    </a>
 	    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
 			<span class="icon-bar"></span>

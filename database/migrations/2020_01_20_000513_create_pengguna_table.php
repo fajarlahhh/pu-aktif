@@ -24,7 +24,6 @@ class CreatePenggunaTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->primary('pengguna_id');
-            $table->foreign('pengguna_id')->references('nip')->on('personalia.pegawai')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

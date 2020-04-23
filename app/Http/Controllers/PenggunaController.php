@@ -23,32 +23,25 @@ class PenggunaController extends Controller
 
 	public function index(Request $req)
 	{
-        try{
-            $tipe = $req->tipe? $req->tipe: 0;
+        $tipe = $req->tipe? $req->tipe: 0;
 
-            $pengguna = Pengguna::with(['pegawai' => function($q) use ($req){
-                $q->select('nip','kd_unit','kd_jabatan','kd_bagian','kd_seksi', 'nm_pegawai');
-            }])->whereHas('pegawai', function ($query) use ($req) {
-                $query->where('nm_pegawai', 'like', '%'.$req->cari.'%');
-            });
+        $pengguna = Pengguna::where(function($q) use ($req){
+            $q->where('pengguna_nama', 'like', '%'.$req->cari.'%')->orWhere('pengguna_id', 'like', '%'.$req->cari.'%');
+        });
 
-            if($tipe == 1)
-                $pengguna = $pengguna->onlyTrashed();
-            else if($tipe == 2)
-                $pengguna = $pengguna->withTrashed();
+        if($tipe == 1)
+            $pengguna = $pengguna->onlyTrashed();
+        else if($tipe == 2)
+            $pengguna = $pengguna->withTrashed();
 
-            $pengguna = $pengguna->paginate(10);
-            $pengguna->appends([$req->cari, $req->tipe]);
-            return view('pages.setup.pengguna.index', [
-                'data' => $pengguna,
-                'i' => ($req->input('page', 1) - 1) * 10,
-                'cari' => $req->cari,
-                'tipe' => $tipe,
-            ]);
-        }catch(\Exception $e){
-            alert()->error('Data', $e->getMessage());
-            return redirect(url()->previous()? url()->previous(): 'pengguna');
-        }
+        $pengguna = $pengguna->paginate(10);
+        $pengguna->appends([$req->cari, $req->tipe]);
+        return view('pages.setup.pengguna.index', [
+            'data' => $pengguna,
+            'i' => ($req->input('page', 1) - 1) * 10,
+            'cari' => $req->cari,
+            'tipe' => $tipe,
+        ]);
     }
 
     private function menu()
@@ -82,7 +75,6 @@ class PenggunaController extends Controller
 	{
         try{
             return view('pages.setup.pengguna.form', [
-                'pegawai' => Pegawai::select('nip', 'nm_pegawai')->orderBy('nm_pegawai', 'asc')->where('kd_status', '!=', '07')->get(),
                 'level' => Role::all(),
                 'back' => Str::contains(url()->previous(), ['pengguna/tambah', 'pengguna/edit'])? '/pengguna': url()->previous(),
                 'menu' => $this->menu(),
@@ -100,10 +92,12 @@ class PenggunaController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'pengguna_id' => 'required',
+                'pengguna_nama' => 'required',
                 'pengguna_sandi' => 'required|min:5',
                 'pengguna_level' => 'required'
             ],[
-                'pengguna_id.required' => 'Pegawai tidak boleh kosong',
+                'pengguna_id.required' => 'ID tidak boleh kosong',
+                'pengguna_nama.required' => 'Nama tidak boleh kosong',
                 'pengguna_sandi.min' => 'Kata Sandi minimal 5 karakter',
                 'pengguna_sandi.required'  => 'Kata Sandi tidak boleh kosong',
                 'pengguna_level.required'  => 'Level tidak boleh kosong'
@@ -116,11 +110,10 @@ class PenggunaController extends Controller
         }
 
 		try{
-			$foto = $this->foto($req->get('pengguna_id'));
 			$pengguna = new Pengguna();
 			$pengguna->pengguna_id = $req->get('pengguna_id');
+			$pengguna->pengguna_nama = $req->get('pengguna_nama');
 			$pengguna->pengguna_sandi = Hash::make($req->get('pengguna_sandi'));
-			$pengguna->pengguna_foto = $foto;
 			$pengguna->pengguna_status = 1;
 			$pengguna->save();
 			$pengguna->assignRole($req->get('pengguna_level'));
@@ -177,12 +170,12 @@ class PenggunaController extends Controller
         }
 
 		try{
-			$foto = $this->foto($req->get('pengguna_id'));
-            $pengguna = Pengguna::findOrFail($req->get('pengguna_id'));
+            $pengguna = Pengguna::findOrFail($req->get('ID'));
 			if ($req->get('pengguna_sandi')) {
 				$pengguna->pengguna_sandi = Hash::make($req->get('pengguna_sandi'));
 			}
-			$pengguna->pengguna_foto = $foto;
+			$pengguna->pengguna_id = $req->get('pengguna_id');
+			$pengguna->pengguna_nama = $req->get('pengguna_nama');
 			$pengguna->save();
             $pengguna->syncPermissions();
 			$pengguna->removeRole($pengguna->getRoleNames()[0]);
@@ -232,7 +225,7 @@ class PenggunaController extends Controller
         }
 
 		try{
-            $id = Auth::user()->pegawai->nip;
+            $id = Auth::id();
 			$pengguna = Pengguna::findOrFail($id);
 			if($pengguna){
 				if(!Hash::check($req->get('pengguna_sandi_lama'), $pengguna->pengguna_sandi)){
@@ -263,17 +256,6 @@ class PenggunaController extends Controller
 		}catch(\Exception $e){
 			return $e->getMessage();
 		}
-	}
-
-	private function foto($nip)
-	{
-		$pegawai = Pegawai::where('nip', $nip)->firstOrFail();
-		$img = Image::make($pegawai->foto)->resize(200, null, function ($constraint) {
-			$constraint->aspectRatio();
-		})->crop(200, 200, 0, 15)->encode('png', 100);
-		Storage::disk('public')->put('images/pegawai/'.$nip.'.png', $img);
-		$img->destroy();
-		return 'images/pegawai/'.$nip.'.png';
 	}
 
 	public function hapus($id)

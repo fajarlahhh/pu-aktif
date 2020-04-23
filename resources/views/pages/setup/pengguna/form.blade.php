@@ -35,33 +35,18 @@
                 <input type="hidden" name="ID" value="{{ $data->pengguna_id }}">
                 @endif
                 <div class="col-md-5">
-                    @if($aksi != 'Edit')
-                    <div class="form-group input-group-sm">
-                        <label class="control-label">Nama Pegawai</label>
-                        <select class="form-control selectpicker" name="pengguna_id" data-live-search="true" data-style="btn-info" data-width="100%">
-                            @foreach($pegawai as $peg)
-                            <option value="{{ $peg->nip }}" {{ old('pengguna_id') == $peg->nip? 'selected': '' }}>{{ $peg->nip." - ".$peg->nm_pegawai }}</option>
-                            @endforeach
-                        </select>
+                    <div class="form-group">
+                        <label class="control-label">ID</label>
+                        <input class="form-control" type="text" name="pengguna_id" value="{{ $aksi == "Edit"? $data->pengguna_id: old("pengguna_id") }}" required {{ $aksi == "Edit"? ($data->pengguna_id != "admin"? "": "readonly"): "" }}/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Nama</label>
+                        <input  class="form-control" type="text" name="pengguna_nama" value="{{ $aksi == "Edit"? $data->pengguna_nama: old("pengguna_nama") }}" required />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Kata Sandi</label>
-                        <input class="form-control" type="password" name="pengguna_sandi" value="{{ old('pengguna_sandi') }}" autocomplete="off" id="pengguna_sandi" data-parsley-minlength="5" required />
+                        <input class="form-control" type="password" name="pengguna_sandi" autocomplete="off" id="pengguna_sandi" data-parsley-minlength="5" {{ $aksi == "Edit"? "": "required" }} />
                     </div>
-                    @else
-                    <div class="form-group">
-                        <label class="control-label">NIP</label>
-                        <input class="form-control" type="text" name="pengguna_id" value="{{ $data->pengguna_id }}" required readonly />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Nama Pegawai</label>
-                        <input  class="form-control" type="text" name="pengguna_nama" value="{{ $data->pegawai->nm_pegawai }}" required readonly />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Kata Sandi</label>
-                        <input class="form-control" type="password" name="pengguna_sandi" autocomplete="off" id="pengguna_sandi" />
-                    </div>
-                    @endif
                     <div class="form-group">
                         <label class="control-label">Level</label>
                         <select class="form-control selectpicker" style="width : 100%" name="pengguna_level" id="pengguna_level" data-style="btn-info" onchange="hakakses()" data-width="100%">
@@ -73,35 +58,29 @@
                     @include('includes.error')
                 </div>
                 <div class="col-md-7">
-                     <div class="panel panel-default">
-                        <!-- begin panel-heading -->
-                        <div class="panel-heading">
-                            <div class="panel-heading-btn">
-                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-                            </div>
-                            <h4 class="panel-title">Hak Akses</h4>
-                        </div>
-                        <!-- end panel-heading -->
-                        <!-- begin panel-body -->
-                        <div class="panel-body row">
-                            @foreach ($menu as $menu)
-                            <div class="hakakses checkbox checkbox-css col-md-6 col-lg-4">
-                                <input type="checkbox" onchange="child('cssCheckbox{{ $i }}')" id="cssCheckbox{{ $i }}" name="izin[]" value="{{ $menu['value'] }}" {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo(!empty($menu['sub_menu'])? strtolower($menu['title']) : $menu['id'])? 'checked': '')): '') }}/>
-                                <label for="cssCheckbox{{ $i }}" class="p-l-5">{{ $menu['title'] }}</label>
-                                @foreach ($menu['sub'] as $sub)
-                                <div class='hakakses checkbox checkbox-css col-md-12'>
-                                    <input type='checkbox' onchange='parent("cssCheckbox{{ $i }}")' class='cssCheckbox{{ $i }}' id='cssCheckbox{{ $sub['value'] }}' name='izin[]' value='{{ $sub['value'] }}'
-                                    {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo($sub['id'])? 'checked': '')): '') }}/>
-                                    <label for='cssCheckbox{{ $sub['id'] }}' class='p-l-5'>{{ $sub['title'] }}</label>
+                    <div class="note note-primary">
+                        <h3>Hak Akses</h3>
+                        <hr>
+                        <div class="note-content">
+                            <div class="row p-10">
+                                @foreach ($menu as $menu)
+                                <div class="hakakses checkbox checkbox-css col-md-6 col-lg-4">
+                                    <input type="checkbox" onchange="child('cssCheckbox{{ $i }}')" id="cssCheckbox{{ $i }}" name="izin[]" value="{{ $menu['value'] }}" {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo(!empty($menu['sub_menu'])? strtolower($menu['title']) : $menu['id'])? 'checked': '')): '') }}/>
+                                    <label for="cssCheckbox{{ $i }}" class="p-l-5">{{ $menu['title'] }}</label>
+                                    @foreach ($menu['sub'] as $sub)
+                                    <div class='hakakses checkbox checkbox-css col-md-12'>
+                                        <input type='checkbox' onchange='parent("cssCheckbox{{ $i }}")' class='cssCheckbox{{ $i }}' id='cssCheckbox{{ $sub['value'] }}' name='izin[]' value='{{ $sub['value'] }}'
+                                        {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo($sub['id'])? 'checked': '')): '') }}/>
+                                        <label for='cssCheckbox{{ $sub['id'] }}' class='p-l-5'>{{ $sub['title'] }}</label>
+                                    </div>
+                                    @endforeach
+                                    @php
+                                        $i++;
+                                    @endphp
                                 </div>
                                 @endforeach
-                                @php
-                                    $i++;
-                                @endphp
                             </div>
-                            @endforeach
                         </div>
-                        <!-- end panel-body -->
                     </div>
                 </div>
             </div>

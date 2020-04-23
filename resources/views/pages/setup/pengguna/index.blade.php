@@ -56,12 +56,8 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>NIK</th>
+                        <th>ID</th>
                         <th>Nama</th>
-                        <th>Unit</th>
-                        <th>Jabatan</th>
-                        <th>Bidang</th>
-                        <th>Sub Bidang</th>
                         <th>Level</th>
                         <th>Status</th>
                         <th class="width-90"></th>
@@ -69,15 +65,10 @@
                 </thead>
                 <tbody>
                     @foreach ($data as $index => $row)
-                    @if($row->pegawai)
                     <tr>
                         <td>{{ ++$i }}</td>
                         <td>{{ $row->pengguna_id }}</td>
-                        <td>{{ $row->pegawai->nm_pegawai }}</td>
-                        <td>{{ $row->pegawai->unit? $row->pegawai->unit->nm_unit: '' }}</td>
-                        <td>{{ $row->pegawai->jabatan->nm_jabatan }}</td>
-                        <td>{{ $row->pegawai->bagian->nm_bagian }}</td>
-                        <td>{{ $row->pegawai->seksi? $row->pegawai->seksi->nm_seksi: '' }}</td>
+                        <td>{{ $row->pengguna_nama }}</td>
                         <td>{{ ucFirst($row->getRoleNames()[0]) }}</td>
                         <td>
                             @if (!in_array($row->pengguna_id, config('admin.nip')))
@@ -102,7 +93,6 @@
                             @endrole
                         </td>
                     </tr>
-                    @endif
                     @endforeach
                 </tbody>
             </table>
@@ -140,7 +130,7 @@
             type: "POST",
             success: function(data){
                 if(data == 1 || data == 0)
-                    Toast.fire({ icon: 'success', title: 'Berhasil ' + (data == 1? 'MENGAKTIFKAN': 'MENONTAKTIFKAN') + ' pengguna dengan NIK ' + id });
+                    Toast.fire({ icon: 'success', title: 'Berhasil ' + (data == 1? 'MENGAKTIFKAN': 'MENONTAKTIFKAN') + ' pengguna dengan ID ' + id });
                 else
                     Swal.fire({ icon: 'error', title: (data == 1? 'Mengaktifkan': 'Menonaktifkan') + ' Data', text: data });
             },
