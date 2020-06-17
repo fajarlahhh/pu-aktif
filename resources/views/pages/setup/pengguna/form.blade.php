@@ -59,10 +59,10 @@
                 </div>
                 <div class="col-md-7">
                     <div class="note note-primary">
-                        <h3>Hak Akses</h3>
+                        <h5>Hak Akses</h5>
                         <hr>
                         <div class="note-content">
-                            <div class="row p-10">
+                            <div class="row p-l-10 p-r-10">
                                 @foreach ($menu as $menu)
                                 <div class="hakakses checkbox checkbox-css col-md-6 col-lg-4">
                                     <input type="checkbox" onchange="child('cssCheckbox{{ $i }}')" id="cssCheckbox{{ $i }}" name="izin[]" value="{{ $menu['value'] }}" {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo(!empty($menu['sub_menu'])? strtolower($menu['title']) : $menu['id'])? 'checked': '')): '') }}/>

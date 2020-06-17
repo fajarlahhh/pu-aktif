@@ -72,39 +72,45 @@ class LoginController extends Controller
             return Redirect::back()->withInput();
         }
 
-        $pengguna = Pengguna::findOrFail($req->uid);
-        if($pengguna){
-            if ($pengguna->pengguna_status == 0){
-                alert()->error('Login Gagal','ID sudah tidak aktif');
-                return Redirect::back();
+        try {$pengguna = Pengguna::findOrFail($req->uid);
+            if($pengguna){
+                if ($pengguna->pengguna_status == 0){
+                    alert()->error('Login Gagal','ID sudah tidak aktif');
+                    return Redirect::back();
+                }
             }
+            $remember = ($req->remember == 'on') ? true : false;
+
+            if (Auth::attempt(['pengguna_id' => $req->uid, 'password' => $req->password], $remember)) {
+
+                // $new_session_id = Session::getId();
+                // $pengguna = Pengguna::find($req->uid);
+
+                // if($pengguna->session_id != '') {
+                //     $last_session = Session::getHandler()->read($pengguna->session_id);
+                //     if ($last_session) {
+                //         if (Session::getHandler()->destroy($pengguna->session_id)) {
+
+                //         }
+                //     }
+                // }
+
+                // $pengguna->session_id = $new_session_id;
+                // $pengguna->save();
+
+                return redirect()->intended('dashboard')
+                ->with([
+                    'gritter_judul' => 'Selamat datang ',
+                    'gritter_teks' => 'Selamat bekerja dan semoga sukses',
+                    'gritter_gambar' => url('public/assets/img/user/user.png')
+                    ]);
+            }
+            alert()->error('Login Gagal','ID Pengguna atau Kata Sandi salah');
+            return Redirect::back()->withInput();
+		}catch(\Exception $e){
+            alert()->error('Login Gagal', $e->getMessage());
+            return Redirect::back()->withInput();
         }
-        $remember = ($req->remember == 'on') ? true : false;
-
-        if (Auth::attempt(['pengguna_id' => $req->uid, 'password' => $req->password], $remember)) {
-
-            // $new_session_id = Session::getId();
-            // $pengguna = Pengguna::find($req->uid);
-
-            // if($pengguna->session_id != '') {
-            //     $last_session = Session::getHandler()->read($pengguna->session_id);
-            //     if ($last_session) {
-            //         if (Session::getHandler()->destroy($pengguna->session_id)) {
-
-            //         }
-            //     }
-            // }
-
-            // $pengguna->session_id = $new_session_id;
-            // $pengguna->save();
-
-            return redirect()->intended('dashboard')
-            ->with([
-                'gritter_judul' => 'Selamat datang ',
-                'gritter_teks' => 'Selamat bekerja dan semoga sukses',
-                'gritter_gambar' => (Auth::user()->pengguna_foto? Storage::url(Auth::user()->pengguna_foto): '../assets/img/user/user.png')]);
-        }
-        return Redirect::back()->withInput()->with('alert', 'ID atau Kata Sandi salah');
     }
 
     private function username()

@@ -7,7 +7,7 @@
 			<li class="nav-profile">
 				<a href="javascript:;" data-toggle="nav-profile">
 					<div class="cover with-shadow"></div>
-					<img src="{{ ($foto_pegawai? $foto_pegawai: '/assets/img/user/user.png') }}" alt="" class="image"/>
+					<img src="{{ ($foto_pegawai? $foto_pegawai: url('/assets/img/user/user.png')) }}" alt="" class="image"/>
 					<div class="info">
 						<b class="caret pull-right"></b>
 						{{ $nama_pegawai }}
@@ -61,7 +61,7 @@
 							}
 							$subMenu .= '
 								<li class="'. $hasSub .' '. $active .'">
-									<a href="'. (Auth::user()->can(strtolower($hasTitle)) || Auth::user()->role('administrator')? $menu['url']: '#') .'">'. $hasCaret . $hasTitle . $hasHighlight .'</a>
+									<a href="'. (Auth::user()->can(strtolower($hasTitle)) || Auth::user()->role('administrator')? ($menu['url'] == 'javascript:;'? $menu['url']: url($menu['url'])): '#') .'">'. $hasCaret . $hasTitle . $hasHighlight .'</a>
 									'. $subSubMenu .'
 								</li>
 							';
@@ -94,7 +94,7 @@
 						$active = (empty($active) && !empty($GLOBALS['parent_active'])) ? 'active' : $active;
 						echo '
 							<li class="'. $hasSub .' '. $active .'">
-								<a href="'. $menu['url'] .'">
+								<a href="'. ($menu['url'] == 'javascript:;'? 'javascript:;': url($menu['url'])) .'">
 									'. $hasImg .'
 									'. $hasBadge .'
 									'. $hasCaret .'
@@ -108,7 +108,7 @@
 				}
 			@endphp
 			<!-- begin sidebar minify button -->
-			<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fad fa-angle-double-left"></i></a></li>
+			<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 			<!-- end sidebar minify button -->
 		</ul>
 		<!-- end sidebar nav -->

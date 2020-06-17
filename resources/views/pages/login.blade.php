@@ -3,7 +3,7 @@
 @section('title', ' | Login')
 
 @push('css')
-	<link href="/assets/plugins/parsleyjs/src/parsley.css" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -11,7 +11,7 @@
 <div class="login login-with-news-feed">
 	<!-- begin news-feed -->
 	<div class="news-feed">
-	    <div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg.jpg)"></div>
+	    <div class="news-image" style="background-image: url({{ 'public/assets/img/login-bg/login-bg.jpg' }})"></div>
 		<div class="news-caption">
 			<h4 class="caption-title"><b>Color</b> Admin App</h4>
 			<p>
@@ -25,7 +25,7 @@
 		<!-- begin login-header -->
 		<div class="login-header">
 			<div class="brand">
-	            <img src="/assets/img/logo/favicon.png" height="30"> {{ config("app.name") }}
+	            <img src="{{ url('/public/assets/img/logo/favicon.png') }}" height="30"> {{ config("app.name") }}
 				<small>{{ env('APP_DESKRIPSI') }}</small>
 			</div>
 			<div class="icon">
@@ -69,5 +69,5 @@
 
 
 @push('scripts')
-	<script src="/assets/plugins/parsleyjs/dist/parsley.js"></script>
+	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
 @endpush
