@@ -18,93 +18,103 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/gantisandi', 'PenggunaController@ganti_sandi')->name('gantisandi');
     Route::patch('/gantisandi', 'PenggunaController@do_ganti_sandi')->name('gantisandi');
-    Route::get('/barangdanpekerjaan/cari', 'BarangDanPekerjaanController@cari')->name('getbarangdanpekerjaan');
-    Route::get('/pelanggan/gettotalgolongan', 'PelangganController@get_total_golongan')->name('gettotalgolongan');
-	Route::post('/barangdanpekerjaan/tambah', 'BarangDanPekerjaanController@do_tambah');
 
-    Route::group(['middleware' => ['role_or_permission:administrator|barangdanpekerjaan']], function () {
-        Route::prefix('barangdanpekerjaan')->group(function () {
-            Route::get('/', 'BarangDanPekerjaanController@index')->name('barangdanpekerjaan');
-            Route::get('/tambah', 'BarangDanPekerjaanController@tambah')->middleware(['role:administrator|user'])->name('barangdanpekerjaan.tambah');
-            Route::post('/tambah', 'BarangDanPekerjaanController@do_tambah')->middleware(['role:administrator|user']);
-            Route::get('/edit', 'BarangDanPekerjaanController@edit')->middleware(['role:administrator|user']);
-            Route::put('/edit', 'BarangDanPekerjaanController@do_edit')->middleware(['role:administrator|user'])->name('barangdanpekerjaan.edit');
-            Route::delete('/hapus/{id}', 'BarangDanPekerjaanController@hapus');
+    Route::group(['middleware' => ['role_or_permission:administrator|bendungan']], function () {
+        Route::prefix('bendungan')->group(function () {
+            Route::get('/', 'BendunganController@index')->name('bendungan');
+            Route::get('/tambah', 'BendunganController@tambah')->middleware(['role:administrator|user'])->name('bendungan.tambah');
+            Route::post('/tambah', 'BendunganController@do_tambah')->middleware(['role:administrator|user'])->name('bendungan.tambah');
+            Route::get('/edit', 'BendunganController@edit')->middleware(['role:administrator|user'])->name('bendungan.edit');
+            Route::put('/edit', 'BendunganController@do_edit')->middleware(['role:administrator|user'])->name('bendungan.edit');
+            Route::delete('/hapus/{id}', 'BendunganController@hapus')->name('bendungan.hapus');
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:administrator|pengguna']], function () {
-        Route::prefix('pengguna')->group(function () {
-            Route::get('/', 'PenggunaController@index')->name('pengguna');
-            Route::get('/edit/{id}', 'PenggunaController@edit')->middleware(['role:administrator|user']);
-            Route::put('/edit', 'PenggunaController@do_edit')->middleware(['role:administrator|user'])->name('pengguna.edit');
-            Route::get('/tambah', 'PenggunaController@tambah')->middleware(['role:administrator|user'])->name('pengguna.tambah');
-            Route::post('/tambah', 'PenggunaController@do_tambah')->middleware(['role:administrator|user']);
-            Route::delete('/hapus/{id}', 'PenggunaController@hapus')->middleware(['role:administrator|user']);
-            Route::delete('/restore/{id}', 'PenggunaController@restore')->middleware(['role:administrator|user']);
-            Route::post('/status/{id}/{status}', 'PenggunaController@ganti_status')->middleware(['role:administrator|user']);
+    Route::group(['middleware' => ['role_or_permission:administrator|tipekonstruksi']], function () {
+        Route::prefix('tipekonstruksi')->group(function () {
+            Route::get('/', 'TipekonstruksiController@index')->name('tipekonstruksi');
+            Route::get('/tambah', 'TipekonstruksiController@tambah')->middleware(['role:administrator|user'])->name('tipekonstruksi.tambah');
+            Route::post('/tambah', 'TipekonstruksiController@do_tambah')->middleware(['role:administrator|user'])->name('tipekonstruksi.tambah');
+            Route::get('/edit', 'TipekonstruksiController@edit')->middleware(['role:administrator|user'])->name('tipekonstruksi.edit');
+            Route::put('/edit', 'TipekonstruksiController@do_edit')->middleware(['role:administrator|user'])->name('tipekonstruksi.edit');
+            Route::delete('/hapus/{id}', 'TipekonstruksiController@hapus')->name('tipekonstruksi.hapus');
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:administrator|usulanprogram']], function () {
-        Route::prefix('usulanprogram')->group(function () {
-            Route::get('/', 'UsulanprogramController@index')->name('usulanprogram');
-            Route::get('/edit', 'UsulanprogramController@edit')->middleware(['role:administrator|user'])->name('usulanprogram.edit');
-            Route::put('/edit', 'UsulanprogramController@do_edit')->middleware(['role:administrator|user'])->name('usulanprogram.edit');
-            Route::get('/tambah', 'UsulanprogramController@tambah')->middleware(['role:administrator|user'])->name('usulanprogram.tambah');
-            Route::post('/tambah', 'UsulanprogramController@do_tambah')->middleware(['role:administrator|user'])->name('usulanprogram.tambah');
-            Route::delete('/hapus', 'UsulanprogramController@hapus')->middleware(['role:administrator|user']);
-            Route::patch('/restore', 'UsulanprogramController@restore')->middleware(['role:administrator|supervisor']);
-            Route::get('/detail', 'UsulanprogramController@detail')->name('usulanprogram.detail');
-            Route::prefix('kegiatan')->group(function () {
-                Route::get('/', 'UsulankegiatanController@index')->name('usulankegiatan');
-                Route::get('/edit', 'UsulankegiatanController@edit')->middleware(['role:administrator|user'])->name('usulankegiatan.edit');
-                Route::put('/edit', 'UsulankegiatanController@do_edit')->middleware(['role:administrator|user'])->name('usulankegiatan.edit');
-                Route::get('/tambah', 'UsulankegiatanController@tambah')->middleware(['role:administrator|user'])->name('usulankegiatan.tambah');
-                Route::post('/tambah', 'UsulankegiatanController@do_tambah')->middleware(['role:administrator|user'])->name('usulankegiatan.tambah');
-                Route::delete('/hapus', 'UsulankegiatanController@hapus')->middleware(['role:administrator|user']);
-                Route::delete('/restore', 'UsulankegiatanController@restore')->middleware(['role:administrator|supervisor']);
-                Route::get('/detail', 'UsulankegiatanController@detail')->name('usulankegiatan.detail');
-                Route::get('/{program}/subkegiatan', 'UsulankegiatanController@sub_kegiatan');
-            });
+    Route::group(['middleware' => ['role_or_permission:administrator|embung']], function () {
+        Route::prefix('embung')->group(function () {
+            Route::get('/', 'EmbungController@index')->name('embung');
+            Route::get('/tambah', 'EmbungController@tambah')->middleware(['role:administrator|user'])->name('embung.tambah');
+            Route::post('/tambah', 'EmbungController@do_tambah')->middleware(['role:administrator|user'])->name('embung.tambah');
+            Route::get('/edit', 'EmbungController@edit')->middleware(['role:administrator|user'])->name('embung.edit');
+            Route::put('/edit', 'EmbungController@do_edit')->middleware(['role:administrator|user'])->name('embung.edit');
+            Route::delete('/hapus/{id}', 'EmbungController@hapus')->name('embung.hapus');
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:administrator|usulanpendapatanair']], function () {
-        Route::prefix('usulanpendapatanair')->group(function () {
-            Route::get('/', 'UsulanpendapatanairController@index')->name('usulanpendapatanair');
-            Route::get('/edit', 'UsulanpendapatanairController@edit')->middleware(['role:administrator|user']);
-            Route::put('/edit', 'UsulanpendapatanairController@do_edit')->middleware(['role:administrator|user'])->name('usulanpendapatanair.edit');
-            Route::get('/tambah', 'UsulanpendapatanairController@tambah')->middleware(['role:administrator|user']);
-            Route::post('/tambah/{step}', 'UsulanpendapatanairController@tambah')->middleware(['role:administrator|user'])->name('usulanpendapatanair.tambah');
-            Route::post('/simpan', 'UsulanpendapatanairController@do_tambah')->middleware(['role:administrator|user'])->name('usulanpendapatanair.simpan');
-            Route::delete('/hapus', 'UsulanpendapatanairController@hapus')->middleware(['role:administrator|user']);
-            Route::delete('/restore', 'UsulanpendapatanairController@restore')->middleware(['role:administrator|supervisor']);
-            Route::get('/detail', 'UsulanpendapatanairController@detail')->name('usulanpendapatanair.detail');
+    Route::group(['middleware' => ['role_or_permission:administrator|sumur']], function () {
+        Route::prefix('sumur')->group(function () {
+            Route::get('/', 'SumurController@index')->name('sumur');
+            Route::get('/tambah', 'SumurController@tambah')->middleware(['role:administrator|user'])->name('sumur.tambah');
+            Route::post('/tambah', 'SumurController@do_tambah')->middleware(['role:administrator|user'])->name('sumur.tambah');
+            Route::get('/edit', 'SumurController@edit')->middleware(['role:administrator|user'])->name('sumur.edit');
+            Route::put('/edit', 'SumurController@do_edit')->middleware(['role:administrator|user'])->name('sumur.edit');
+            Route::delete('/hapus/{id}', 'SumurController@hapus')->name('sumur.hapus');
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:administrator|usulansambungbaru']], function () {
-        Route::prefix('usulansambungbaru')->group(function () {
-            Route::get('/', 'UsulansambungbaruController@index')->name('usulansambungbaru');
-            Route::get('/edit', 'UsulansambungbaruController@edit')->middleware(['role:administrator|user']);
-            Route::put('/edit', 'UsulansambungbaruController@do_edit')->middleware(['role:administrator|user'])->name('usulansambungbaru.edit');
-            Route::get('/tambah', 'UsulansambungbaruController@tambah')->middleware(['role:administrator|user'])->name('usulansambungbaru.tambah');
-            Route::post('/tambah', 'UsulansambungbaruController@do_tambah')->middleware(['role:administrator|user'])->name('usulansambungbaru.tambah');
-            Route::delete('/hapus', 'UsulansambungbaruController@hapus')->middleware(['role:administrator|user']);
-            Route::patch('/restore', 'UsulansambungbaruController@restore')->middleware(['role:administrator|supervisor']);
-            Route::get('/detail', 'UsulansambungbaruController@detail')->name('usulansambungbaru.detail');
+    Route::group(['middleware' => ['role_or_permission:administrator|jalan']], function () {
+        Route::prefix('jalan')->group(function () {
+            Route::get('/', 'JalanController@index')->name('jalan');
+            Route::get('/tambah', 'JalanController@tambah')->middleware(['role:administrator|user'])->name('jalan.tambah');
+            Route::post('/tambah', 'JalanController@do_tambah')->middleware(['role:administrator|user'])->name('jalan.tambah');
+            Route::get('/edit', 'JalanController@edit')->middleware(['role:administrator|user'])->name('jalan.edit');
+            Route::put('/edit', 'JalanController@do_edit')->middleware(['role:administrator|user'])->name('jalan.edit');
+            Route::delete('/hapus/{id}', 'JalanController@hapus')->name('jalan.hapus');
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:administrator|periode']], function () {
-        Route::prefix('periode')->group(function () {
-            Route::get('/', 'PeriodeController@index')->name('periode');
-            Route::get('/tambah', 'PeriodeController@tambah')->middleware(['role:administrator|user'])->name('periode.tambah');
-            Route::post('/tambah', 'PeriodeController@do_tambah')->middleware(['role:administrator|user']);
-            Route::patch('/aktif/{id}', 'PeriodeController@aktif')->middleware(['role:administrator|user']);
-            Route::patch('/nonaktif/{id}', 'PeriodeController@nonaktif')->middleware(['role:administrator|supervisor']);
-            Route::delete('/hapus/{id}', 'PeriodeController@hapus')->middleware(['role:administrator|supervisor']);
+    Route::group(['middleware' => ['role_or_permission:administrator|jembatan']], function () {
+        Route::prefix('jembatan')->group(function () {
+            Route::get('/', 'JembatanController@index')->name('jembatan');
+            Route::get('/tambah', 'JembatanController@tambah')->middleware(['role:administrator|user'])->name('jembatan.tambah');
+            Route::post('/tambah', 'JembatanController@do_tambah')->middleware(['role:administrator|user'])->name('jembatan.tambah');
+            Route::get('/edit', 'JembatanController@edit')->middleware(['role:administrator|user'])->name('jembatan.edit');
+            Route::put('/edit', 'JembatanController@do_edit')->middleware(['role:administrator|user'])->name('jembatan.edit');
+            Route::delete('/hapus/{id}', 'JembatanController@hapus')->name('jembatan.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:administrator|kabupatenkota']], function () {
+        Route::prefix('kabupatenkota')->group(function () {
+            Route::get('/', 'KabupatenkotaController@index')->name('kabupatenkota');
+            Route::get('/tambah', 'KabupatenkotaController@tambah')->middleware(['role:administrator|user'])->name('kabupatenkota.tambah');
+            Route::post('/tambah', 'KabupatenkotaController@do_tambah')->middleware(['role:administrator|user'])->name('kabupatenkota.tambah');
+            Route::get('/edit', 'KabupatenkotaController@edit')->middleware(['role:administrator|user'])->name('kabupatenkota.edit');
+            Route::put('/edit', 'KabupatenkotaController@do_edit')->middleware(['role:administrator|user'])->name('kabupatenkota.edit');
+            Route::delete('/hapus/{id}', 'KabupatenkotaController@hapus')->name('kabupatenkota.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:administrator|kecamatan']], function () {
+        Route::prefix('kecamatan')->group(function () {
+            Route::get('/', 'KecamatanController@index')->name('kecamatan');
+            Route::get('/tambah', 'KecamatanController@tambah')->middleware(['role:administrator|user'])->name('kecamatan.tambah');
+            Route::post('/tambah', 'KecamatanController@do_tambah')->middleware(['role:administrator|user'])->name('kecamatan.tambah');
+            Route::get('/edit', 'KecamatanController@edit')->middleware(['role:administrator|user'])->name('kecamatan.edit');
+            Route::put('/edit', 'KecamatanController@do_edit')->middleware(['role:administrator|user'])->name('kecamatan.edit');
+            Route::delete('/hapus/{id}', 'KecamatanController@hapus')->name('kecamatan.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:administrator|kelurahandesa']], function () {
+        Route::prefix('kelurahandesa')->group(function () {
+            Route::get('/', 'KelurahandesaController@index')->name('kelurahandesa');
+            Route::get('/tambah', 'KelurahandesaController@tambah')->middleware(['role:administrator|user'])->name('kelurahandesa.tambah');
+            Route::post('/tambah', 'KelurahandesaController@do_tambah')->middleware(['role:administrator|user'])->name('kelurahandesa.tambah');
+            Route::get('/edit', 'KelurahandesaController@edit')->middleware(['role:administrator|user'])->name('kelurahandesa.edit');
+            Route::put('/edit', 'KelurahandesaController@do_edit')->middleware(['role:administrator|user'])->name('kelurahandesa.edit');
+            Route::delete('/hapus/{id}', 'KelurahandesaController@hapus')->name('kelurahandesa.hapus');
         });
     });
 });

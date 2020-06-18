@@ -14,7 +14,7 @@ class CreatePenggunaTable extends Migration
     public function up()
     {
         Schema::create('pengguna', function (Blueprint $table) {
-            $table->string('pengguna_id', 10);
+            $table->string('pengguna_id');
             $table->string('pengguna_nama');
             $table->string('pengguna_sandi');
             $table->string('pengguna_foto')->nullable();
