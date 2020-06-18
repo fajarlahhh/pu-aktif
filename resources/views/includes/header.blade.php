@@ -29,7 +29,7 @@
 	<ul class="navbar-nav navbar-right">
 		<li class="dropdown navbar-user">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				<img src="{{ ($foto_pegawai? $foto_pegawai: url('/public/assets/img/user/user.png')) }}" alt="" />
+				<img src="{{ url('/public/assets/img/user/user.png') }}" alt="" />
 				<span class="d-none d-md-inline">{{ $nama_pegawai }}</span> <b class="caret"></b>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
