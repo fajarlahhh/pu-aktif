@@ -2,62 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\TipeKonstruks;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class BendunganController extends Controller
 {
     //
     public function index(Request $req)
 	{
-        $barang_dan_pekerjaan = BarangDanPekerjaan::with('pegawai')->where(function($q) use ($req){
-            $q->where('barang_dan_pekerjaan_nama', 'like', '%'.$req->cari.'%');
-        })->orderBy('barang_dan_pekerjaan_nama')->paginate(10);
+        $data = null;
 
-        try{
-            $barang_dan_pekerjaan->appends(['cari' => $req->cari]);
-            return view('pages.datamaster.barangdanpekerjaan.index', [
-                'data' => $barang_dan_pekerjaan,
-                'i' => ($req->input('page', 1) - 1) * 10,
-                'cari' => $req->cari
-            ]);
-        }catch(\Exception $e){
-            alert()->error('Data', $e->getMessage());
-            return redirect(url()->previous()? url()->previous(): 'barangdanpekerjaan');
-        }
+        //$data->appends(['cari' => $req->cari]);
+        return view('pages.isda.bendungan.index', [
+            'data' => $data,
+            'i' => ($req->input('page', 1) - 1) * 10,
+            'cari' => $req->cari
+        ]);
     }
 
 	public function cari(Request $req)
 	{
-        $barang_dan_pekerjaan = BarangDanPekerjaan::where('barang_dan_pekerjaan_nama', 'like', '%'.$req->cari.'%')->orderBy('barang_dan_pekerjaan_nama')->get();
-		return $barang_dan_pekerjaan;
+        $tipe_konstruksi = TipeKonstruks::where('tipe_konstruksi_nama', 'like', '%'.$req->cari.'%')->orderBy('tipe_konstruksi_nama')->get();
+		return $tipe_konstruksi;
     }
 
 	public function tambah(Request $req)
 	{
         try{
-            return view('pages.datamaster.barangdanpekerjaan.form', [
+            return view('pages.isda.bendungan.form', [
                 'aksi' => 'tambah',
-                'back' => Str::contains(url()->previous(), ['barangdanpekerjaan/tambah', 'barangdanpekerjaan/edit'])? '/barangdanpekerjaan': url()->previous(),
+                'back' => Str::contains(url()->previous(), ['bendungan/tambah', 'bendungan/edit'])? '/bendungan': url()->previous(),
             ]);
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'barangdanpekerjaan');
+			return redirect(url()->previous()? url()->previous(): 'bendungan');
 		}
     }
 
 	public function do_tambah(Request $req)
 	{
+        return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));
         $validator = Validator::make($req->all(),
             [
-                'barang_dan_pekerjaan_nama' => 'required',
-                'barang_dan_pekerjaan_harga' => 'required',
-                'barang_dan_pekerjaan_satuan' => 'required',
-                'barang_dan_pekerjaan_jenis' => 'required'
+                'tipe_konstruksi_nama' => 'required',
+                'tipe_konstruksi_harga' => 'required',
+                'tipe_konstruksi_satuan' => 'required',
+                'tipe_konstruksi_jenis' => 'required'
             ],[
-                'barang_dan_pekerjaan_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'barang_dan_pekerjaan_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'barang_dan_pekerjaan_satuan.required'  => 'Satuan tidak boleh kosong',
-                'barang_dan_pekerjaan_jenis.required'  => 'Satuan tidak boleh kosong'
+                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
+                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
+                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
+                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
             ]
         );
 
@@ -66,15 +64,15 @@ class BendunganController extends Controller
         }
 
         try{
-			$barang_dan_pekerjaan = new BarangDanPekerjaan();
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_nama = $req->get('barang_dan_pekerjaan_nama');
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_harga = str_replace(',', '', $req->get('barang_dan_pekerjaan_harga'));
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_satuan = $req->get('barang_dan_pekerjaan_satuan');
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_jenis = $req->get('barang_dan_pekerjaan_jenis');
-			$barang_dan_pekerjaan->operator = Auth::id();
-            $barang_dan_pekerjaan->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('barang_dan_pekerjaan_nama'), 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('barangdanpekerjaan'));
+			$tipe_konstruksi = new TipeKonstruks();
+			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
+			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
+			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
+			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
+			$tipe_konstruksi->operator = Auth::id();
+            $tipe_konstruksi->save();
+            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
+			return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));
         }catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
             return redirect()->back()->withInput();
@@ -84,14 +82,14 @@ class BendunganController extends Controller
 	public function edit(Request $req)
 	{
         try{
-            return view('pages.datamaster.barangdanpekerjaan.form', [
+            return view('pages.isda.bendungan.form', [
                 'aksi' => 'edit',
-                'data' => BarangDanPekerjaan::findOrFail($req->get('id')),
-                'back' => Str::contains(url()->previous(), ['barangdanpekerjaan/tambah', 'barangdanpekerjaan/edit'])? '/barangdanpekerjaan': url()->previous(),
+                'data' => TipeKonstruks::findOrFail($req->get('id')),
+                'back' => Str::contains(url()->previous(), ['bendungan/tambah', 'bendungan/edit'])? '/bendungan': url()->previous(),
             ]);
 		}catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'barangdanpekerjaan');
+			return redirect(url()->previous()? url()->previous(): 'bendungan');
 		}
     }
 
@@ -99,15 +97,15 @@ class BendunganController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'barang_dan_pekerjaan_nama' => 'required',
-                'barang_dan_pekerjaan_harga' => 'required',
-                'barang_dan_pekerjaan_satuan' => 'required',
-                'barang_dan_pekerjaan_jenis' => 'required'
+                'tipe_konstruksi_nama' => 'required',
+                'tipe_konstruksi_harga' => 'required',
+                'tipe_konstruksi_satuan' => 'required',
+                'tipe_konstruksi_jenis' => 'required'
             ],[
-                'barang_dan_pekerjaan_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'barang_dan_pekerjaan_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'barang_dan_pekerjaan_satuan.required'  => 'Satuan tidak boleh kosong',
-                'barang_dan_pekerjaan_jenis.required'  => 'Satuan tidak boleh kosong'
+                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
+                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
+                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
+                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
             ]
         );
 
@@ -116,15 +114,15 @@ class BendunganController extends Controller
         }
 
         try{
-			$barang_dan_pekerjaan = BarangDanPekerjaan::findOrFail($req->get('id'));
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_nama = $req->get('barang_dan_pekerjaan_nama');
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_harga = str_replace(',', '', $req->get('barang_dan_pekerjaan_harga'));
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_satuan = $req->get('barang_dan_pekerjaan_satuan');
-			$barang_dan_pekerjaan->barang_dan_pekerjaan_jenis = $req->get('barang_dan_pekerjaan_jenis');
-			$barang_dan_pekerjaan->operator = Auth::id();
-            $barang_dan_pekerjaan->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('barang_dan_pekerjaan_nama'), 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('barangdanpekerjaan'));
+			$tipe_konstruksi = TipeKonstruks::findOrFail($req->get('id'));
+			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
+			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
+			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
+			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
+			$tipe_konstruksi->operator = Auth::id();
+            $tipe_konstruksi->save();
+            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
+			return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
             return redirect()->back()->withInput();
@@ -134,9 +132,9 @@ class BendunganController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $barang_dan_pekerjaan = BarangDanPekerjaan::findOrFail($id);
-            $barang_dan_pekerjaan->delete();
-            toast('Berhasil menghapus barang dan pekerjaan '.$barang_dan_pekerjaan->barang_dan_pekerjaan_nama, 'success')->autoClose(2000);
+            $tipe_konstruksi = TipeKonstruks::findOrFail($id);
+            $tipe_konstruksi->delete();
+            toast('Berhasil menghapus barang dan pekerjaan '.$tipe_konstruksi->tipe_konstruksi_nama, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

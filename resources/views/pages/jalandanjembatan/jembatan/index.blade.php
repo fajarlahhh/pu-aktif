@@ -1,6 +1,6 @@
-@extends('pages.isda.main')
+@extends('pages.jalandanjembatan.main')
 
-@section('title', ' | Bendungan')
+@section('title', ' | Jembatan')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,11 +8,11 @@
 @endpush
 
 @section('page')
-	<li class="breadcrumb-item active">Bendungan</li>
+	<li class="breadcrumb-item active">Jembatan</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Bendungan</h1>
+	<h1 class="page-header">Jembatan</h1>
 @endsection
 
 @section('subcontent')
@@ -23,15 +23,15 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('bendungan.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('jalan.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('bendungan') }}" method="GET">
+                <form id="frm-cari" action="{{ route('jalan') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
-                            <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
+                            <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-th="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
                             </div>
@@ -47,12 +47,14 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Nama Bendungan</th>
+                        <th>Kode Jembatan</th>
                         <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Tinggi</th>
-                        <th>Volume Tampungan</th>
-                        <th>Pengukuran Bathimetri</th>
+                        <th>Panjang</th>
+                        <th>Lebar</th>
+                        <th>Dari</th>
+                        <th>Km</th>
+                        <th>Kondisi</th>
+                        <th>Type Bang. Atas</th>
                         <th>Lokasi</th>
                         <th class="width-90"></th>
                     </tr>
@@ -66,7 +68,7 @@
         <div class="col-md-6 col-lg-10 col-xl-10 col-xs-12">
         </div>
         <div class="col-md-6 col-lg-2 col-xl-2 col-xs-12">
-            <label class="pull-right">Jumlah Data : </label>
+            <th class="pull-right">Jumlah Data : </th>
         </div>
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
@@ -99,7 +101,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/bendungan/hapus/") }}/' + id,
+                    url: '{{ url("/jalan/hapus/") }}/' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

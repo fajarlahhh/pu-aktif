@@ -1,6 +1,6 @@
 @extends('pages.isda.main')
 
-@section('title', ' | Bendungan')
+@section('title', ' | Sumur')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,11 +8,11 @@
 @endpush
 
 @section('page')
-	<li class="breadcrumb-item active">Bendungan</li>
+	<li class="breadcrumb-item active">Sumur</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Bendungan</h1>
+	<h1 class="page-header">Sumur</h1>
 @endsection
 
 @section('subcontent')
@@ -23,12 +23,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('bendungan.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('sumur.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('bendungan') }}" method="GET">
+                <form id="frm-cari" action="{{ route('sumur') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -47,12 +47,8 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Nama Bendungan</th>
+                        <th>Kode Sumur</th>
                         <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Tinggi</th>
-                        <th>Volume Tampungan</th>
-                        <th>Pengukuran Bathimetri</th>
                         <th>Lokasi</th>
                         <th class="width-90"></th>
                     </tr>
@@ -99,7 +95,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/bendungan/hapus/") }}/' + id,
+                    url: '{{ url("/sumur/hapus/") }}/' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

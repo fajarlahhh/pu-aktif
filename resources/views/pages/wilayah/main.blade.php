@@ -1,12 +1,12 @@
 @extends('layouts.default')
 
-@section(config("app.name"), ' | ISDA')
+@section(config("app.name"), ' | Wilayah')
 
 @section('content')
 	<!-- begin breadcrumb -->
 	<ol class="breadcrumb pull-right">
 		<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-		<li class="breadcrumb-item"><a href="javascript:;">ISDA</a></li>
+		<li class="breadcrumb-item"><a href="javascript:;">Wilayah</a></li>
 		@yield('page')
 	</ol>
 	<!-- end breadcrumb -->

@@ -1,6 +1,6 @@
-@extends('pages.isda.main')
+@extends('pages.jalandanjembatan.main')
 
-@section('title', ' | '.$aksi.' Bendungan')
+@section('title', ' | '.$aksi.' Jembatan')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
@@ -8,12 +8,12 @@
 @endpush
 
 @section('page')
-	<li class="breadcrumb-item">Bendungan</li>
+	<li class="breadcrumb-item">Jembatan</li>
 	<li class="breadcrumb-item active">{{ $aksi }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Bendungan <small>{{ $aksi }} Data</small></h1>
+	<h1 class="page-header">Jembatan <small>{{ $aksi }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -25,42 +25,50 @@
             </div>
 			<h4 class="panel-title">Form</h4>
 		</div>
-		<form action="{{ route('bendungan.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+		<form action="{{ route('sumur.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
 			@method(strtolower($aksi) == 'tambah'? 'POST': 'PUT')
 			@csrf
 			<div class="panel-body">
 				<input type="hidden" name="redirect" value="{{ $back }}">
                 @if($aksi == 'Edit')
-                <input type="hidden" name="id" value="{{ $data->bendungan }}">
+                <input type="hidden" name="id" value="{{ $data->sumur }}">
                 @endif
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label">Nama Bendungan</label>
+                            <label class="control-label">Kode Jembatan</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Tahun Pembuatan</label>
-                            <select class="form-control " name="fix" id="fix" data-live-search="true" data-style="btn-info" data-width="100%">
-                                @for ($i = 1900; $i < date('Y'); $i++)
-                                <option value="">{{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Biaya Pembuatan</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Tinggi</label>
+                            <label class="control-label">Panjang</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Volume Tampungan</label>
+                            <label class="control-label">Lebar</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Pengukuran Bathimetri</label>
+                            <label class="control-label">Dari</label>
+                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Km</label>
+                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Kondisi</label>
+                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Type Bang. Atas</label>
+                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Lokasi</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                     </div>

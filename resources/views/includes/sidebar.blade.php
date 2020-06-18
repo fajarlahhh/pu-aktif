@@ -35,7 +35,7 @@
 					$GLOBALS['active'][$GLOBALS['sub_level']] = '';
 					$currentLevel = $GLOBALS['sub_level'];
 					foreach ($value as $key => $menu) {
-						if(Auth::user()->can(substr($menu['url'], 1)) || Auth::user()->getRoleNames()[0] == 'administrator'){
+						if(Auth::user()->can(substr($menu['url'], 1)) || Auth::user()->getRoleNames()[0] == 'super-admin'){
 							$GLOBALS['subparent_level'] = '';
 
 							$subSubMenu = '';
@@ -61,7 +61,7 @@
 							}
 							$subMenu .= '
 								<li class="'. $hasSub .' '. $active .'">
-									<a href="'. (Auth::user()->can(strtolower($hasTitle)) || Auth::user()->role('administrator')? ($menu['url'] == 'javascript:;'? $menu['url']: url($menu['url'])): '#') .'">'. $hasCaret . $hasTitle . $hasHighlight .'</a>
+									<a href="'. (Auth::user()->can(strtolower($hasTitle)) || Auth::user()->role('super-admin')? ($menu['url'] == 'javascript:;'? $menu['url']: url($menu['url'])): '#') .'">'. $hasCaret . $hasTitle . $hasHighlight .'</a>
 									'. $subSubMenu .'
 								</li>
 							';
@@ -71,7 +71,7 @@
 				}
 
 				foreach (config('sidebar.menu') as $key => $menu) {
-					if(Auth::user()->can(strtolower($menu['title'])) || Auth::user()->getRoleNames()[0] == 'administrator' || $menu['title'] == 'Dashboard'){
+					if(Auth::user()->can(strtolower($menu['title'])) || Auth::user()->getRoleNames()[0] == 'super-admin' || $menu['title'] == 'Dashboard'){
 						$GLOBALS['parent_active'] = '';
 
 						$hasSub = (!empty($menu['sub_menu'])) ? 'has-sub' : '';

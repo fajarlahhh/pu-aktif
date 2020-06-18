@@ -1,6 +1,6 @@
 @extends('pages.isda.main')
 
-@section('title', ' | '.$aksi.' Bendungan')
+@section('title', ' | '.$aksi.' Sumur')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
@@ -8,12 +8,12 @@
 @endpush
 
 @section('page')
-	<li class="breadcrumb-item">Bendungan</li>
+	<li class="breadcrumb-item">Sumur</li>
 	<li class="breadcrumb-item active">{{ $aksi }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Bendungan <small>{{ $aksi }} Data</small></h1>
+	<h1 class="page-header">Sumur <small>{{ $aksi }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -25,18 +25,18 @@
             </div>
 			<h4 class="panel-title">Form</h4>
 		</div>
-		<form action="{{ route('bendungan.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+		<form action="{{ route('sumur.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
 			@method(strtolower($aksi) == 'tambah'? 'POST': 'PUT')
 			@csrf
 			<div class="panel-body">
 				<input type="hidden" name="redirect" value="{{ $back }}">
                 @if($aksi == 'Edit')
-                <input type="hidden" name="id" value="{{ $data->bendungan }}">
+                <input type="hidden" name="id" value="{{ $data->sumur }}">
                 @endif
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label">Nama Bendungan</label>
+                            <label class="control-label">Nama Sumur</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                         <div class="form-group">
@@ -49,18 +49,6 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Biaya Pembuatan</label>
-                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Tinggi</label>
-                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Volume Tampungan</label>
-                            <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Pengukuran Bathimetri</label>
                             <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                         </div>
                     </div>
