@@ -34,8 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view){
             if(Auth::check()){
-                $foto = Auth::user() && Auth::user()->pengguna_foto? Storage::url(Auth::user()->pengguna_foto): '/assets/img/user/user.png';
-                return $view->with('foto_pegawai', $foto)->with('nama_pegawai', Auth::user()->pengguna_nama);
+                return $view->with('nama_pegawai', Auth::user()->pengguna_nama);
             }
         });
     }
