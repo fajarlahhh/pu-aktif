@@ -10,17 +10,11 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PenggunaController extends Controller
 {
     //
-	public function __construct()
-	{
-        $this->middleware('auth');
-	}
-
 	public function index(Request $req)
 	{
         $tipe = $req->tipe? $req->tipe: 0;
@@ -52,10 +46,21 @@ class PenggunaController extends Controller
             if ($row['title'] != 'Dashboard') {
                 if (!empty($row['sub_menu'])) {
                     foreach ($row['sub_menu'] as $key => $sub) {
+                        $last_menu = [];
+                        if (!empty($sub['sub_menu'])) {
+                            foreach ($sub['sub_menu'] as $key => $last) {
+                                array_push($last_menu, [
+                                    'id' => $last['id'],
+                                    'value' => $last['id'],
+                                    'title' => $last['title']
+                                ]);
+                            }
+                        }
                         array_push($sub_menu, [
                             'id' => $sub['id'],
                             'value' => $sub['id'],
-                            'title' => $sub['title']
+                            'title' => $sub['title'],
+                            'sub' => $last_menu
                         ]);
                     }
                 }
@@ -74,11 +79,24 @@ class PenggunaController extends Controller
 	public function tambah()
 	{
         try{
+            $menu = '';
+            foreach (config('sidebar.menu') as $key => $row) {
+                if ($row['id'] != 'dashboard') {
+                    $class = $row['id'];
+                    $subMenu = '';
+                    if (!empty($row['sub_menu'])) {
+                        $subMenu .= $this->subMenu(null, $row['sub_menu'], $class);
+                    }
+                    $menu .= "<div class='hakakses checkbox checkbox-css col-md-6 col-lg-6 col-xl-4'>
+                                <input type='checkbox' id='".$row['id']."' onchange='child(this)' name='menu[]' value='".$row['id']."'/>
+                                <label for='".$row['id']."' class='p-l-5'>".$row['title']."</label>".$subMenu."</div>";
+                }
+            }
             return view('pages.setup.pengguna.form', [
                 'level' => Role::all(),
                 'back' => Str::contains(url()->previous(), ['pengguna/tambah', 'pengguna/edit'])? '/pengguna': url()->previous(),
-                'menu' => $this->menu(),
-                'aksi' => 'Tambah',
+                'menu' => $menu,
+                'aksi' => 'tambah',
                 'i' => 0
             ]);
 		}catch(\Exception $e){
@@ -119,29 +137,61 @@ class PenggunaController extends Controller
 			$pengguna->assignRole($req->get('pengguna_level'));
 
 			$pengguna->givePermissionTo('dashboard');
-			if($req->get('izin')){
-				for ($i=0; $i < sizeof($req->get('izin')); $i++) {
-					$pengguna->givePermissionTo($req->get('izin')[$i]);
+			if($req->get('menu')){
+				for ($i=0; $i < sizeof($req->get('menu')); $i++) {
+					$pengguna->givePermissionTo($req->get('menu')[$i]);
 				}
 			}
-            toast('Berhasil menambah data pengguna dengan NIK: '.$req->get('pengguna_id'), 'success')->autoClose(2000);
+            toast('Berhasil menyimpan data pengguna', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): 'pengguna');
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
             return redirect()->back()->withInput();
 		}
-	}
+    }
+
+    function subMenu($data, $value, $silsilah) {
+        $subMenu = '';
+        foreach ($value as $key => $row) {
+            $class = $silsilah." ".$row['id'];
+            $subSubMenu = '';
+
+            if (!empty($row['sub_menu'])) {
+                $subSubMenu .= $this->subMenu($data, $row['sub_menu'], $class);
+            }
+            $checked = $data? $data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo(!empty($row['sub_menu'])? strtolower($row['id']) : $row['id'])? 'checked': ''): '';
+            $subMenu .= "<div class='hakakses checkbox checkbox-css col-md-12'>
+                            <input type='checkbox' class='".$silsilah."' onchange='child(this)' id='".$row['id']."' name='menu[]' value='".$row['id']."' ".$checked."/>
+                            <label for='".$row['id']."' class='p-l-5'>".$row['title']."</label>". $subSubMenu."</div>";
+        }
+        return $subMenu;
+    }
 
 	public function edit($id)
 	{
 		try{
-			$data = Pengguna::findOrFail($id);
+            $data = Pengguna::findOrFail($id);
+            $menu = '';
+            foreach (config('sidebar.menu') as $key => $row) {
+                if ($row['id'] != 'dashboard') {
+                    $class = $row['id'];
+                    $subMenu = '';
+                    if (!empty($row['sub_menu'])) {
+                        $subMenu .= $this->subMenu($data, $row['sub_menu'], $class);
+                    }
+                    $checked = $data? $data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo(!empty($row['sub_menu'])? strtolower($row['id']) : $row['id'])? 'checked': ''): '';
+                    $menu .= "<div class='hakakses checkbox checkbox-css col-md-6 col-lg-6 col-xl-4'>
+                                <input type='checkbox' id='".$row['id']."' onchange='child(this)' name='menu[]' value='".$row['id']."' ".$checked."/>
+                                <label for='".$row['id']."' class='p-l-5'>".$row['title']."</label>".$subMenu."</div>";
+                }
+            }
+
 			return view('pages.setup.pengguna.form', [
                 'data' => $data,
-                'level' => (in_array($id, config('admin.nip'))? Role::where('name', 'administrator')->get(): Role::all()),
+                'level' => (in_array($id, config('admin.nip'))? Role::where('name', 'super-admin')->get(): Role::all()),
                 'back' => Str::contains(url()->previous(), 'pengguna/edit')? '/pengguna': url()->previous(),
-                'menu' => $this->menu(),
-                'aksi' => 'Edit',
+                'aksi' => 'edit',
+                'menu' => $menu,
                 'i' => 0
             ]);
 		}catch(\Exception $e){
@@ -182,12 +232,12 @@ class PenggunaController extends Controller
             $pengguna->assignRole($req->get('pengguna_level'));
 
 			$pengguna->givePermissionTo('dashboard');
-			if($req->get('izin')){
-				foreach ($req->get('izin') as $key => $izin) {
-					$pengguna->givePermissionTo($izin);
+			if($req->get('menu')){
+				foreach ($req->get('menu') as $key => $menu) {
+					$pengguna->givePermissionTo($menu);
 				}
 			}
-            toast('Berhasil mengedit data pengguna dengan NIK: '.$req->get('pengguna_id'), 'success')->autoClose(2000);
+            toast('Berhasil menyimpan data pengguna', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): 'pengguna');
 		}catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
@@ -265,7 +315,7 @@ class PenggunaController extends Controller
 			$pengguna->pengguna_status = 0;
 			$pengguna->save();
 			$pengguna->delete();
-            toast('Berhasil menghapus data pengguna dengan NIK: '.$id, 'success')->autoClose(2000);
+            toast('Berhasil menghapus data pengguna '.$id, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}
@@ -275,7 +325,7 @@ class PenggunaController extends Controller
 	{
 		try{
             $pengguna = Pengguna::withTrashed()->findOrFail($id)->restore();
-            toast('Berhasil mengembalikan data pengguna dengan NIK: '.$id, 'success')->autoClose(2000);
+            toast('Berhasil mengembalikan data pengguna '.$id, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Restore Data', $e->getMessage());
 		}

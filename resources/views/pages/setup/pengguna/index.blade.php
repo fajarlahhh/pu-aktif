@@ -3,9 +3,9 @@
 @section('title', ' | Pengguna')
 
 @push('css')
-	<link href="/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-	<link href="/assets/plugins/parsleyjs/src/parsley.css" rel="stylesheet" />
-	<link href="/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/switchery/switchery.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -22,7 +22,7 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-6 col-lg-6 col-xl-6 col-xs-12">
-                @role('user|administrator')
+                @role('user|super-admin')
                 <div class="form-inline">
                     <a href="{{ route('pengguna.tambah') }}" class="btn btn-primary"><i class="fad fa-plus"></i> Tambah</a>
                 </div>
@@ -79,16 +79,16 @@
                             @endif
                         </td>
                         <td class="text-center align-middle">
-                            @role('administrator|supervisor|user')
+                            @role('super-admin|supervisor|user')
                             @if (!in_array($row->pengguna_id, config('admin.nip')))
                             @if(!$row->trashed())
-                            <a href="/pengguna/edit/{{ $row->pengguna_id }}" id='btn-edit' class="m-2" data-toggle="tooltip" title="Edit Data"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="{{ route('pengguna.edit', ['id' => $row->pengguna_id]) }}" id='btn-edit' class="m-2" data-toggle="tooltip" title="Edit Data"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
                             <a href="javascript:;" onclick="hapus('{{ $row->pengguna_id }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @else
                             <a href="javascript:;" onclick="restore('{{ $row->pengguna_id }}')" class="m-2" id='btn-restore' data-toggle="tooltip" title="Restore Data"><i class='fad fa-trash-undo-alt fa-lg text-teal-darker'></i></a>
                             @endif
                             @else
-                            <a href="/pengguna/edit/{{ $row->pengguna_id }}" id='btn-edit' class="m-2" data-toggle="tooltip" title="Edit Data"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="{{ route('pengguna.edit', ['id' => $row->pengguna_id]) }}" id='btn-edit' class="m-2" data-toggle="tooltip" title="Edit Data"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
                             @endif
                             @endrole
                         </td>
@@ -111,8 +111,8 @@
 @endsection
 
 @push('scripts')
-<script src="/assets/plugins/switchery/switchery.min.js"></script>
-<script src="/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ url('/public/assets/plugins/switchery/switchery.min.js') }}"></script>
 <script>
     $(".cari").change(function() {
          $("#frm-cari").submit();

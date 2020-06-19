@@ -19,6 +19,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/gantisandi', 'PenggunaController@ganti_sandi')->name('gantisandi');
     Route::patch('/gantisandi', 'PenggunaController@do_ganti_sandi')->name('gantisandi');
 
+    Route::group(['middleware' => ['role_or_permission:super-admin|pengguna']], function () {
+        Route::prefix('pengguna')->group(function () {
+            Route::get('/', 'PenggunaController@index')->name('pengguna');
+            Route::get('/tambah', 'PenggunaController@tambah')->middleware(['role:super-admin|user'])->name('pengguna.tambah');
+            Route::post('/tambah', 'PenggunaController@do_tambah')->middleware(['role:super-admin|user'])->name('pengguna.tambah.simpan');
+            Route::get('/edit/{id}', 'PenggunaController@edit')->middleware(['role:super-admin|user'])->name('pengguna.edit');
+            Route::put('/edit', 'PenggunaController@do_edit')->middleware(['role:super-admin|user'])->name('pengguna.edit.simpan');
+            Route::delete('/hapus/{id}', 'PenggunaController@hapus')->middleware(['role:super-admin|user']);
+            Route::delete('/restore/{id}', 'PenggunaController@restore')->middleware(['role:super-admin|user']);
+            Route::post('/status/{id}/{status}', 'PenggunaController@ganti_status')->middleware(['role:super-admin|user']);
+        });
+    });
+
     Route::group(['middleware' => ['role_or_permission:super-admin|bendungan']], function () {
         Route::prefix('bendungan')->group(function () {
             Route::get('/', 'BendunganController@index')->name('bendungan');
@@ -34,9 +47,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::prefix('tipekonstruksi')->group(function () {
             Route::get('/', 'TipekonstruksiController@index')->name('tipekonstruksi');
             Route::get('/tambah', 'TipekonstruksiController@tambah')->middleware(['role:super-admin|user'])->name('tipekonstruksi.tambah');
-            Route::post('/tambah', 'TipekonstruksiController@do_tambah')->middleware(['role:super-admin|user'])->name('tipekonstruksi.tambah');
-            Route::get('/edit', 'TipekonstruksiController@edit')->middleware(['role:super-admin|user'])->name('tipekonstruksi.edit');
-            Route::put('/edit', 'TipekonstruksiController@do_edit')->middleware(['role:super-admin|user'])->name('tipekonstruksi.edit');
+            Route::post('/tambah', 'TipekonstruksiController@do_tambah')->middleware(['role:super-admin|user'])->name('tipekonstruksi.tambah.simpan');
+            Route::get('/edit/{id}', 'TipekonstruksiController@edit')->middleware(['role:super-admin|user'])->name('tipekonstruksi.edit');
+            Route::put('/edit', 'TipekonstruksiController@do_edit')->middleware(['role:super-admin|user'])->name('tipekonstruksi.edit.simpan');
             Route::delete('/hapus/{id}', 'TipekonstruksiController@hapus')->name('tipekonstruksi.hapus');
         });
     });
@@ -89,9 +102,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::prefix('kabupatenkota')->group(function () {
             Route::get('/', 'KabupatenkotaController@index')->name('kabupatenkota');
             Route::get('/tambah', 'KabupatenkotaController@tambah')->middleware(['role:super-admin|user'])->name('kabupatenkota.tambah');
-            Route::post('/tambah', 'KabupatenkotaController@do_tambah')->middleware(['role:super-admin|user'])->name('kabupatenkota.tambah');
-            Route::get('/edit', 'KabupatenkotaController@edit')->middleware(['role:super-admin|user'])->name('kabupatenkota.edit');
-            Route::put('/edit', 'KabupatenkotaController@do_edit')->middleware(['role:super-admin|user'])->name('kabupatenkota.edit');
+            Route::post('/tambah', 'KabupatenkotaController@do_tambah')->middleware(['role:super-admin|user'])->name('kabupatenkota.tambah.simpan');
+            Route::get('/edit/{id}', 'KabupatenkotaController@edit')->middleware(['role:super-admin|user'])->name('kabupatenkota.edit');
+            Route::put('/edit', 'KabupatenkotaController@do_edit')->middleware(['role:super-admin|user'])->name('kabupatenkota.edit.simpan');
             Route::delete('/hapus/{id}', 'KabupatenkotaController@hapus')->name('kabupatenkota.hapus');
         });
     });
@@ -100,9 +113,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::prefix('kecamatan')->group(function () {
             Route::get('/', 'KecamatanController@index')->name('kecamatan');
             Route::get('/tambah', 'KecamatanController@tambah')->middleware(['role:super-admin|user'])->name('kecamatan.tambah');
-            Route::post('/tambah', 'KecamatanController@do_tambah')->middleware(['role:super-admin|user'])->name('kecamatan.tambah');
-            Route::get('/edit', 'KecamatanController@edit')->middleware(['role:super-admin|user'])->name('kecamatan.edit');
-            Route::put('/edit', 'KecamatanController@do_edit')->middleware(['role:super-admin|user'])->name('kecamatan.edit');
+            Route::post('/tambah', 'KecamatanController@do_tambah')->middleware(['role:super-admin|user'])->name('kecamatan.tambah.simpan');
+            Route::get('/edit/{id}', 'KecamatanController@edit')->middleware(['role:super-admin|user'])->name('kecamatan.edit');
+            Route::put('/edit', 'KecamatanController@do_edit')->middleware(['role:super-admin|user'])->name('kecamatan.edit.simpan');
             Route::delete('/hapus/{id}', 'KecamatanController@hapus')->name('kecamatan.hapus');
         });
     });
@@ -111,9 +124,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::prefix('kelurahandesa')->group(function () {
             Route::get('/', 'KelurahandesaController@index')->name('kelurahandesa');
             Route::get('/tambah', 'KelurahandesaController@tambah')->middleware(['role:super-admin|user'])->name('kelurahandesa.tambah');
-            Route::post('/tambah', 'KelurahandesaController@do_tambah')->middleware(['role:super-admin|user'])->name('kelurahandesa.tambah');
-            Route::get('/edit', 'KelurahandesaController@edit')->middleware(['role:super-admin|user'])->name('kelurahandesa.edit');
-            Route::put('/edit', 'KelurahandesaController@do_edit')->middleware(['role:super-admin|user'])->name('kelurahandesa.edit');
+            Route::post('/tambah', 'KelurahandesaController@do_tambah')->middleware(['role:super-admin|user'])->name('kelurahandesa.tambah.simpan');
+            Route::get('/edit/{id}', 'KelurahandesaController@edit')->middleware(['role:super-admin|user'])->name('kelurahandesa.edit');
+            Route::put('/edit', 'KelurahandesaController@do_edit')->middleware(['role:super-admin|user'])->name('kelurahandesa.edit.simpan');
             Route::delete('/hapus/{id}', 'KelurahandesaController@hapus')->name('kelurahandesa.hapus');
         });
     });

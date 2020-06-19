@@ -1,18 +1,19 @@
-@extends('pages.datamaster.main')
+@extends('pages.wilayah.main')
 
-@section('title', ' | '.$aksi.' Tipe Konstruksi')
+@section('title', ' | '.ucFirst($aksi).' Tipe Konstruksi')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
 	<li class="breadcrumb-item">Tipe Konstruksi</li>
-	<li class="breadcrumb-item active">{{ $aksi }} Data</li>
+	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Tipe Konstruksi <small>{{ $aksi }} Data</small></h1>
+	<h1 class="page-header">Tipe Konstruksi <small>{{ ucFirst($aksi) }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -24,17 +25,17 @@
             </div>
 			<h4 class="panel-title">Form</h4>
 		</div>
-		<form action="{{ route('tipekonstruksi.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
-			@method(strtolower($aksi) == 'tambah'? 'POST': 'PUT')
+		<form action="{{ route('tipekonstruksi.'.$aksi.'.simpan') }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+			@method($aksi == 'tambah'? 'POST': 'PUT')
 			@csrf
 			<div class="panel-body">
 				<input type="hidden" name="redirect" value="{{ $back }}">
-                @if($aksi == 'Edit')
-                <input type="hidden" name="id" value="{{ $data->tipekonstruksi }}">
+                @if($aksi == 'edit')
+                <input type="hidden" name="id" value="{{ $data->tipe_konstruksi_id }}">
                 @endif
                 <div class="form-group">
                     <label class="control-label">Tipe Konstruksi</label>
-                    <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                 </div>
 			</div>
 			<div class="panel-footer">
@@ -61,4 +62,5 @@
 
 @push('scripts')
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
+    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
 @endpush

@@ -13,7 +13,7 @@ class RoleTable extends Seeder
      */
     public function run()
     {
-        $level = array('administrator', 'supervisor', 'user', 'guest');
+        $level = array('super-admin', 'supervisor', 'user', 'guest');
         $i = 1;
         foreach ($level as $lvl) {
             if(DB::table('roles')->where('name', $lvl)->count() == 0)

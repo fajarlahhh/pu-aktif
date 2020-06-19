@@ -15,7 +15,7 @@ class CreateKabupatenKotaTable extends Migration
     {
         Schema::create('kabupaten_kota', function (Blueprint $table) {
             $table->bigIncrements('kabupaten_kota_id');
-            $table->string('kabupaten_kota_nama');
+            $table->string('kabupaten_kota_nama')->unique();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');

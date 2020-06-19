@@ -24,11 +24,11 @@ class CreateEmbungTable extends Migration
             $table->double('embung_tinggi', 6, 2)->default(0);
             $table->double('embung_lebar_spillway', 6, 2)->default(0);
             $table->string('embung_keterangan', 100)->nullable()->default('text');
-            $table->integer('kelurahan_desa_id')->unsigned();
+            $table->bigInteger('kelurahan_desa_id')->unsigned();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('kelurahan_desa_id')->references('kelurahan_desa_id')->on('kecamatan_id')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('kelurahan_desa_id')->references('kelurahan_desa_id')->on('kelurahan_desa')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

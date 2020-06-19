@@ -13,6 +13,6 @@ class ModelHasRolesTable extends Seeder
     public function run()
     {
         $pengguna = Pengguna::findOrFail('admin');
-        $pengguna->assignRole('administrator');
+        $pengguna->assignRole('super-admin');
     }
 }

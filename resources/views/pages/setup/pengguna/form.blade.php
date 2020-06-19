@@ -1,19 +1,19 @@
 @extends('pages.setup.main')
 
-@section('title', ' | '.$aksi.' Pengguna')
+@section('title', ' | '.ucFirst($aksi).' Pengguna')
 
 @push('css')
-	<link href="/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet" />
-	<link href="/assets/plugins/parsleyjs/src/parsley.css" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
+	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
 	<li class="breadcrumb-item">Pengguna</li>
-	<li class="breadcrumb-item active">{{ $aksi }} Data</li>
+	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Pengguna <small>{{ $aksi }} Data</small></h1>
+	<h1 class="page-header">Pengguna <small>{{ ucFirst($aksi) }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -25,60 +25,45 @@
         </div>
         <h4 class="panel-title"><i class="far fa-file-alt"></i> Form</h4>
     </div>
-    <form action="{{ route('pengguna.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
-        @method(strtolower($aksi) == 'tambah'? 'POST': 'PUT')
+    <form action="{{ route('pengguna.'.$aksi.'.simpan') }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+        @method($aksi == 'tambah'? 'POST': 'PUT')
         @csrf
         <div class="panel-body">
             <input type="hidden" name="redirect" value="{{ $back }}">
             <div class="row">
-                @if($aksi == 'Edit')
+                @if($aksi == 'edit')
                 <input type="hidden" name="ID" value="{{ $data->pengguna_id }}">
                 @endif
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">ID</label>
-                        <input class="form-control" type="text" name="pengguna_id" value="{{ $aksi == "Edit"? $data->pengguna_id: old("pengguna_id") }}" required {{ $aksi == "Edit"? ($data->pengguna_id != "admin"? "": "readonly"): "" }}/>
+                        <input class="form-control" type="text" name="pengguna_id" value="{{ $aksi == "edit"? $data->pengguna_id: old("pengguna_id") }}" required {{ $aksi == "edit"? ($data->pengguna_id != "admin"? "": "readonly"): "" }}/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Nama</label>
-                        <input  class="form-control" type="text" name="pengguna_nama" value="{{ $aksi == "Edit"? $data->pengguna_nama: old("pengguna_nama") }}" required />
+                        <input  class="form-control" type="text" name="pengguna_nama" value="{{ $aksi == "edit"? $data->pengguna_nama: old("pengguna_nama") }}" required />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Kata Sandi</label>
-                        <input class="form-control" type="password" name="pengguna_sandi" autocomplete="off" id="pengguna_sandi" data-parsley-minlength="5" {{ $aksi == "Edit"? "": "required" }} />
+                        <input class="form-control" type="password" name="pengguna_sandi" autocomplete="off" id="pengguna_sandi" data-parsley-minlength="5" {{ $aksi == "edit"? "": "required" }} />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Level</label>
-                        <select class="form-control selectpicker" style="width : 100%" name="pengguna_level" id="pengguna_level" data-style="btn-info" onchange="hakakses()" data-width="100%">
+                        <select class="form-control selectpicker" style="width : 100%" name="pengguna_level" id="pengguna_level" data-live-search="true" data-style="btn-info" onchange="hakakses()" data-width="100%">
                             @foreach($level as $lvl)
-                            <option value="{{ $lvl->id }}" {{ ($aksi == 'Edit' && $data->getRoleNames()[0] == $lvl->name? 'selected': (old('pengguna_level') == $lvl->id? 'selected': '')) }}>{{ ucfirst($lvl->name) }}</option>
+                            <option value="{{ $lvl->id }}" {{ ($aksi == 'edit' && $data->getRoleNames()[0] == $lvl->name? 'selected': (old('pengguna_level') == $lvl->id? 'selected': '')) }}>{{ ucfirst($lvl->name) }}</option>
                             @endforeach
                         </select>
                     </div>
                     @include('includes.error')
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                     <div class="note note-primary">
                         <h5>Hak Akses</h5>
                         <hr>
                         <div class="note-content">
                             <div class="row p-l-10 p-r-10">
-                                @foreach ($menu as $menu)
-                                <div class="hakakses checkbox checkbox-css col-md-6 col-lg-4">
-                                    <input type="checkbox" onchange="child('cssCheckbox{{ $i }}')" id="cssCheckbox{{ $i }}" name="izin[]" value="{{ $menu['value'] }}" {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo(!empty($menu['sub_menu'])? strtolower($menu['title']) : $menu['id'])? 'checked': '')): '') }}/>
-                                    <label for="cssCheckbox{{ $i }}" class="p-l-5">{{ $menu['title'] }}</label>
-                                    @foreach ($menu['sub'] as $sub)
-                                    <div class='hakakses checkbox checkbox-css col-md-12'>
-                                        <input type='checkbox' onchange='parent("cssCheckbox{{ $i }}")' class='cssCheckbox{{ $i }}' id='cssCheckbox{{ $sub['value'] }}' name='izin[]' value='{{ $sub['value'] }}'
-                                        {{ ($aksi == 'Edit'? ($data->roles[0]->name == 'admin'? 'checked': ($data->hasPermissionTo($sub['id'])? 'checked': '')): '') }}/>
-                                        <label for='cssCheckbox{{ $sub['id'] }}' class='p-l-5'>{{ $sub['title'] }}</label>
-                                    </div>
-                                    @endforeach
-                                    @php
-                                        $i++;
-                                    @endphp
-                                </div>
-                                @endforeach
+                                {!! $menu !!}
                             </div>
                         </div>
                     </div>
@@ -86,7 +71,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            @role('supervisor|administrator')
+            @role('supervisor|super-admin')
             <input type="submit" value="Simpan" class="btn btn-sm btn-success m-r-3"  />
             @endrole
             <a href="{{ $back }}" class="btn btn-sm btn-danger">Batal</a>
@@ -99,9 +84,9 @@
 @endsection
 
 @push('scripts')
-	<script src="/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-	<script src="/assets/plugins/bootstrap-show-password/dist/bootstrap-show-password.min.js"></script>
-	<script src="/assets/plugins/parsleyjs/dist/parsley.js"></script>
+	<script src="{{ url('/public/assets/plugins/bootstrap-show-password/dist/bootstrap-show-password.min.js') }}"></script>
+	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
+    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
 	<script>
 		$(document).ready(function() {
 			hakakses();
@@ -109,25 +94,28 @@
         });
 
 		function child(elmt) {
-			if ($('#' + elmt).is(':checked')) {
-				$('.' + elmt).prop('checked', true);
-			}else{
-				$('.' + elmt).prop('checked', false);
-			}
+            $('.' + $(elmt).attr('id')).each(function() {
+                $('#' + $(this).attr('id')).prop('checked', $(elmt).is(':checked'))
+            });
+
+            var parent = $(elmt).attr('class');
+            if (parent){
+                parent = parent.split(' ').pop();
+            }
+            var i = 0;
+            $('.' + parent).each(function() {
+                if ($(this).is(':checked')){
+                    i++;
+                }
+            });
+
+            if(i > 0){
+                $('#' + parent).prop('checked', true);
+            } else {
+                $('#' + parent).prop('checked', false);
+            }
 		}
-		function parent(elmt) {
-			var i = 0;
-		    $('.' + elmt).each(function() {
-		    	if ($('.' + elmt).is(':checked')) {
-		        	i++;
-		    	}
-		    });
-		    if (i > 0) {
-		    	$('#' + elmt).prop('checked', true);
-		    }else{
-		    	$('#' + elmt).prop('checked', false);
-		    }
-		}
+
 		function hakakses() {
 			if ($('#pengguna_level').val() == 1) {
 				$('.hakakses input').prop('disabled', true);
@@ -135,7 +123,7 @@
   				$(".hakakses").addClass("disabled");
 			}else{
 				$('.hakakses input').prop('disabled', false);
-				if ('{{ $aksi }}' == 'tambah') {
+				if ('{{ ucFirst($aksi) }}' == 'tambah') {
 					$('.hakakses input').prop('checked', false);
 				}
   				$(".hakakses").removeClass("disabled");

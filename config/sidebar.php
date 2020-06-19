@@ -23,46 +23,49 @@ return [
 		'title' => 'Data Master',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'isda',
+		'id' => 'datamaster',
 		'sub_menu' => [[
 			'url' => '/tipekonstruksi',
 			'id' => 'tipekonstruksi',
 			'title' => 'Tipe Konstruksi'
         ]]
 	],[
-		'icon' => 'fad fa-igloo',
-		'title' => 'ISDA',
+		'icon' => 'fa fa-building',
+		'title' => 'Infrastruktur',
+        'id' => 'infrastruktur',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'isda',
 		'sub_menu' => [[
-			'url' => '/bendungan',
-			'id' => 'bendungan',
-			'title' => 'Bendungan'
-        ],[
-			'url' => '/embung',
-			'id' => 'embung',
-			'title' => 'Embung'
-        ],[
-			'url' => '/sumur',
-			'id' => 'sumur',
-			'title' => 'Sumur'
-		]]
-	],[
-		'icon' => 'fad fa-road',
-		'title' => 'Jalan dan Jembatan',
-		'url' => 'javascript:;',
-		'caret' => true,
-		'id' => 'jalandanjembatan',
-		'sub_menu' => [[
-			'url' => '/jalan',
-			'id' => 'jalan',
-			'title' => 'Jalan'
-        ],[
-			'url' => '/jembatan',
-			'id' => 'jembatan',
-			'title' => 'Jembatan'
-		]]
+			'url' => 'javascript:;',
+            'title' => 'ISDA',
+            'id' => 'isda',
+			'sub_menu' => [[
+                'url' => '/bendungan',
+                'id' => 'bendungan',
+                'title' => 'Bendungan'
+            ],[
+                'url' => '/embung',
+                'id' => 'embung',
+                'title' => 'Embung'
+            ],[
+                'url' => '/sumur',
+                'id' => 'sumur',
+                'title' => 'Sumur'
+            ]]
+		],[
+			'url' => 'javascript:;',
+            'title' => 'Jalan dan Jembatan',
+            'id' => 'jalandanjembatan',
+			'sub_menu' => [[
+                'url' => '/jalan',
+                'id' => 'jalan',
+                'title' => 'Jalan'
+            ],[
+                'url' => '/jembatan',
+                'id' => 'jembatan',
+                'title' => 'Jembatan'
+            ]]
+		],]
 	],[
 		'icon' => 'fad fa-cog',
 		'title' => 'Setup',
@@ -79,7 +82,7 @@ return [
 		'title' => 'Wilayah',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'isda',
+		'id' => 'wilayah',
 		'sub_menu' => [[
 			'url' => '/kabupatenkota',
 			'id' => 'kabupatenkota',

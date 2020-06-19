@@ -1,6 +1,6 @@
 @extends('pages.wilayah.main')
 
-@section('title', ' | '.$aksi.' Kabupaten/Kota')
+@section('title', ' | '.ucFirst($aksi).' Kabupaten/Kota')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
@@ -9,11 +9,11 @@
 
 @section('page')
 	<li class="breadcrumb-item">Kabupaten/Kota</li>
-	<li class="breadcrumb-item active">{{ $aksi }} Data</li>
+	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Kabupaten/Kota <small>{{ $aksi }} Data</small></h1>
+	<h1 class="page-header">Kabupaten/Kota <small>{{ ucFirst($aksi) }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -25,17 +25,17 @@
             </div>
 			<h4 class="panel-title">Form</h4>
 		</div>
-		<form action="{{ route('sumur.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
-			@method(strtolower($aksi) == 'tambah'? 'POST': 'PUT')
+		<form action="{{ route('kabupatenkota.'.$aksi.'.simpan') }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+			@method($aksi == 'tambah'? 'POST': 'PUT')
 			@csrf
 			<div class="panel-body">
 				<input type="hidden" name="redirect" value="{{ $back }}">
-                @if($aksi == 'Edit')
-                <input type="hidden" name="id" value="{{ $data->sumur }}">
+                @if($aksi == 'edit')
+                <input type="hidden" name="id" value="{{ $data->kabupaten_kota_id }}">
                 @endif
                 <div class="form-group">
                     <label class="control-label">Nama Kabupaten/Kota</label>
-                    <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    <input class="form-control" type="text" name="kabupaten_kota_nama" value="{{ $aksi == 'edit'? $data->kabupaten_kota_nama: old('kabupaten_kota_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                 </div>
 			</div>
 			<div class="panel-footer">

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\TipeKonstruks;
+use App\Kecamatan;
+use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +14,12 @@ class KecamatanController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = null;
-
-        //$data->appends(['cari' => $req->cari]);
+        $data = Kecamatan::with('pengguna')->where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function ($r) use ($req){
+                $r->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('kecamatan_nama', 'like', '%'.$req->cari.'%');
+        })->paginate(10);
+        $data->appends(['cari' => $req->cari]);
         return view('pages.wilayah.kecamatan.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
@@ -23,55 +27,39 @@ class KecamatanController extends Controller
         ]);
     }
 
-	public function cari(Request $req)
-	{
-        $tipe_konstruksi = TipeKonstruks::where('tipe_konstruksi_nama', 'like', '%'.$req->cari.'%')->orderBy('tipe_konstruksi_nama')->get();
-		return $tipe_konstruksi;
-    }
-
 	public function tambah(Request $req)
 	{
-        try{
-            return view('pages.wilayah.kecamatan.form', [
-                'aksi' => 'tambah',
-                'back' => Str::contains(url()->previous(), ['kecamatan/tambah', 'kecamatan/edit'])? '/kecamatan': url()->previous(),
-            ]);
-		}catch(\Exception $e){
-            alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'kecamatan');
-		}
+        return view('pages.wilayah.kecamatan.form', [
+            'aksi' => 'tambah',
+            'kabupaten_kota' => KabupatenKota::all(),
+            'back' => Str::contains(url()->previous(), ['kecamatan/tambah', 'kecamatan/edit'])? '/kecamatan': url()->previous(),
+        ]);
     }
 
 	public function do_tambah(Request $req)
 	{
-        return redirect($req->get('redirect')? $req->get('redirect'): route('kecamatan'));
         $validator = Validator::make($req->all(),
             [
-                'tipe_konstruksi_nama' => 'required',
-                'tipe_konstruksi_harga' => 'required',
-                'tipe_konstruksi_satuan' => 'required',
-                'tipe_konstruksi_jenis' => 'required'
+                'kabupaten_kota_id' => 'required',
+                'kecamatan_nama' => 'required'
             ],[
-                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
-                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
+                'kabupaten_kota_id.required'  => 'Nama Kabupaten/Kota tidak boleh kosong',
+                'kecamatan_nama.required'  => 'Nama Kecamatan tidak boleh kosong'
             ]
         );
 
         if ($validator->fails()) {
-            return implode('<br>', $validator->messages()->all());
+            alert()->error('Validasi Gagal', implode('<br>', $validator->messages()->all()))->toHtml()->autoClose(5000);
+            return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
         try{
-			$tipe_konstruksi = new TipeKonstruks();
-			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
-			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
-			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
-			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
-			$tipe_konstruksi->operator = Auth::id();
-            $tipe_konstruksi->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
+			$data = new Kecamatan();
+			$data->kecamatan_nama = $req->get('kecamatan_nama');
+			$data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+			$data->pengguna_id = Auth::id();
+            $data->save();
+            toast('Berhasil menyimpan data kecamatan', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('kecamatan'));
         }catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
@@ -79,12 +67,13 @@ class KecamatanController extends Controller
         }
 	}
 
-	public function edit(Request $req)
+	public function edit($id)
 	{
         try{
             return view('pages.wilayah.kecamatan.form', [
                 'aksi' => 'edit',
-                'data' => TipeKonstruks::findOrFail($req->get('id')),
+                'data' => Kecamatan::findOrFail($id),
+                'kabupaten_kota' => KabupatenKota::all(),
                 'back' => Str::contains(url()->previous(), ['kecamatan/tambah', 'kecamatan/edit'])? '/kecamatan': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -97,31 +86,26 @@ class KecamatanController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'tipe_konstruksi_nama' => 'required',
-                'tipe_konstruksi_harga' => 'required',
-                'tipe_konstruksi_satuan' => 'required',
-                'tipe_konstruksi_jenis' => 'required'
+                'kabupaten_kota_id' => 'required',
+                'kecamatan_nama' => 'required'
             ],[
-                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
-                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
+                'kabupaten_kota_id.required'  => 'Nama Kabupaten/Kota tidak boleh kosong',
+                'kecamatan_nama.required'  => 'Nama Kecamatan tidak boleh kosong'
             ]
         );
 
         if ($validator->fails()) {
-            return implode('<br>', $validator->messages()->all());
+            alert()->error('Validasi Gagal', implode('<br>', $validator->messages()->all()))->toHtml()->autoClose(5000);
+            return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
         try{
-			$tipe_konstruksi = TipeKonstruks::findOrFail($req->get('id'));
-			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
-			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
-			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
-			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
-			$tipe_konstruksi->operator = Auth::id();
-            $tipe_konstruksi->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
+			$data = Kecamatan::findOrFail($req->get('id'));
+			$data->kecamatan_nama = $req->get('kecamatan_nama');
+			$data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+			$data->pengguna_id = Auth::id();
+            $data->save();
+            toast('Berhasil menyimpan data kecamatan', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('kecamatan'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
@@ -132,9 +116,9 @@ class KecamatanController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $tipe_konstruksi = TipeKonstruks::findOrFail($id);
-            $tipe_konstruksi->delete();
-            toast('Berhasil menghapus barang dan pekerjaan '.$tipe_konstruksi->tipe_konstruksi_nama, 'success')->autoClose(2000);
+            $data = Kecamatan::findOrFail($id);
+            $data->delete();
+            toast('Berhasil menghapus data kecamatan '.$data->kecamatan_nama, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

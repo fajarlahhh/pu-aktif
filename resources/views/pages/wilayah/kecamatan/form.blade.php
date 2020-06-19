@@ -1,6 +1,6 @@
 @extends('pages.wilayah.main')
 
-@section('title', ' | '.$aksi.' Kecamatan')
+@section('title', ' | '.ucFirst($aksi).' Kecamatan')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
@@ -9,11 +9,11 @@
 
 @section('page')
 	<li class="breadcrumb-item">Kecamatan</li>
-	<li class="breadcrumb-item active">{{ $aksi }} Data</li>
+	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Kecamatan <small>{{ $aksi }} Data</small></h1>
+	<h1 class="page-header">Kecamatan <small>{{ ucFirst($aksi) }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -25,21 +25,24 @@
             </div>
 			<h4 class="panel-title">Form</h4>
 		</div>
-		<form action="{{ route('sumur.'.strtolower($aksi)) }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
-			@method(strtolower($aksi) == 'tambah'? 'POST': 'PUT')
+		<form action="{{ route('kecamatan.'.$aksi.'.simpan') }}" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+			@method($aksi == 'tambah'? 'POST': 'PUT')
 			@csrf
 			<div class="panel-body">
 				<input type="hidden" name="redirect" value="{{ $back }}">
-                @if($aksi == 'Edit')
-                <input type="hidden" name="id" value="{{ $data->sumur }}">
+                @if($aksi == 'edit')
+                <input type="hidden" name="id" value="{{ $data->kecamatan_id }}">
                 @endif
                 <div class="form-group">
                     <label class="control-label">Nama Kecamatan</label>
-                    <input class="form-control" type="text" name="tipe_konstruksi_nama" value="{{ $aksi == 'Edit'? $data->tipe_konstruksi_nama: old('tipe_konstruksi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    <input class="form-control" type="text" name="kecamatan_nama" value="{{ $aksi == 'edit'? $data->kecamatan_nama: old('kecamatan_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                 </div>
                 <div class="form-group">
                     <label class="control-label">Kabupaten/Kota</label>
-                    <select class="form-control " name="fix" id="fix" data-live-search="true" data-style="btn-info" data-width="100%">
+                    <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-info" data-width="100%">
+                        @foreach ($kabupaten_kota as $req)
+                            <option value="{{ $req->kabupaten_kota_id }}" {{ $aksi == 'edit' && $data->kabupaten_kota_id == $req->kabupaten_kota_id? "selected": (old('kabupaten_kota_id') == $req->kabupaten_kota_id? "selected": "") }}>{{ $req->kabupaten_kota_nama }}</option>
+                        @endforeach
                     </select>
                 </div>
 			</div>

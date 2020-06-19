@@ -15,12 +15,12 @@ class CreateKelurahanDesaTable extends Migration
     {
         Schema::create('kelurahan_desa', function (Blueprint $table) {
             $table->bigIncrements('kelurahan_desa_id');
-            $table->string('kelurahan_desa_nama');
+            $table->string('kelurahan_desa_nama')->unique();
             $table->bigInteger('kecamatan_id')->unsigned();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('kecamatan_id')->references('kecamatan_id')->on('kecamatan_id')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('kecamatan_id')->references('kecamatan_id')->on('kecamatan')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

@@ -71,7 +71,7 @@
 				}
 
 				foreach (config('sidebar.menu') as $key => $menu) {
-					if(Auth::user()->can(strtolower($menu['title'])) || Auth::user()->getRoleNames()[0] == 'super-admin' || $menu['title'] == 'Dashboard'){
+					if(Auth::user()->can($menu['id']) || Auth::user()->getRoleNames()[0] == 'super-admin' || $menu['id'] == 'dashboard'){
 						$GLOBALS['parent_active'] = '';
 
 						$hasSub = (!empty($menu['sub_menu'])) ? 'has-sub' : '';
