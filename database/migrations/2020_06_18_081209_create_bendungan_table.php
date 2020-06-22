@@ -17,11 +17,10 @@ class CreateBendunganTable extends Migration
             $table->bigIncrements('bendungan_id');
             $table->string('bendungan_nama');
             $table->integer('bendungan_tahun_pembuatan');
-            $table->double('bendungan_biaya', 15, 2)->default(0);
-            $table->double('bendungan_tinggi', 6, 2)->default(0);
-            $table->double('bendungan_volume_tampungan', 15, 2)->default(0);
-            $table->double('bendungan_bathimetri', 6, 2)->default(0);
-            $table->bigInteger('kelurahan_desa_id')->unsigned();
+            $table->text('bendungan_keterangan');
+            $table->string('bendungan_kelas');
+            $table->point('koordinat')->nullable();
+            $table->bigInteger('kelurahan_desa_id')->unsigned()->nullable();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');

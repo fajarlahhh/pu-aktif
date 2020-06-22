@@ -15,16 +15,12 @@ class CreateEmbungTable extends Migration
     {
         Schema::create('embung', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('embung_nama');
             $table->integer('embung_tahun_pembuatan');
-            $table->double('embung_biaya', 15, 2)->default(0);
-            $table->double('embung_ca', 6, 2)->default(0);
-            $table->double('embung_luas_genangan', 6, 2)->default(0);
-            $table->double('embung_volume', 6, 2)->default(0);
-            $table->double('embung_lebar', 6, 2)->default(0);
-            $table->double('embung_tinggi', 6, 2)->default(0);
-            $table->double('embung_lebar_spillway', 6, 2)->default(0);
-            $table->string('embung_keterangan', 100)->nullable()->default('text');
-            $table->bigInteger('kelurahan_desa_id')->unsigned();
+            $table->text('embung_keterangan');
+            $table->string('embung_kelas');
+            $table->point('koordinat')->nullable();
+            $table->bigInteger('kelurahan_desa_id')->unsigned()->nullable();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');

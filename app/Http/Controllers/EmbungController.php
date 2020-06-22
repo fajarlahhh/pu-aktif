@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\TipeKonstruks;
+use App\KelurahanDesa;
+use App\Embung;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 
 class EmbungController extends Controller
 {
     //
     public function index(Request $req)
 	{
-        $data = null;
+        $data = Embung::where('embung_nama', 'like', '%'.$req->cari.'%')->where('embung_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('embung_keterangan', 'like', '%'.$req->cari.'%')->where('embung_kelas', 'like', '%'.$req->cari.'%')->paginate(10);
 
-        //$data->appends(['cari' => $req->cari]);
+        $data->appends(['cari' => $req->cari]);
         return view('pages.isda.embung.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
@@ -23,56 +25,42 @@ class EmbungController extends Controller
         ]);
     }
 
-	public function cari(Request $req)
-	{
-        $tipe_konstruksi = TipeKonstruks::where('tipe_konstruksi_nama', 'like', '%'.$req->cari.'%')->orderBy('tipe_konstruksi_nama')->get();
-		return $tipe_konstruksi;
-    }
-
 	public function tambah(Request $req)
 	{
-        try{
-            return view('pages.isda.embung.form', [
-                'aksi' => 'tambah',
-                'back' => Str::contains(url()->previous(), ['embung/tambah', 'embung/edit'])? '/embung': url()->previous(),
-            ]);
-		}catch(\Exception $e){
-            alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'embung');
-		}
+        return view('pages.isda.embung.form', [
+            'aksi' => 'tambah',
+            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'back' => Str::contains(url()->previous(), ['embung/tambah', 'embung/edit'])? '/embung': url()->previous(),
+        ]);
     }
 
 	public function do_tambah(Request $req)
 	{
-        return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
         $validator = Validator::make($req->all(),
             [
-                'tipe_konstruksi_nama' => 'required',
-                'tipe_konstruksi_harga' => 'required',
-                'tipe_konstruksi_satuan' => 'required',
-                'tipe_konstruksi_jenis' => 'required'
+                'embung_nama' => 'required',
+                'embung_tahun_pembuatan' => 'required'
             ],[
-                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
-                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
+                'embung_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
+                'embung_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
             ]
         );
 
         if ($validator->fails()) {
             return implode('<br>', $validator->messages()->all());
         }
-
         try{
-			$tipe_konstruksi = new TipeKonstruks();
-			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
-			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
-			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
-			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
-			$tipe_konstruksi->operator = Auth::id();
-            $tipe_konstruksi->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
+            $data = new Embung();
+            $data->embung_nama = $req->get('embung_nama');
+            $data->embung_tahun_pembuatan = str_replace(',', '', $req->get('embung_tahun_pembuatan'));
+            $data->embung_keterangan = $req->get('embung_keterangan');
+            $data->embung_kelas = $req->get('embung_kelas');
+            $data->koordinat = new Point($req->get('latitude'), $req->get('longitude'));
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+            $data->pengguna_id = Auth::id();
+            $data->save();
+            toast('Berhasil menambah embung', 'success')->autoClose(2000);
+            return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
         }catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
             return redirect()->back()->withInput();
@@ -84,7 +72,8 @@ class EmbungController extends Controller
         try{
             return view('pages.isda.embung.form', [
                 'aksi' => 'edit',
-                'data' => TipeKonstruks::findOrFail($req->get('id')),
+                'data' => Embung::findOrFail($req->get('id')),
+                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
                 'back' => Str::contains(url()->previous(), ['embung/tambah', 'embung/edit'])? '/embung': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -97,31 +86,30 @@ class EmbungController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'tipe_konstruksi_nama' => 'required',
-                'tipe_konstruksi_harga' => 'required',
-                'tipe_konstruksi_satuan' => 'required',
-                'tipe_konstruksi_jenis' => 'required'
+                'embung_nama' => 'required',
+                'embung_tahun_pembuatan' => 'required'
             ],[
-                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
-                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
+                'embung_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
+                'embung_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
             ]
         );
 
         if ($validator->fails()) {
-            return implode('<br>', $validator->messages()->all());
+            alert()->error('Validasi Gagal', implode('<br>', $validator->messages()->all()))->toHtml()->autoClose(5000);
+            return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
         try{
-			$tipe_konstruksi = TipeKonstruks::findOrFail($req->get('id'));
-			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
-			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
-			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
-			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
-			$tipe_konstruksi->operator = Auth::id();
-            $tipe_konstruksi->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
+			$data = Embung::findOrFail($req->get('id'));
+            $data->embung_nama = $req->get('embung_nama');
+            $data->embung_tahun_pembuatan = str_replace(',', '', $req->get('embung_tahun_pembuatan'));
+            $data->embung_keterangan = $req->get('embung_keterangan');
+            $data->embung_kelas = $req->get('embung_kelas');
+            $data->koordinat = new Point($req->get('latitude'), $req->get('longitude'));
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+            $data->pengguna_id = Auth::id();
+            $data->save();
+            toast('Berhasil mengedit embung', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
@@ -132,9 +120,9 @@ class EmbungController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $tipe_konstruksi = TipeKonstruks::findOrFail($id);
-            $tipe_konstruksi->delete();
-            toast('Berhasil menghapus barang dan pekerjaan '.$tipe_konstruksi->tipe_konstruksi_nama, 'success')->autoClose(2000);
+            $data = Embung::findOrFail($id);
+            $data->delete();
+            toast('Berhasil menghapus embung '.$data->embung_nama, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

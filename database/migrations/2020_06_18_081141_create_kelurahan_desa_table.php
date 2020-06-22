@@ -15,7 +15,7 @@ class CreateKelurahanDesaTable extends Migration
     {
         Schema::create('kelurahan_desa', function (Blueprint $table) {
             $table->bigIncrements('kelurahan_desa_id');
-            $table->string('kelurahan_desa_nama')->unique();
+            $table->string('kelurahan_desa_nama');
             $table->bigInteger('kecamatan_id')->unsigned();
             $table->string('pengguna_id');
             $table->timestamps();

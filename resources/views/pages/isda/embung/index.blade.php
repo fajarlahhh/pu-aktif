@@ -49,19 +49,35 @@
                         <th>No.</th>
                         <th>Nama Embung</th>
                         <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>CA</th>
-                        <th>Luas Genangan</th>
-                        <th>Tipe Konstruksi</th>
-                        <th>Volume</th>
-                        <th>L</th>
-                        <th>H</th>
-                        <th>Lebar Spillway</th>
+                        <th>Keterangan</th>
+                        <th>Kelas</th>
                         <th>Lokasi</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($data as $row)
+                    <tr>
+                        <td class="align-middle width-10">{{ ++$i }}</td>
+                        <td class="align-middle">{{ $row->embung_nama }}</td>
+                        <td class="align-middle">{{ $row->embung_tahun_pembuatan }}</td>
+                        <td class="align-middle">{{ $row->embung_keterangan }}</td>
+                        <td class="align-middle">{{ $row->embung_kelas }}</td>
+                        <td class="align-middle">
+                            @if ($row->koordinat)
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->koordinat->getLng() }}', '{{ $row->koordinat->getLat() }}')">{{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</a>
+                            @else
+                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
+                            @endif
+                        </td>
+                        <td class="text-right align-middle">
+                            @role('super-admin|supervisor|user')
+                            <a href="{{ route('embung.edit', ['id' => $row->embung_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->embung_id }}', '{{ $row->embung_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            @endrole
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -75,7 +91,7 @@
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
 </div>
-
+@include('includes.component.modal', ['judul' => 'Peta Lokasi'])
 @endsection
 
 @push('scripts')
@@ -84,11 +100,15 @@
     $(".cari").change(function() {
          $("#frm-cari").submit();
     });
+    function peta(long, lat){
+        $("#modal-content").load("{{ url('/peta/lokasi') }}?long=" + long + "&lat=" + lat);
+        $.getScript("{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}");
+    }
 
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus bidang ' + ket + '',
+            text: 'Anda akan menghapus embung ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

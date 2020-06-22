@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\TipeKonstruks;
+use App\KelurahanDesa;
+use App\Sumur;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 
 class SumurController extends Controller
 {
     //
     public function index(Request $req)
 	{
-        $data = null;
+        $data = Sumur::where('sumur_kode', 'like', '%'.$req->cari.'%')->where('sumur_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('sumur_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
 
-        //$data->appends(['cari' => $req->cari]);
+        $data->appends(['cari' => $req->cari]);
         return view('pages.isda.sumur.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
@@ -23,56 +25,41 @@ class SumurController extends Controller
         ]);
     }
 
-	public function cari(Request $req)
-	{
-        $tipe_konstruksi = TipeKonstruks::where('tipe_konstruksi_nama', 'like', '%'.$req->cari.'%')->orderBy('tipe_konstruksi_nama')->get();
-		return $tipe_konstruksi;
-    }
-
 	public function tambah(Request $req)
 	{
-        try{
-            return view('pages.isda.sumur.form', [
-                'aksi' => 'tambah',
-                'back' => Str::contains(url()->previous(), ['sumur/tambah', 'sumur/edit'])? '/sumur': url()->previous(),
-            ]);
-		}catch(\Exception $e){
-            alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'sumur');
-		}
+        return view('pages.isda.sumur.form', [
+            'aksi' => 'tambah',
+            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'back' => Str::contains(url()->previous(), ['sumur/tambah', 'sumur/edit'])? '/sumur': url()->previous(),
+        ]);
     }
 
 	public function do_tambah(Request $req)
 	{
-        return redirect($req->get('redirect')? $req->get('redirect'): route('sumur'));
         $validator = Validator::make($req->all(),
             [
-                'tipe_konstruksi_nama' => 'required',
-                'tipe_konstruksi_harga' => 'required',
-                'tipe_konstruksi_satuan' => 'required',
-                'tipe_konstruksi_jenis' => 'required'
+                'sumur_kode' => 'required',
+                'sumur_tahun_pembuatan' => 'required'
             ],[
-                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
-                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
+                'sumur_kode.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
+                'sumur_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
             ]
         );
 
         if ($validator->fails()) {
             return implode('<br>', $validator->messages()->all());
         }
-
         try{
-			$tipe_konstruksi = new TipeKonstruks();
-			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
-			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
-			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
-			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
-			$tipe_konstruksi->operator = Auth::id();
-            $tipe_konstruksi->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('sumur'));
+            $data = new Sumur();
+            $data->sumur_kode = $req->get('sumur_kode');
+            $data->sumur_tahun_pembuatan = str_replace(',', '', $req->get('sumur_tahun_pembuatan'));
+            $data->sumur_keterangan = $req->get('sumur_keterangan');
+            $data->koordinat = new Point($req->get('latitude'), $req->get('longitude'));
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+            $data->pengguna_id = Auth::id();
+            $data->save();
+            toast('Berhasil menambah sumur', 'success')->autoClose(2000);
+            return redirect($req->get('redirect')? $req->get('redirect'): route('sumur'));
         }catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
             return redirect()->back()->withInput();
@@ -84,7 +71,8 @@ class SumurController extends Controller
         try{
             return view('pages.isda.sumur.form', [
                 'aksi' => 'edit',
-                'data' => TipeKonstruks::findOrFail($req->get('id')),
+                'data' => Sumur::findOrFail($req->get('id')),
+                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
                 'back' => Str::contains(url()->previous(), ['sumur/tambah', 'sumur/edit'])? '/sumur': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -97,31 +85,29 @@ class SumurController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'tipe_konstruksi_nama' => 'required',
-                'tipe_konstruksi_harga' => 'required',
-                'tipe_konstruksi_satuan' => 'required',
-                'tipe_konstruksi_jenis' => 'required'
+                'sumur_kode' => 'required',
+                'sumur_tahun_pembuatan' => 'required'
             ],[
-                'tipe_konstruksi_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'tipe_konstruksi_harga.required'  => 'Harga Satuan (Rp.) tidak boleh kosong',
-                'tipe_konstruksi_satuan.required'  => 'Satuan tidak boleh kosong',
-                'tipe_konstruksi_jenis.required'  => 'Satuan tidak boleh kosong'
+                'sumur_kode.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
+                'sumur_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
             ]
         );
 
         if ($validator->fails()) {
-            return implode('<br>', $validator->messages()->all());
+            alert()->error('Validasi Gagal', implode('<br>', $validator->messages()->all()))->toHtml()->autoClose(5000);
+            return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
         try{
-			$tipe_konstruksi = TipeKonstruks::findOrFail($req->get('id'));
-			$tipe_konstruksi->tipe_konstruksi_nama = $req->get('tipe_konstruksi_nama');
-			$tipe_konstruksi->tipe_konstruksi_harga = str_replace(',', '', $req->get('tipe_konstruksi_harga'));
-			$tipe_konstruksi->tipe_konstruksi_satuan = $req->get('tipe_konstruksi_satuan');
-			$tipe_konstruksi->tipe_konstruksi_jenis = $req->get('tipe_konstruksi_jenis');
-			$tipe_konstruksi->operator = Auth::id();
-            $tipe_konstruksi->save();
-            toast('Berhasil menambah barang dan kegiatan '.$req->get('tipe_konstruksi_nama'), 'success')->autoClose(2000);
+			$data = Sumur::findOrFail($req->get('id'));
+            $data->sumur_kode = $req->get('sumur_kode');
+            $data->sumur_tahun_pembuatan = str_replace(',', '', $req->get('sumur_tahun_pembuatan'));
+            $data->sumur_keterangan = $req->get('sumur_keterangan');
+            $data->koordinat = new Point($req->get('latitude'), $req->get('longitude'));
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+            $data->pengguna_id = Auth::id();
+            $data->save();
+            toast('Berhasil mengedit sumur', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('sumur'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
@@ -132,9 +118,9 @@ class SumurController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $tipe_konstruksi = TipeKonstruks::findOrFail($id);
-            $tipe_konstruksi->delete();
-            toast('Berhasil menghapus barang dan pekerjaan '.$tipe_konstruksi->tipe_konstruksi_nama, 'success')->autoClose(2000);
+            $data = Sumur::findOrFail($id);
+            $data->delete();
+            toast('Berhasil menghapus sumur '.$data->sumur_kode, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

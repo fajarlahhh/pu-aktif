@@ -293,17 +293,17 @@
     },
     {
         "name": "egulias/email-validator",
-        "version": "2.1.17",
-        "version_normalized": "2.1.17.0",
+        "version": "2.1.18",
+        "version_normalized": "2.1.18.0",
         "source": {
             "type": "git",
             "url": "https://github.com/egulias/EmailValidator.git",
-            "reference": "ade6887fd9bd74177769645ab5c474824f8a418a"
+            "reference": "cfa3d44471c7f5bfb684ac2b0da7114283d78441"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ade6887fd9bd74177769645ab5c474824f8a418a",
-            "reference": "ade6887fd9bd74177769645ab5c474824f8a418a",
+            "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/cfa3d44471c7f5bfb684ac2b0da7114283d78441",
+            "reference": "cfa3d44471c7f5bfb684ac2b0da7114283d78441",
             "shasum": ""
         },
         "require": {
@@ -319,7 +319,7 @@
         "suggest": {
             "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
         },
-        "time": "2020-02-13T22:36:52+00:00",
+        "time": "2020-06-16T20:11:17+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -329,7 +329,7 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Egulias\\EmailValidator\\": "EmailValidator"
+                "Egulias\\EmailValidator\\": "src"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -698,50 +698,150 @@
         ]
     },
     {
-        "name": "guzzlehttp/guzzle",
-        "version": "6.5.5",
-        "version_normalized": "6.5.5.0",
+        "name": "geo-io/interface",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "9d4290de1cfd701f38099ef7e183b64b4b7b0c5e"
+            "url": "https://github.com/geo-io/interface.git",
+            "reference": "cf46fe7b013de20ab8b601238c7d91b480810644"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/9d4290de1cfd701f38099ef7e183b64b4b7b0c5e",
-            "reference": "9d4290de1cfd701f38099ef7e183b64b4b7b0c5e",
+            "url": "https://api.github.com/repos/geo-io/interface/zipball/cf46fe7b013de20ab8b601238c7d91b480810644",
+            "reference": "cf46fe7b013de20ab8b601238c7d91b480810644",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2016-07-28T07:17:02+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GeoIO\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jan Sorgalla",
+                "email": "jsorgalla@gmail.com"
+            }
+        ],
+        "description": "Geo I/O base interfaces.",
+        "keywords": [
+            "geo",
+            "geometry",
+            "io"
+        ]
+    },
+    {
+        "name": "geo-io/wkb-parser",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/geo-io/wkb-parser.git",
+            "reference": "cceee8f4e8b2058f3f1a0372c930140f23fe1ee1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/geo-io/wkb-parser/zipball/cceee8f4e8b2058f3f1a0372c930140f23fe1ee1",
+            "reference": "cceee8f4e8b2058f3f1a0372c930140f23fe1ee1",
+            "shasum": ""
+        },
+        "require": {
+            "geo-io/interface": "~1.0",
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9.0"
+        },
+        "time": "2015-06-30T04:19:13+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GeoIO\\WKB\\Parser\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jan Sorgalla",
+                "email": "jsorgalla@gmail.com"
+            }
+        ],
+        "description": "Well-known binary (WKB) Parser.",
+        "keywords": [
+            "geo",
+            "geometry",
+            "io",
+            "parser",
+            "wkb"
+        ]
+    },
+    {
+        "name": "grimzy/laravel-mysql-spatial",
+        "version": "3.0.0",
+        "version_normalized": "3.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/grimzy/laravel-mysql-spatial.git",
+            "reference": "49b0daf1e6fc730eaf82269972f324be7dea7efb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/grimzy/laravel-mysql-spatial/zipball/49b0daf1e6fc730eaf82269972f324be7dea7efb",
+            "reference": "49b0daf1e6fc730eaf82269972f324be7dea7efb",
             "shasum": ""
         },
         "require": {
             "ext-json": "*",
-            "guzzlehttp/promises": "^1.0",
-            "guzzlehttp/psr7": "^1.6.1",
-            "php": ">=5.5",
-            "symfony/polyfill-intl-idn": "^1.17.0"
+            "ext-pdo": "*",
+            "geo-io/wkb-parser": "^1.0",
+            "illuminate/database": "^5.2|^6.0|^7.0",
+            "jmikola/geojson": "^1.0",
+            "php": ">=5.5.9"
         },
         "require-dev": {
-            "ext-curl": "*",
-            "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
-            "psr/log": "^1.1"
+            "doctrine/dbal": "^2.5",
+            "laravel/browser-kit-testing": "^2.0",
+            "laravel/laravel": "^5.2|^6.0|^7.0",
+            "mockery/mockery": "^0.9.9",
+            "php-coveralls/php-coveralls": "^2.0",
+            "phpunit/phpunit": "~4.8|~5.7"
         },
-        "suggest": {
-            "psr/log": "Required for using the Log middleware"
-        },
-        "time": "2020-06-16T21:01:06+00:00",
+        "time": "2020-04-14T03:13:36+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "6.5-dev"
+                "dev-master": "3.0.x-dev"
+            },
+            "laravel": {
+                "providers": [
+                    "Grimzy\\LaravelMysqlSpatial\\SpatialServiceProvider"
+                ]
             }
         },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "GuzzleHttp\\": "src/"
-            },
-            "files": [
-                "src/functions_include.php"
-            ]
+                "Grimzy\\LaravelMysqlSpatial\\": "src/"
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -749,75 +849,11 @@
         ],
         "authors": [
             {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
+                "name": "Joseph Estefane",
+                "email": "estefanejoe@gmail.com"
             }
         ],
-        "description": "Guzzle is a PHP HTTP client library",
-        "homepage": "http://guzzlephp.org/",
-        "keywords": [
-            "client",
-            "curl",
-            "framework",
-            "http",
-            "http client",
-            "rest",
-            "web service"
-        ]
-    },
-    {
-        "name": "guzzlehttp/promises",
-        "version": "v1.3.1",
-        "version_normalized": "1.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/promises.git",
-            "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
-            "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^4.0"
-        },
-        "time": "2016-12-20T10:07:11+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\Promise\\": "src/"
-            },
-            "files": [
-                "src/functions_include.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Guzzle promises library",
-        "keywords": [
-            "promise"
-        ]
+        "description": "MySQL spatial data types extension for Laravel."
     },
     {
         "name": "guzzlehttp/psr7",
@@ -1109,6 +1145,61 @@
         "abandoned": "php-parallel-lint/php-console-highlighter"
     },
     {
+        "name": "jmikola/geojson",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jmikola/geojson.git",
+            "reference": "6ec3016cc0215667b7775f6ead7bd0337ad66eee"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jmikola/geojson/zipball/6ec3016cc0215667b7775f6ead7bd0337ad66eee",
+            "reference": "6ec3016cc0215667b7775f6ead7bd0337ad66eee",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7"
+        },
+        "time": "2015-09-27T15:35:21+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "GeoJson\\": "src/"
+            },
+            "classmap": [
+                "stubs/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jeremy Mikola",
+                "email": "jmikola@gmail.com"
+            }
+        ],
+        "description": "GeoJSON implementation for PHP",
+        "homepage": "https://github.com/jmikola/geojson",
+        "keywords": [
+            "geo",
+            "geojson",
+            "geospatial"
+        ]
+    },
+    {
         "name": "laravel/framework",
         "version": "v6.18.20",
         "version_normalized": "6.18.20.0",
@@ -1326,22 +1417,22 @@
     },
     {
         "name": "league/commonmark",
-        "version": "1.4.3",
-        "version_normalized": "1.4.3.0",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/commonmark.git",
-            "reference": "412639f7cfbc0b31ad2455b2fe965095f66ae505"
+            "reference": "fc33ca12575e98e57cdce7d5f38b2ca5335714b3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/412639f7cfbc0b31ad2455b2fe965095f66ae505",
-            "reference": "412639f7cfbc0b31ad2455b2fe965095f66ae505",
+            "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/fc33ca12575e98e57cdce7d5f38b2ca5335714b3",
+            "reference": "fc33ca12575e98e57cdce7d5f38b2ca5335714b3",
             "shasum": ""
         },
         "require": {
             "ext-mbstring": "*",
-            "php": "^7.1"
+            "php": "^7.1 || ^8.0"
         },
         "conflict": {
             "scrutinizer/ocular": "1.7.*"
@@ -1359,16 +1450,11 @@
             "scrutinizer/ocular": "^1.5",
             "symfony/finder": "^4.2"
         },
-        "time": "2020-05-04T22:15:21+00:00",
+        "time": "2020-06-21T20:50:13+00:00",
         "bin": [
             "bin/commonmark"
         ],
         "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.4-dev"
-            }
-        },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
@@ -2357,17 +2443,17 @@
     },
     {
         "name": "opis/closure",
-        "version": "3.5.4",
-        "version_normalized": "3.5.4.0",
+        "version": "3.5.5",
+        "version_normalized": "3.5.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/opis/closure.git",
-            "reference": "1d0deef692f66dae5d70663caee2867d0971306b"
+            "reference": "dec9fc5ecfca93f45cd6121f8e6f14457dff372c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/opis/closure/zipball/1d0deef692f66dae5d70663caee2867d0971306b",
-            "reference": "1d0deef692f66dae5d70663caee2867d0971306b",
+            "url": "https://api.github.com/repos/opis/closure/zipball/dec9fc5ecfca93f45cd6121f8e6f14457dff372c",
+            "reference": "dec9fc5ecfca93f45cd6121f8e6f14457dff372c",
             "shasum": ""
         },
         "require": {
@@ -2377,7 +2463,7 @@
             "jeremeamia/superclosure": "^2.0",
             "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
         },
-        "time": "2020-06-07T11:41:29+00:00",
+        "time": "2020-06-17T14:59:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2463,90 +2549,6 @@
             "polyfill",
             "pseudorandom",
             "random"
-        ]
-    },
-    {
-        "name": "paragonie/sodium_compat",
-        "version": "v1.13.0",
-        "version_normalized": "1.13.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/paragonie/sodium_compat.git",
-            "reference": "bbade402cbe84c69b718120911506a3aa2bae653"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/bbade402cbe84c69b718120911506a3aa2bae653",
-            "reference": "bbade402cbe84c69b718120911506a3aa2bae653",
-            "shasum": ""
-        },
-        "require": {
-            "paragonie/random_compat": ">=1",
-            "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^3|^4|^5|^6|^7"
-        },
-        "suggest": {
-            "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
-            "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
-        },
-        "time": "2020-03-20T21:48:09+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "autoload.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "ISC"
-        ],
-        "authors": [
-            {
-                "name": "Paragon Initiative Enterprises",
-                "email": "security@paragonie.com"
-            },
-            {
-                "name": "Frank Denis",
-                "email": "jedisct1@pureftpd.org"
-            }
-        ],
-        "description": "Pure PHP implementation of libsodium; uses the PHP extension if it exists",
-        "keywords": [
-            "Authentication",
-            "BLAKE2b",
-            "ChaCha20",
-            "ChaCha20-Poly1305",
-            "Chapoly",
-            "Curve25519",
-            "Ed25519",
-            "EdDSA",
-            "Edwards-curve Digital Signature Algorithm",
-            "Elliptic Curve Diffie-Hellman",
-            "Poly1305",
-            "Pure-PHP cryptography",
-            "RFC 7748",
-            "RFC 8032",
-            "Salpoly",
-            "Salsa20",
-            "X25519",
-            "XChaCha20-Poly1305",
-            "XSalsa20-Poly1305",
-            "Xchacha20",
-            "Xsalsa20",
-            "aead",
-            "cryptography",
-            "ecdh",
-            "elliptic curve",
-            "elliptic curve cryptography",
-            "encryption",
-            "libsodium",
-            "php",
-            "public-key cryptography",
-            "secret-key cryptography",
-            "side-channel resistant"
         ]
     },
     {
@@ -2763,17 +2765,17 @@
     },
     {
         "name": "phpdocumentor/type-resolver",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/phpDocumentor/TypeResolver.git",
-            "reference": "7462d5f123dfc080dfdf26897032a6513644fc95"
+            "reference": "30441f2752e493c639526b215ed81d54f369d693"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/7462d5f123dfc080dfdf26897032a6513644fc95",
-            "reference": "7462d5f123dfc080dfdf26897032a6513644fc95",
+            "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30441f2752e493c639526b215ed81d54f369d693",
+            "reference": "30441f2752e493c639526b215ed81d54f369d693",
             "shasum": ""
         },
         "require": {
@@ -2784,11 +2786,11 @@
             "ext-tokenizer": "^7.2",
             "mockery/mockery": "~1"
         },
-        "time": "2020-02-18T18:59:58+00:00",
+        "time": "2020-06-19T20:22:09+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.x-dev"
+                "dev-1.x": "1.x-dev"
             }
         },
         "installation-source": "dist",
@@ -3291,17 +3293,17 @@
     },
     {
         "name": "phpunit/phpunit",
-        "version": "8.5.6",
-        "version_normalized": "8.5.6.0",
+        "version": "8.5.7",
+        "version_normalized": "8.5.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sebastianbergmann/phpunit.git",
-            "reference": "3f9c4079d1407cd84c51c02c6ad1df6ec2ed1348"
+            "reference": "809b4bf6754569870c1a93075929bae5615d5ee2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3f9c4079d1407cd84c51c02c6ad1df6ec2ed1348",
-            "reference": "3f9c4079d1407cd84c51c02c6ad1df6ec2ed1348",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/809b4bf6754569870c1a93075929bae5615d5ee2",
+            "reference": "809b4bf6754569870c1a93075929bae5615d5ee2",
             "shasum": ""
         },
         "require": {
@@ -3339,7 +3341,7 @@
             "ext-xdebug": "*",
             "phpunit/php-invoker": "^2.0.0"
         },
-        "time": "2020-06-15T10:45:47+00:00",
+        "time": "2020-06-21T06:32:54+00:00",
         "bin": [
             "phpunit"
         ],
@@ -3372,58 +3374,6 @@
             "phpunit",
             "testing",
             "xunit"
-        ]
-    },
-    {
-        "name": "predis/predis",
-        "version": "v1.1.1",
-        "version_normalized": "1.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/nrk/predis.git",
-            "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
-            "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.8"
-        },
-        "suggest": {
-            "ext-curl": "Allows access to Webdis when paired with phpiredis",
-            "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
-        },
-        "time": "2016-06-16T16:22:20+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Predis\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Daniele Alessandri",
-                "email": "suppakilla@gmail.com",
-                "homepage": "http://clorophilla.net"
-            }
-        ],
-        "description": "Flexible and feature-complete Redis client for PHP and HHVM",
-        "homepage": "http://github.com/nrk/predis",
-        "keywords": [
-            "nosql",
-            "predis",
-            "redis"
         ]
     },
     {
@@ -3700,62 +3650,6 @@
             "console",
             "interactive",
             "shell"
-        ]
-    },
-    {
-        "name": "pusher/pusher-php-server",
-        "version": "v4.1.4",
-        "version_normalized": "4.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/pusher/pusher-http-php.git",
-            "reference": "e75e5715e3b651ec20dee5844095aadefab81acb"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/e75e5715e3b651ec20dee5844095aadefab81acb",
-            "reference": "e75e5715e3b651ec20dee5844095aadefab81acb",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "paragonie/sodium_compat": "^1.6",
-            "php": "^7.1",
-            "psr/log": "^1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "^7.2"
-        },
-        "time": "2020-04-14T15:20:04+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "3.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Pusher\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "description": "Library for interacting with the Pusher REST API",
-        "keywords": [
-            "events",
-            "messaging",
-            "php-pusher-server",
-            "publish",
-            "push",
-            "pusher",
-            "real time",
-            "real-time",
-            "realtime",
-            "rest",
-            "trigger"
         ]
     },
     {

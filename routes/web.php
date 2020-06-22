@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/jenisanggaran/{jenis}', 'AnggaranController@jenis_anggaran');
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/gantisandi', 'PenggunaController@ganti_sandi')->name('gantisandi');
+    Route::get('/peta/lokasi', 'PetaController@lokasi')->name('peta.lokasi');
     Route::patch('/gantisandi', 'PenggunaController@do_ganti_sandi')->name('gantisandi');
 
     Route::group(['middleware' => ['role_or_permission:super-admin|pengguna']], function () {

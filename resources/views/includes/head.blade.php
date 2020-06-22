@@ -16,6 +16,7 @@
 <link href="{{ url('/public/assets/css/material/style-responsive.min.css') }}" rel="stylesheet" />
 <link href="{{ url('/public/assets/css/material/theme/default.css" rel="styl') }}esheet" id="theme" />
 <link href="{{ url('/public/assets/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" />
+<link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
 <!-- ================== END BASE CSS STYLE ================== -->
 
 <!-- ================== BEGIN BASE JS ================== -->

@@ -30,43 +30,40 @@ return [
 			'title' => 'Tipe Konstruksi'
         ]]
 	],[
-		'icon' => 'fa fa-building',
-		'title' => 'Infrastruktur',
-        'id' => 'infrastruktur',
+		'icon' => 'fad fa-igloo',
+		'title' => 'ISDA',
 		'url' => 'javascript:;',
 		'caret' => true,
+		'id' => 'isda',
 		'sub_menu' => [[
-			'url' => 'javascript:;',
-            'title' => 'ISDA',
-            'id' => 'isda',
-			'sub_menu' => [[
-                'url' => '/bendungan',
-                'id' => 'bendungan',
-                'title' => 'Bendungan'
-            ],[
-                'url' => '/embung',
-                'id' => 'embung',
-                'title' => 'Embung'
-            ],[
-                'url' => '/sumur',
-                'id' => 'sumur',
-                'title' => 'Sumur'
-            ]]
-		],[
-			'url' => 'javascript:;',
-            'title' => 'Jalan dan Jembatan',
-            'id' => 'jalandanjembatan',
-			'sub_menu' => [[
-                'url' => '/jalan',
-                'id' => 'jalan',
-                'title' => 'Jalan'
-            ],[
-                'url' => '/jembatan',
-                'id' => 'jembatan',
-                'title' => 'Jembatan'
-            ]]
-		],]
+			'url' => '/bendungan',
+			'id' => 'bendungan',
+			'title' => 'Bendungan'
+        ],[
+			'url' => '/embung',
+			'id' => 'embung',
+			'title' => 'Embung'
+        ],[
+			'url' => '/sumur',
+			'id' => 'sumur',
+			'title' => 'Sumur'
+		]]
 	],[
+		'icon' => 'fad fa-road',
+		'title' => 'Jalan dan Jembatan',
+		'url' => 'javascript:;',
+		'caret' => true,
+		'id' => 'jalandanjembatan',
+		'sub_menu' => [[
+			'url' => '/jalan',
+			'id' => 'jalan',
+			'title' => 'Jalan'
+        ],[
+			'url' => '/jembatan',
+			'id' => 'jembatan',
+			'title' => 'Jembatan'
+		]]
+    ],[
 		'icon' => 'fad fa-cog',
 		'title' => 'Setup',
 		'url' => 'javascript:;',
