@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Biaya Pembuatan</label>
-                        <input class="form-control numbering" type="text" name="bendungan_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->bendungan_biaya_pembuatan: old('bendungan_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <input class="form-control numbering" type="text" name="bendungan_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->bendungan_biaya_pembuatan: (old('bendungan_biaya_pembuatan')?? 0) }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group" id="catatan">
                         <label class="control-label">Keterangan</label>

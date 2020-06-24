@@ -44,6 +44,18 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
+    Route::group(['middleware' => ['role_or_permission:super-admin|das']], function () {
+        Route::prefix('das')->group(function () {
+            Route::get('/', 'DasController@index')->name('das');
+            Route::get('/tambah', 'DasController@tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
+            Route::get('/tambah', 'DasController@tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
+            Route::post('/tambah', 'DasController@do_tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
+            Route::get('/edit', 'DasController@edit')->middleware(['role:super-admin|user'])->name('das.edit');
+            Route::put('/edit', 'DasController@do_edit')->middleware(['role:super-admin|user'])->name('das.edit');
+            Route::delete('/hapus/{id}', 'DasController@hapus')->name('das.hapus');
+        });
+    });
+
     Route::group(['middleware' => ['role_or_permission:super-admin|tipekonstruksi']], function () {
         Route::prefix('tipekonstruksi')->group(function () {
             Route::get('/', 'TipekonstruksiController@index')->name('tipekonstruksi');

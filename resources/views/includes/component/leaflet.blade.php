@@ -2,9 +2,9 @@
 <link href="{{ url('/public/assets/plugins/leaflet.draw/src/leaflet.draw.css') }}" rel="stylesheet">
 
 <div id="map" style="height: 500px; border: 1px solid rgb(204, 204, 204); position: relative; outline: none;" tabindex="0"></div>
-<input type="hidden" id="marker" name="marker" value="{{ $aksi == "edit" && $data->koordinat? $data->koordinat->getLng().",".$data->koordinat->getLat(): '' }}">
-<input type="text" id="polygon" name="polygon" value="{{ $aksi == "edit" && $data->koordinat? $data->koordinat->getLng().",".$data->koordinat->getLat(): '' }}">
-<input type="hidden" id="polyline" name="polyline" value="{{ $aksi == "edit" && $data->koordinat? $data->koordinat->getLng().",".$data->koordinat->getLat(): '' }}">
+<input type="hidden" id="marker" name="marker">
+<input type="hidden" id="polygon" name="polygon">
+<input type="hidden" id="polyline" name="polyline">
 
 @push('scripts')
 <script src="{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}"></script>
@@ -45,17 +45,12 @@
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/edit/handler/Edit.CircleMarker.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/edit/handler/Edit.Circle.js') }}"></script>
 
-
 <script>
-    var map;
-    var marker;
-    var position = [-8.5783,117.5098];
-
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
     osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
-    map = new L.Map('map', { center: new L.LatLng(39.74732195489861, -105.00432014465332), zoom: 18 }),
+    map = new L.Map('map', { center: new L.LatLng(-8.5783,117.5098), zoom: 8 }),
     drawnItems = L.featureGroup().addTo(map);
     L.control.layers({
         'osm': osm.addTo(map),
@@ -101,7 +96,7 @@
             layer = e.layer;
 
         if (type === 'marker') {
-            removeLayer(L.Marker);
+        removeLayer(L.Marker);
             $("#marker").val(layer._latlng.lng + "," + layer._latlng.lat);
             layer.bindPopup('' + layer.getLatLng()).openPopup();
         }
@@ -115,8 +110,8 @@
         }
         if (type === 'polygon') {
             removeLayer(L.Polygon);
+            removeLayer(L.Polyline);
             var longlats = '';
-            console.log(layer);
             layer._latlngs.forEach(element => {
                 element.forEach(element2 => {
                     longlats += element2.lng + "," + element2.lat + ";";
@@ -144,86 +139,43 @@
     });
 </script>
 
-@if ($data)
-@if ($data->marker)
+@if ($map)
+@if ($map['marker'])
 <script>
-    var lat = parseFloat('{{ $data->marker->getLat() }}');
-    var long = parseFloat('{{ $data->marker->getLng() }}');
+    var long = parseFloat("{{ $map['marker']['long'] }}");
+    var lat = parseFloat("{{ $map['marker']['lat'] }}");
+    
+    L.marker([lat, long]).addTo(map);
+    map.setView([lat,long], 12);
 </script>
 @endif
-@if ($data->polygon)
+@if ($map['polygon'])
 <script>
-    var campus = {
+    var area = {
         "type": "Feature",
-        "properties": {
-            "popupContent": "This is the Auraria West Campus",
-            "style": {
-                weight: 2,
-                color: "#999",
-                opacity: 1,
-                fillColor: "#B0DE5C",
-                fillOpacity: 0.8
-            }
-        },
         "geometry": {
             "type": "MultiPolygon",
             "coordinates": [
                 [
-                    [
-                        [-105.00432014465332, 39.74732195489861],
-                    [-105.00715255737305, 39.74620006835170],
-                    [-105.00921249389647, 39.74468219277038],
-                    [-105.01067161560059, 39.74362625960105],
-                    [-105.01195907592773, 39.74290029616054],
-                    [-105.00989913940431, 39.74078835902781],
-                    [-105.00758171081543, 39.74059036160317],
-                    [-105.00346183776855, 39.74059036160317],
-                    [-105.00097274780272, 39.74059036160317],
-                    [-105.00062942504881, 39.74072235994946],
-                    [-105.00020027160645, 39.74191033368865],
-                    [-105.00071525573731, 39.74276830198601],
-                    [-105.00097274780272, 39.74369225589818],
-                    [-105.00097274780272, 39.74461619742136],
-                    [-105.00123023986816, 39.74534214278395],
-                    [-105.00183105468751, 39.74613407445653],
-                    [-105.00432014465332, 39.74732195489861]
-
-                    ]
+                    {{ json_encode($map["polygon"]) }}
                 ]
             ]
         }
     };
-
-	L.geoJSON([campus], {
-
-style: function (feature) {
-    return feature.properties && feature.properties.style;
-},
-
-onEachFeature: onEachFeature,
-
-pointToLayer: function (feature, latlng) {
-    return L.circleMarker(latlng, {
-        radius: 8,
-        fillColor: "#ff7800",
-        color: "#000",
-        weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
-    });
-}
-}).addTo(map);
-
-function onEachFeature(feature, layer) {
-    var popupContent = "<p>I started out as a GeoJSON " +
-            feature.geometry.type + ", but now I'm a Leaflet vector!</p>";
-
-    if (feature.properties && feature.properties.popupContent) {
-        popupContent += feature.properties.popupContent;
-    }
-
-    layer.bindPopup(popupContent);
-}
+	L.geoJSON([area]).addTo(map);
+</script>
+@endif
+@if ($map['polyline'])
+<script>
+    var line = {
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": 
+                    {{ json_encode($map["polyline"]) }}
+        }
+    };
+	L.geoJSON([line]).addTo(map);
 </script>
 @endif
 @endif

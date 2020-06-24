@@ -32,6 +32,7 @@ class BendunganController extends Controller
 	{
         return view('pages.isda.bendungan.form', [
             'aksi' => 'tambah',
+            'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
             'back' => Str::contains(url()->previous(), ['bendungan/tambah', 'bendungan/edit'])? '/bendungan': url()->previous(),
         ]);
@@ -82,7 +83,7 @@ class BendunganController extends Controller
                 }
                 $data->polygon = new Polygon([
                     new LineString(collect($coordinate)->map(function($point){
-                        return new Point($point[1], $point[0]);
+                        return new Point($point[0], $point[1]);
                     })->toArray())
                 ]);
             }
@@ -99,7 +100,7 @@ class BendunganController extends Controller
                     }
                 }
                 $data->polyline = new LineString(collect($coordinate)->map(function($point){
-                    return new Point($point[1], $point[0]);
+                     return new Point($point[0], $point[1]);
                 })->toArray());
             }
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
@@ -113,9 +114,35 @@ class BendunganController extends Controller
 	public function edit(Request $req)
 	{
         try{
+            $data = Bendungan::findOrFail($req->get('id'));
+            
+            $polygon = [];
+            if($data->polygon){
+                foreach ($data->polygon[0] as $lineString) {
+                    array_push($polygon, [
+                        $lineString->getLng(), $lineString->getLat()
+                    ]);
+                }
+            }
+            $polyline = [];
+            if($data->polyline){
+                foreach ($data->polyline as $point) {
+                    array_push($polyline, [
+                        $point->getLng(), $point->getLat()
+                    ]);
+                }
+            }
             return view('pages.isda.bendungan.form', [
                 'aksi' => 'edit',
-                'data' => Bendungan::findOrFail($req->get('id')),
+                'data' => $data,
+                'map' => [
+                    'marker' => $data->marker? [
+                        'long' => $data->marker->getLng(),
+                        'lat' => $data->marker->getLat()
+                    ]: [],
+                    'polygon' => $polygon,
+                    'polyline' => $polyline
+                ],
                 'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
                 'back' => Str::contains(url()->previous(), ['bendungan/tambah', 'bendungan/edit'])? '/bendungan': url()->previous(),
             ]);
@@ -171,9 +198,10 @@ class BendunganController extends Controller
                 }
                 $data->polygon = new Polygon([
                     new LineString(collect($coordinate)->map(function($point){
-                        return new Point($point[1], $point[0]);
+                        return new Point($point[0], $point[1]);
                     })->toArray())
                 ]);
+                $data->polyline = null;
             }
             if($req->get('polyline')){
                 $coordinate = [];
@@ -188,8 +216,9 @@ class BendunganController extends Controller
                     }
                 }
                 $data->polyline = new LineString(collect($coordinate)->map(function($point){
-                    return new Point($point[1], $point[0]);
+                    return new Point($point[0], $point[1]);
                 })->toArray());
+                $data->polygon = null;
             }
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();

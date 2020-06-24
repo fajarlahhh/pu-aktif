@@ -49,6 +49,7 @@
                         <th>No.</th>
                         <th>Nama Bendungan</th>
                         <th>Tahun Pembuatan</th>
+                        <th>Biaya Pembuatan</th>
                         <th>Keterangan</th>
                         <th>Kelas</th>
                         <th>Lokasi</th>
@@ -61,6 +62,7 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->bendungan_nama }}</td>
                         <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
+                        <td class="align-middle">{{ number_format($row->bendungan_biaya_pembuatan, 2) }}</td>
                         <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
                         <td class="align-middle">{{ $row->bendungan_kelas }}</td>
                         <td class="align-middle">

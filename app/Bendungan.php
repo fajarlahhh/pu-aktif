@@ -24,4 +24,8 @@ class Bendungan extends Model
     {
         return $this->belongsTo('App\KelurahanDesa', 'kelurahan_desa_id', 'kelurahan_desa_id');
     }
+
+    public function pengguna(){
+        return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
+    }
 }
