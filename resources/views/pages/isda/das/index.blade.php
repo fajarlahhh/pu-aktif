@@ -67,7 +67,7 @@
                         <td class="align-middle">{{ $row->das_keterangan }}</td>
                         <td class="align-middle">
                         @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->marker->getLng() }}', '{{ $row->marker->getLat() }}')">
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->das_id }}')">
                                 @if ($row->kelurahan_desa)
                                 {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
                                 @else
@@ -111,9 +111,8 @@
          $("#frm-cari").submit();
     });
 
-    function peta(long, lat){
-        $("#modal-content").load("{{ url('/peta/lokasi') }}?long=" + long + "&lat=" + lat);
-        $.getScript("{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}");
+    function peta(id){
+        $("#modal-content").load("{{ url('/das/peta') }}?id=" + id);
     }
 
     function hapus(id, ket) {

@@ -15,11 +15,17 @@ class Embung extends Model
     protected $primaryKey = 'embung_id';
 
     protected $spatialFields = [
-        'koordinat'
+        'marker',
+        'polyline',
+        'polygon'
     ];
 
     public function kelurahan_desa()
     {
         return $this->belongsTo('App\KelurahanDesa', 'kelurahan_desa_id', 'kelurahan_desa_id');
+    }
+
+    public function pengguna(){
+        return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }
 }

@@ -49,7 +49,6 @@
                         <th>No.</th>
                         <th>Nama Bendungan</th>
                         <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
                         <th>Keterangan</th>
                         <th>Kelas</th>
                         <th>Lokasi</th>
@@ -62,12 +61,11 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->bendungan_nama }}</td>
                         <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
-                        <td class="align-middle">{{ number_format($row->bendungan_biaya_pembuatan, 2) }}</td>
                         <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
                         <td class="align-middle">{{ $row->bendungan_kelas }}</td>
                         <td class="align-middle">
                         @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->marker->getLng() }}', '{{ $row->marker->getLat() }}')">
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->bendungan_id }}')">
                                 @if ($row->kelurahan_desa)
                                 {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
                                 @else
@@ -111,9 +109,8 @@
          $("#frm-cari").submit();
     });
 
-    function peta(long, lat){
-        $("#modal-content").load("{{ url('/peta/lokasi') }}?long=" + long + "&lat=" + lat);
-        $.getScript("{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}");
+    function peta(id){
+        $("#modal-content").load("{{ url('/bendungan/peta') }}?id=" + id);
     }
 
     function hapus(id, ket) {

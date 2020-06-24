@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/tambah', 'BendunganController@do_tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
             Route::get('/edit', 'BendunganController@edit')->middleware(['role:super-admin|user'])->name('bendungan.edit');
             Route::put('/edit', 'BendunganController@do_edit')->middleware(['role:super-admin|user'])->name('bendungan.edit');
+            Route::get('/peta', 'BendunganController@peta')->middleware(['role:super-admin|user']);
             Route::delete('/hapus/{id}', 'BendunganController@hapus')->name('bendungan.hapus');
         });
     });
@@ -52,7 +53,21 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/tambah', 'DasController@do_tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
             Route::get('/edit', 'DasController@edit')->middleware(['role:super-admin|user'])->name('das.edit');
             Route::put('/edit', 'DasController@do_edit')->middleware(['role:super-admin|user'])->name('das.edit');
+            Route::get('/peta', 'DasController@peta')->middleware(['role:super-admin|user']);
             Route::delete('/hapus/{id}', 'DasController@hapus')->name('das.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:super-admin|embung']], function () {
+        Route::prefix('embung')->group(function () {
+            Route::get('/', 'EmbungController@index')->name('embung');
+            Route::get('/tambah', 'EmbungController@tambah')->middleware(['role:super-admin|user'])->name('embung.tambah');
+            Route::get('/tambah', 'EmbungController@tambah')->middleware(['role:super-admin|user'])->name('embung.tambah');
+            Route::post('/tambah', 'EmbungController@do_tambah')->middleware(['role:super-admin|user'])->name('embung.tambah');
+            Route::get('/edit', 'EmbungController@edit')->middleware(['role:super-admin|user'])->name('embung.edit');
+            Route::put('/edit', 'EmbungController@do_edit')->middleware(['role:super-admin|user'])->name('embung.edit');
+            Route::get('/peta', 'EmbungController@peta')->middleware(['role:super-admin|user']);
+            Route::delete('/hapus/{id}', 'EmbungController@hapus')->name('embung.hapus');
         });
     });
 

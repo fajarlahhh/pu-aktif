@@ -230,6 +230,44 @@ class DasController extends Controller
             return redirect()->back()->withInput();
         }
 	}
+    
+    public function peta(Request $req)
+    {
+		try{
+            $data = Das::findOrFail($req->get('id'));
+            
+            $polygon = [];
+            if($data->polygon){
+                foreach ($data->polygon[0] as $lineString) {
+                    array_push($polygon, [
+                        $lineString->getLng(), $lineString->getLat()
+                    ]);
+                }
+            }
+            $polyline = [];
+            if($data->polyline){
+                foreach ($data->polyline as $point) {
+                    array_push($polyline, [
+                        $point->getLng(), $point->getLat()
+                    ]);
+                }
+            }
+            return view('includes.component.leaflet-preview', [
+                'data' => $data,
+                'map' => [
+                    'marker' => $data->marker? [
+                        'long' => $data->marker->getLng(),
+                        'lat' => $data->marker->getLat()
+                    ]: [],
+                    'polygon' => $polygon,
+                    'polyline' => $polyline
+                ]
+            ]);
+        }catch(\Exception $e){
+            alert()->error('Edit Data', $e->getMessage());
+            return back();
+        }
+    }
 
 	public function hapus($id)
 	{

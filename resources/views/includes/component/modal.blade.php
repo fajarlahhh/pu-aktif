@@ -1,6 +1,6 @@
 
 <div class="modal fade" id="modal-peta" >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{{ $judul }}</h4>
