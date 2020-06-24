@@ -15,7 +15,9 @@ class Bendungan extends Model
     protected $primaryKey = 'bendungan_id';
 
     protected $spatialFields = [
-        'koordinat'
+        'marker',
+        'polyline',
+        'polygon'
     ];
 
     public function kelurahan_desa()

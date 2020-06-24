@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\KelurahanDesa;
 use App\Bendungan;
+use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Grimzy\LaravelMysqlSpatial\Types\Polygon;
+use Grimzy\LaravelMysqlSpatial\Types\LineString;
 
 class BendunganController extends Controller
 {
@@ -47,24 +50,64 @@ class BendunganController extends Controller
         );
 
         if ($validator->fails()) {
-            return implode('<br>', $validator->messages()->all());
+            alert()->error('Validasi Gagal', implode('<br>', $validator->messages()->all()))->toHtml()->autoClose(5000);
+            return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
-        try{
+
             $data = new Bendungan();
             $data->bendungan_nama = $req->get('bendungan_nama');
-            $data->bendungan_tahun_pembuatan = str_replace(',', '', $req->get('bendungan_tahun_pembuatan'));
+            $data->bendungan_tahun_pembuatan = $req->get('bendungan_tahun_pembuatan');
+            $data->bendungan_biaya_pembuatan = str_replace(',', '', $req->get('bendungan_biaya_pembuatan'));
             $data->bendungan_keterangan = $req->get('bendungan_keterangan');
             $data->bendungan_kelas = $req->get('bendungan_kelas');
-            $data->koordinat = new Point($req->get('latitude'), $req->get('longitude'));
+            if($req->get('marker')){
+                $point = explode(',', $req->get('marker'));
+                $data->marker = new Point($point[1], $point[0]);
+            }
+            if($req->get('polygon')){
+                $coordinate = [];
+                if($req->get('polygon')){
+                    foreach (explode(';', $req->get('polygon')) as $longlat) {
+                        if($longlat){
+                            array_push($coordinate, [
+                                (float) explode(',', $longlat)[1],
+                                (float) explode(',', $longlat)[0]
+                            ]);
+                        }
+                    }
+                    array_push($coordinate, [
+                        (float) explode(',', $req->get('polygon'))[1],
+                        (float) explode(',', $req->get('polygon'))[0]
+                    ]);
+                }
+                $data->polygon = new Polygon([
+                    new LineString(collect($coordinate)->map(function($point){
+                        return new Point($point[1], $point[0]);
+                    })->toArray())
+                ]);
+            }
+            if($req->get('polyline')){
+                $coordinate = [];
+                if($req->get('polyline')){
+                    foreach (explode(';', $req->get('polyline')) as $longlat) {
+                        if($longlat){
+                            array_push($coordinate, [
+                                (float) explode(',', $longlat)[1],
+                                (float) explode(',', $longlat)[0]
+                            ]);
+                        }
+                    }
+                }
+                $data->polyline = new LineString(collect($coordinate)->map(function($point){
+                    return new Point($point[1], $point[0]);
+                })->toArray());
+            }
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil menambah bendungan', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));
-        }catch(\Exception $e){
-            alert()->error('Tambah Data', $e->getMessage());
-            return redirect()->back()->withInput();
-        }
+
 	}
 
 	public function edit(Request $req)
@@ -102,10 +145,52 @@ class BendunganController extends Controller
         try{
 			$data = Bendungan::findOrFail($req->get('id'));
             $data->bendungan_nama = $req->get('bendungan_nama');
-            $data->bendungan_tahun_pembuatan = str_replace(',', '', $req->get('bendungan_tahun_pembuatan'));
+            $data->bendungan_tahun_pembuatan = $req->get('bendungan_tahun_pembuatan');
+            $data->bendungan_biaya_pembuatan = str_replace(',', '', $req->get('bendungan_biaya_pembuatan'));
             $data->bendungan_keterangan = $req->get('bendungan_keterangan');
             $data->bendungan_kelas = $req->get('bendungan_kelas');
-            $data->koordinat = new Point($req->get('latitude'), $req->get('longitude'));
+            if($req->get('marker')){
+                $point = explode(',', $req->get('marker'));
+                $data->marker = new Point($point[1], $point[0]);
+            }
+            if($req->get('polygon')){
+                $coordinate = [];
+                if($req->get('polygon')){
+                    foreach (explode(';', $req->get('polygon')) as $longlat) {
+                        if($longlat){
+                            array_push($coordinate, [
+                                (float) explode(',', $longlat)[1],
+                                (float) explode(',', $longlat)[0]
+                            ]);
+                        }
+                    }
+                    array_push($coordinate, [
+                        (float) explode(',', $req->get('polygon'))[1],
+                        (float) explode(',', $req->get('polygon'))[0]
+                    ]);
+                }
+                $data->polygon = new Polygon([
+                    new LineString(collect($coordinate)->map(function($point){
+                        return new Point($point[1], $point[0]);
+                    })->toArray())
+                ]);
+            }
+            if($req->get('polyline')){
+                $coordinate = [];
+                if($req->get('polyline')){
+                    foreach (explode(';', $req->get('polyline')) as $longlat) {
+                        if($longlat){
+                            array_push($coordinate, [
+                                (float) explode(',', $longlat)[1],
+                                (float) explode(',', $longlat)[0]
+                            ]);
+                        }
+                    }
+                }
+                $data->polyline = new LineString(collect($coordinate)->map(function($point){
+                    return new Point($point[1], $point[0]);
+                })->toArray());
+            }
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();

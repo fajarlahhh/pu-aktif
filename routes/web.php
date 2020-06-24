@@ -17,7 +17,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/jenisanggaran/{jenis}', 'AnggaranController@jenis_anggaran');
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/gantisandi', 'PenggunaController@ganti_sandi')->name('gantisandi');
-    Route::get('/peta/lokasi', 'PetaController@lokasi')->name('peta.lokasi');
     Route::patch('/gantisandi', 'PenggunaController@do_ganti_sandi')->name('gantisandi');
 
     Route::group(['middleware' => ['role_or_permission:super-admin|pengguna']], function () {
@@ -36,6 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role_or_permission:super-admin|bendungan']], function () {
         Route::prefix('bendungan')->group(function () {
             Route::get('/', 'BendunganController@index')->name('bendungan');
+            Route::get('/tambah', 'BendunganController@tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
             Route::get('/tambah', 'BendunganController@tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
             Route::post('/tambah', 'BendunganController@do_tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
             Route::get('/edit', 'BendunganController@edit')->middleware(['role:super-admin|user'])->name('bendungan.edit');

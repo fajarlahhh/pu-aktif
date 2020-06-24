@@ -14,9 +14,10 @@ class CreateEmbungTable extends Migration
     public function up()
     {
         Schema::create('embung', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('embung_id');
             $table->string('embung_nama');
-            $table->integer('embung_tahun_pembuatan');
+            $table->integer('embung_tahun_pembuatan')->nullable();
+            $table->decimal('embung_biaya_pembuatan', 15, 2)->default(0)->nullable();
             $table->text('embung_keterangan');
             $table->string('embung_kelas');
             $table->point('koordinat')->nullable();

@@ -16,10 +16,13 @@ class CreateBendunganTable extends Migration
         Schema::create('bendungan', function (Blueprint $table) {
             $table->bigIncrements('bendungan_id');
             $table->string('bendungan_nama');
-            $table->integer('bendungan_tahun_pembuatan');
+            $table->integer('bendungan_tahun_pembuatan')->nullable();
+            $table->decimal('bendungan_biaya_pembuatan', 15, 2)->default(0)->nullable();
             $table->text('bendungan_keterangan');
             $table->string('bendungan_kelas');
-            $table->point('koordinat')->nullable();
+            $table->point('marker')->nullable();
+            $table->lineString('polyline')->nullable();
+            $table->polygon('polygon')->nullable();
             $table->bigInteger('kelurahan_desa_id')->unsigned()->nullable();
             $table->string('pengguna_id');
             $table->timestamps();

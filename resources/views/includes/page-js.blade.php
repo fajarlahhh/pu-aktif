@@ -2,6 +2,7 @@
 <script src="{{ url('/public/assets/js/theme/default.min.js') }}"></script>
 <script src="{{ url('/public/assets/js/apps.min.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/gritter/js/jquery.gritter.min.js') }}"></script>
+<script src="{{ url('/public/assets/plugins/autonumeric/autoNumeric.js') }}"></script>
 
 <script>
 	$(document).ready(function() {
@@ -10,8 +11,12 @@
         $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
 
         $('[data-toggle="tooltip"]').click(function () {
-          $('[data-toggle="tooltip"]').tooltip("hide");
-       });
+            $('[data-toggle="tooltip"]').tooltip("hide");
+        });
+
+        AutoNumeric.multiple('.numbering', {
+            modifyValueOnWheel : false
+        });
         @if(Session::get('gritter_judul'))
 	    setTimeout(function() {
 			$.gritter.add({

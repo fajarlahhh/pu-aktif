@@ -26,5 +26,8 @@
 	@page {
 	    size: auto;
 	}
+	.numbering{
+		text-align: right;
+	}
 </style>
 @stack('css')

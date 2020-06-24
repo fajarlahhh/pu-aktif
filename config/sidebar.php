@@ -30,30 +30,11 @@ return [
 			'title' => 'Tipe Konstruksi'
         ]]
 	],[
-		'icon' => 'fad fa-igloo',
-		'title' => 'ISDA',
+		'icon' => 'fad fa-building',
+		'title' => 'Infrastruktur',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'isda',
-		'sub_menu' => [[
-			'url' => '/bendungan',
-			'id' => 'bendungan',
-			'title' => 'Bendungan'
-        ],[
-			'url' => '/embung',
-			'id' => 'embung',
-			'title' => 'Embung'
-        ],[
-			'url' => '/sumur',
-			'id' => 'sumur',
-			'title' => 'Sumur'
-		]]
-	],[
-		'icon' => 'fad fa-road',
-		'title' => 'Jalan dan Jembatan',
-		'url' => 'javascript:;',
-		'caret' => true,
-		'id' => 'jalandanjembatan',
+		'id' => 'infrastruktur',
 		'sub_menu' => [[
 			'url' => '/jalan',
 			'id' => 'jalan',
@@ -62,7 +43,41 @@ return [
 			'url' => '/jembatan',
 			'id' => 'jembatan',
 			'title' => 'Jembatan'
-		]]
+		],[
+            'title' => 'ISDA',
+            'url' => 'javascript:;',
+            'caret' => true,
+            'id' => 'isda',
+            'sub_menu' => [[
+                'url' => '/bendungan',
+                'id' => 'bendungan',
+                'title' => 'Bendungan'
+            ],[
+                'url' => '/das',
+                'id' => 'das',
+                'title' => 'DAS'
+            ],[
+                'url' => '/embung',
+                'id' => 'embung',
+                'title' => 'Embung'
+            ],[
+                'url' => '/luasandi',
+                'id' => 'luasandi',
+                'title' => 'Luasan Daerah Irigasi'
+            ],[
+                'url' => '/mataair',
+                'id' => 'mataair',
+                'title' => 'Mata Air'
+            ],[
+                'url' => '/poshidrologi',
+                'id' => 'poshidrologi',
+                'title' => 'Pos Hidrologi'
+            ],[
+                'url' => '/sumur',
+                'id' => 'sumur',
+                'title' => 'Sumur'
+            ]]
+        ]]
     ],[
 		'icon' => 'fad fa-cog',
 		'title' => 'Setup',

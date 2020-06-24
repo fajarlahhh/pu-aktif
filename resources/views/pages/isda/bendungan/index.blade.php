@@ -64,11 +64,19 @@
                         <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
                         <td class="align-middle">{{ $row->bendungan_kelas }}</td>
                         <td class="align-middle">
-                            @if ($row->koordinat)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->koordinat->getLng() }}', '{{ $row->koordinat->getLat() }}')">{{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</a>
-                            @else
+                        @if ($row->marker)
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->marker->getLng() }}', '{{ $row->marker->getLat() }}')">
+                                @if ($row->kelurahan_desa)
+                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
+                                @else
+                                Peta
+                                @endif
+                            </a>
+                        @else
+                            @if ($row->kelurahan_desa)
                             {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
                             @endif
+                        @endif
                         </td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
@@ -100,6 +108,7 @@
     $(".cari").change(function() {
          $("#frm-cari").submit();
     });
+
     function peta(long, lat){
         $("#modal-content").load("{{ url('/peta/lokasi') }}?long=" + long + "&lat=" + lat);
         $.getScript("{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}");
