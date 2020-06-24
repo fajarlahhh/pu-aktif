@@ -29,7 +29,6 @@
     var long = parseFloat("{{ $map['marker']['long'] }}");
     var lat = parseFloat("{{ $map['marker']['lat'] }}");
     
-    L.marker([lat, long]).addTo(map);
     map.setView([lat,long], 12);
 </script>
 @endif
