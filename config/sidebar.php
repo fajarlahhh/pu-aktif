@@ -36,14 +36,6 @@ return [
 		'caret' => true,
 		'id' => 'infrastruktur',
 		'sub_menu' => [[
-			'url' => '/jalan',
-			'id' => 'jalan',
-			'title' => 'Jalan'
-        ],[
-			'url' => '/jembatan',
-			'id' => 'jembatan',
-			'title' => 'Jembatan'
-		],[
             'title' => 'ISDA',
             'url' => 'javascript:;',
             'caret' => true,
@@ -77,7 +69,15 @@ return [
                 'id' => 'sumur',
                 'title' => 'Sumur'
             ]]
-        ]]
+        ],[
+			'url' => '/jalan',
+			'id' => 'jalan',
+			'title' => 'Jalan'
+        ],[
+			'url' => '/jembatan',
+			'id' => 'jembatan',
+			'title' => 'Jembatan'
+		],]
     ],[
 		'icon' => 'fad fa-cog',
 		'title' => 'Setup',

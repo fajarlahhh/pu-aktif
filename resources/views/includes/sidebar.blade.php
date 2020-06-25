@@ -31,10 +31,10 @@
 
 				function renderSubMenu($value, $currentUrl) {
 					$subMenu = '';
-					$GLOBALS['sub_level'] += 1 ;
-					$GLOBALS['active'][$GLOBALS['sub_level']] = '';
-					$currentLevel = $GLOBALS['sub_level'];
+                    $GLOBALS['sub_level'] += 1 ;
 					foreach ($value as $key => $menu) {
+                        $GLOBALS['active'][$GLOBALS['sub_level']] = '';
+                        $currentLevel = $GLOBALS['sub_level'];
 						if(Auth::user()->can(substr($menu['url'], 1)) || Auth::user()->getRoleNames()[0] == 'super-admin'){
 							$GLOBALS['subparent_level'] = '';
 
@@ -50,7 +50,7 @@
 								$subSubMenu .= '</ul>';
 							}
 
-							$active = ($currentUrl == $menu['url']) ? 'active' : '';
+							$active = $currentUrl == $menu['url'] ? 'active' : '';
 
 							if ($active) {
 								$GLOBALS['parent_active'] = true;
@@ -90,8 +90,8 @@
 							$subMenu .= renderSubMenu($menu['sub_menu'], $currentUrl);
 							$subMenu .= '</ul>';
 						}
-						$active = ($currentUrl == $menu['url']) ? 'active' : '';
-						$active = (empty($active) && !empty($GLOBALS['parent_active'])) ? 'active' : $active;
+						$active = $currentUrl == $menu['url']? 'active' : '';
+						$active = empty($active) && !empty($GLOBALS['parent_active']) ? 'active' : $active;
 						echo '
 							<li class="'. $hasSub .' '. $active .'">
 								<a href="'. ($menu['url'] == 'javascript:;'? 'javascript:;': url($menu['url'])) .'">
