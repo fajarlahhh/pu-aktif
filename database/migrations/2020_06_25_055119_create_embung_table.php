@@ -18,8 +18,8 @@ class CreateEmbungTable extends Migration
             $table->string('embung_nama');
             $table->integer('embung_tahun_pembuatan')->nullable();
             $table->decimal('embung_biaya_pembuatan', 15, 2)->default(0)->nullable();
-            $table->text('embung_keterangan');
-            $table->string('embung_kelas');
+            $table->text('embung_keterangan')->nullable();
+            $table->string('embung_kelas')->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();
             $table->polygon('polygon')->nullable();

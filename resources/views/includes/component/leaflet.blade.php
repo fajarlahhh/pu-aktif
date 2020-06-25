@@ -144,9 +144,9 @@
 <script>
     var long = parseFloat("{{ $map['marker']['long'] }}");
     var lat = parseFloat("{{ $map['marker']['lat'] }}");
-    
+
     L.marker([lat, long]).addTo(map);
-    map.setView([lat,long], 12);
+    map.setView([lat,long], 14);
 </script>
 @endif
 @if ($map['polygon'])
@@ -171,7 +171,7 @@
         "type": "Feature",
         "geometry": {
             "type": "LineString",
-            "coordinates": 
+            "coordinates":
                     {{ json_encode($map["polyline"]) }}
         }
     };

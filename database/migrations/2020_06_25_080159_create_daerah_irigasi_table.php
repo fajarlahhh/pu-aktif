@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDasTable extends Migration
+class CreateDaerahIrigasiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateDasTable extends Migration
      */
     public function up()
     {
-        Schema::create('das', function (Blueprint $table) {
-            $table->bigIncrements('das_id');
-            $table->string('das_kode');
-            $table->string('das_nama');
-            $table->integer('das_tahun_pembuatan')->nullable();
-            $table->decimal('das_biaya_pembuatan', 15, 2)->default(0)->nullable();
-            $table->text('das_keterangan')->nullable();
+        Schema::create('daerah_irigasi', function (Blueprint $table) {
+            $table->bigIncrements('daerah_irigasi_id');
+            $table->string('daerah_irigasi_nama');
+            $table->integer('daerah_irigasi_tahun_pembuatan')->nullable();
+            $table->decimal('daerah_irigasi_biaya_pembuatan', 15, 2)->default(0)->nullable();
+            $table->text('daerah_irigasi_keterangan')->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();
             $table->polygon('polygon')->nullable();
@@ -38,6 +37,6 @@ class CreateDasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('das');
+        Schema::dropIfExists('daerah_irigasi');
     }
 }

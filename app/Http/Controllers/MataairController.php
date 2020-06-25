@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Embung;
+use App\MataAir;
 use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -12,15 +12,15 @@ use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
 
-class EmbungController extends Controller
+class MataairController extends Controller
 {
     //
     public function index(Request $req)
 	{
-        $data = Embung::where('embung_nama', 'like', '%'.$req->cari.'%')->orWhere('embung_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('embung_keterangan', 'like', '%'.$req->cari.'%')->orWhere('embung_kelas', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = MataAir::where('mata_air_nama', 'like', '%'.$req->cari.'%')->orWhere('mata_air_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.embung.index', [
+        return view('pages.infrastruktur.isda.mataair.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,11 +29,11 @@ class EmbungController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.embung.form', [
+        return view('pages.infrastruktur.isda.mataair.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
-            'back' => Str::contains(url()->previous(), ['embung/tambah', 'embung/edit'])? '/embung': url()->previous(),
+            'back' => Str::contains(url()->previous(), ['mataair/tambah', 'mataair/edit'])? '/mataair': url()->previous(),
         ]);
     }
 
@@ -41,11 +41,9 @@ class EmbungController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'embung_nama' => 'required',
-                'embung_tahun_pembuatan' => 'required'
+                'mata_air_nama' => 'required'
             ],[
-                'embung_nama.required'  => 'Nama Embung tidak boleh kosong',
-                'embung_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'mata_air_nama.required'  => 'Nama Mata Air tidak boleh kosong'
             ]
         );
 
@@ -55,12 +53,9 @@ class EmbungController extends Controller
         }
 
         try{
-            $data = new Embung();
-            $data->embung_nama = $req->get('embung_nama');
-            $data->embung_tahun_pembuatan = $req->get('embung_tahun_pembuatan');
-            $data->embung_biaya_pembuatan = str_replace(',', '', $req->get('embung_biaya_pembuatan'));
-            $data->embung_keterangan = $req->get('embung_keterangan');
-            $data->embung_kelas = $req->get('embung_kelas');
+            $data = new MataAir();
+            $data->mata_air_nama = $req->get('mata_air_nama');
+            $data->mata_air_keterangan = $req->get('mata_air_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -106,8 +101,8 @@ class EmbungController extends Controller
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
-            toast('Berhasil menambah embung', 'success')->autoClose(2000);
-            return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
+            toast('Berhasil menambah mata air', 'success')->autoClose(2000);
+            return redirect($req->get('redirect')? $req->get('redirect'): route('mataair'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
 			return redirect(url()->previous()? url()->previous(): 'embung');
@@ -117,7 +112,7 @@ class EmbungController extends Controller
 	public function edit(Request $req)
 	{
         try{
-            $data = Embung::findOrFail($req->get('id'));
+            $data = MataAir::findOrFail($req->get('id'));
 
             $polygon = [];
             if($data->polygon){
@@ -135,7 +130,7 @@ class EmbungController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.embung.form', [
+            return view('pages.infrastruktur.isda.mataair.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -147,11 +142,11 @@ class EmbungController extends Controller
                     'polyline' => $polyline
                 ],
                 'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
-                'back' => Str::contains(url()->previous(), ['embung/tambah', 'embung/edit'])? '/embung': url()->previous(),
+                'back' => Str::contains(url()->previous(), ['mataair/tambah', 'mataair/edit'])? '/mataair': url()->previous(),
             ]);
 		}catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'embung');
+			return redirect(url()->previous()? url()->previous(): 'mataair');
 		}
     }
 
@@ -159,11 +154,9 @@ class EmbungController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'embung_nama' => 'required',
-                'embung_tahun_pembuatan' => 'required'
+                'mata_air_nama' => 'required'
             ],[
-                'embung_nama.required'  => 'Nama Embung tidak boleh kosong',
-                'embung_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'mata_air_nama.required'  => 'Nama Mata Air tidak boleh kosong'
             ]
         );
 
@@ -173,12 +166,9 @@ class EmbungController extends Controller
         }
 
         try{
-			$data = Embung::findOrFail($req->get('id'));
-            $data->embung_nama = $req->get('embung_nama');
-            $data->embung_tahun_pembuatan = $req->get('embung_tahun_pembuatan');
-            $data->embung_biaya_pembuatan = str_replace(',', '', $req->get('embung_biaya_pembuatan'));
-            $data->embung_keterangan = $req->get('embung_keterangan');
-            $data->embung_kelas = $req->get('embung_kelas');
+			$data = MataAir::findOrFail($req->get('id'));
+            $data->mata_air_nama = $req->get('mata_air_nama');
+            $data->mata_air_keterangan = $req->get('mata_air_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -226,8 +216,8 @@ class EmbungController extends Controller
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
-            toast('Berhasil mengedit embung', 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
+            toast('Berhasil mengedit mata air', 'success')->autoClose(2000);
+			return redirect($req->get('redirect')? $req->get('redirect'): route('mataair'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
             return redirect()->back()->withInput();
@@ -237,7 +227,7 @@ class EmbungController extends Controller
     public function peta(Request $req)
     {
 		try{
-            $data = Embung::findOrFail($req->get('id'));
+            $data = MataAir::findOrFail($req->get('id'));
 
             $polygon = [];
             if($data->polygon){
@@ -275,9 +265,9 @@ class EmbungController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $data = Embung::findOrFail($id);
+            $data = MataAir::findOrFail($id);
             $data->delete();
-            toast('Berhasil menghapus embung '.$data->embung_nama, 'success')->autoClose(2000);
+            toast('Berhasil menghapus mata air '.$data->mata_air_nama, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

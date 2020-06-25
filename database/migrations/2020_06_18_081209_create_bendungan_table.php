@@ -18,8 +18,8 @@ class CreateBendunganTable extends Migration
             $table->string('bendungan_nama');
             $table->integer('bendungan_tahun_pembuatan')->nullable();
             $table->decimal('bendungan_biaya_pembuatan', 15, 2)->default(0)->nullable();
-            $table->text('bendungan_keterangan');
-            $table->string('bendungan_kelas');
+            $table->text('bendungan_keterangan')->nullable();
+            $table->string('bendungan_kelas')->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();
             $table->polygon('polygon')->nullable();

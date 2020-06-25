@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDasTable extends Migration
+class CreatePosHidrologiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateDasTable extends Migration
      */
     public function up()
     {
-        Schema::create('das', function (Blueprint $table) {
-            $table->bigIncrements('das_id');
-            $table->string('das_kode');
-            $table->string('das_nama');
-            $table->integer('das_tahun_pembuatan')->nullable();
-            $table->decimal('das_biaya_pembuatan', 15, 2)->default(0)->nullable();
-            $table->text('das_keterangan')->nullable();
+        Schema::create('pos_hidrologi', function (Blueprint $table) {
+            $table->bigIncrements('pos_hidrologi_id');
+            $table->string('pos_hidrologi_nama_hw');
+            $table->string('pos_hidrologi_operator_hw');
+            $table->string('pos_hidrologi_pengelola_aset');
+            $table->string('pos_hidrologi_no_hp');
+            $table->integer('pos_hidrologi_tahun_pembuatan')->nullable();
+            $table->decimal('pos_hidrologi_biaya_pembuatan', 15, 2)->default(0)->nullable();
+            $table->text('pos_hidrologi_keterangan')->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();
             $table->polygon('polygon')->nullable();
@@ -38,6 +40,6 @@ class CreateDasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('das');
+        Schema::dropIfExists('pos_hidrologi');
     }
 }

@@ -7,7 +7,6 @@ use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
@@ -18,10 +17,10 @@ class BendunganController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Bendungan::where('bendungan_nama', 'like', '%'.$req->cari.'%')->where('bendungan_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('bendungan_keterangan', 'like', '%'.$req->cari.'%')->where('bendungan_kelas', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Bendungan::where('bendungan_nama', 'like', '%'.$req->cari.'%')->orWhere('bendungan_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('bendungan_keterangan', 'like', '%'.$req->cari.'%')->orWhere('bendungan_kelas', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.isda.bendungan.index', [
+        return view('pages.infrastruktur.isda.bendungan.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -30,7 +29,7 @@ class BendunganController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.isda.bendungan.form', [
+        return view('pages.infrastruktur.isda.bendungan.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
@@ -45,8 +44,8 @@ class BendunganController extends Controller
                 'bendungan_nama' => 'required',
                 'bendungan_tahun_pembuatan' => 'required'
             ],[
-                'bendungan_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'bendungan_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
+                'bendungan_nama.required'  => 'Nama Bendungan tidak boleh kosong',
+                'bendungan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
             ]
         );
 
@@ -55,6 +54,7 @@ class BendunganController extends Controller
             return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
+        try{
             $data = new Bendungan();
             $data->bendungan_nama = $req->get('bendungan_nama');
             $data->bendungan_tahun_pembuatan = $req->get('bendungan_tahun_pembuatan');
@@ -108,14 +108,17 @@ class BendunganController extends Controller
             $data->save();
             toast('Berhasil menambah bendungan', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));
-
+		}catch(\Exception $e){
+            alert()->error('Tambah Data', $e->getMessage());
+			return redirect(url()->previous()? url()->previous(): 'embung');
+		}
 	}
 
 	public function edit(Request $req)
 	{
         try{
             $data = Bendungan::findOrFail($req->get('id'));
-            
+
             $polygon = [];
             if($data->polygon){
                 foreach ($data->polygon[0] as $lineString) {
@@ -132,7 +135,7 @@ class BendunganController extends Controller
                     ]);
                 }
             }
-            return view('pages.isda.bendungan.form', [
+            return view('pages.infrastruktur.isda.bendungan.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -159,8 +162,8 @@ class BendunganController extends Controller
                 'bendungan_nama' => 'required',
                 'bendungan_tahun_pembuatan' => 'required'
             ],[
-                'bendungan_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'bendungan_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
+                'bendungan_nama.required'  => 'Nama Bendungan tidak boleh kosong',
+                'bendungan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
             ]
         );
 
@@ -230,12 +233,12 @@ class BendunganController extends Controller
             return redirect()->back()->withInput();
         }
     }
-    
+
     public function peta(Request $req)
     {
 		try{
             $data = Bendungan::findOrFail($req->get('id'));
-            
+
             $polygon = [];
             if($data->polygon){
                 foreach ($data->polygon[0] as $lineString) {

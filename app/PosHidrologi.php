@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 
-class Jembatan extends Model
+class PosHidrologi extends Model
 {
     use SpatialTrait;
     use LogsActivity;
     //
-    protected $table = 'jembatan';
-    protected $primaryKey = 'jembatan_id';
+    protected $table = 'pos_hidrologi';
+    protected $primaryKey = 'pos_hidrologi_id';
 
     protected $spatialFields = [
         'marker',
@@ -20,9 +20,9 @@ class Jembatan extends Model
         'polygon'
     ];
 
-    public function jalan()
+    public function kelurahan_desa()
     {
-        return $this->belongsTo('App\Jalan', 'jalan_id', 'jalan_id');
+        return $this->belongsTo('App\KelurahanDesa', 'kelurahan_desa_id', 'kelurahan_desa_id');
     }
 
     public function pengguna(){

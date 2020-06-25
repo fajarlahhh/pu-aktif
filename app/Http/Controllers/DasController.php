@@ -7,7 +7,6 @@ use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
@@ -18,10 +17,10 @@ class DasController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Das::where('das_nama', 'like', '%'.$req->cari.'%')->where('das_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('das_keterangan', 'like', '%'.$req->cari.'%')->where('das_kode', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Das::where('das_nama', 'like', '%'.$req->cari.'%')->orWhere('das_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('das_keterangan', 'like', '%'.$req->cari.'%')->orWhere('das_kode', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.isda.das.index', [
+        return view('pages.infrastruktur.isda.das.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -30,7 +29,7 @@ class DasController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.isda.das.form', [
+        return view('pages.infrastruktur.isda.das.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
@@ -43,10 +42,12 @@ class DasController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'das_nama' => 'required',
+                'das_kode' => 'required',
                 'das_tahun_pembuatan' => 'required'
             ],[
-                'das_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'das_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
+                'das_nama.required'  => 'Nama DAS tidak boleh kosong',
+                'das_kode.required'  => 'Kode WS tidak boleh kosong',
+                'das_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
             ]
         );
 
@@ -55,6 +56,7 @@ class DasController extends Controller
             return redirect()->back()->withInput()->with('error', $validator->messages()->all());
         }
 
+        try{
             $data = new Das();
             $data->das_nama = $req->get('das_nama');
             $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
@@ -108,14 +110,17 @@ class DasController extends Controller
             $data->save();
             toast('Berhasil menambah das', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('das'));
-
+		}catch(\Exception $e){
+            alert()->error('Tambah Data', $e->getMessage());
+			return redirect(url()->previous()? url()->previous(): 'embung');
+		}
 	}
 
 	public function edit(Request $req)
 	{
         try{
             $data = Das::findOrFail($req->get('id'));
-            
+
             $polygon = [];
             if($data->polygon){
                 foreach ($data->polygon[0] as $lineString) {
@@ -132,7 +137,7 @@ class DasController extends Controller
                     ]);
                 }
             }
-            return view('pages.isda.das.form', [
+            return view('pages.infrastruktur.isda.das.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -157,10 +162,12 @@ class DasController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'das_nama' => 'required',
+                'das_kode' => 'required',
                 'das_tahun_pembuatan' => 'required'
             ],[
-                'das_nama.required'  => 'Nama Barang/Pekerjaan tidak boleh kosong',
-                'das_tahun_pembuatan.required'  => 'Harga Satuan (Rp.) tidak boleh kosong'
+                'das_nama.required'  => 'Nama DAS tidak boleh kosong',
+                'das_kode.required'  => 'Kode WS tidak boleh kosong',
+                'das_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
             ]
         );
 
@@ -230,12 +237,12 @@ class DasController extends Controller
             return redirect()->back()->withInput();
         }
 	}
-    
+
     public function peta(Request $req)
     {
 		try{
             $data = Das::findOrFail($req->get('id'));
-            
+
             $polygon = [];
             if($data->polygon){
                 foreach ($data->polygon[0] as $lineString) {

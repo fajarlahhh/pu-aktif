@@ -53,6 +53,10 @@ return [
                 'id' => 'bendungan',
                 'title' => 'Bendungan'
             ],[
+                'url' => '/daerahirigasi',
+                'id' => 'daerahirigasi',
+                'title' => 'Daerah Irigasi'
+            ],[
                 'url' => '/das',
                 'id' => 'das',
                 'title' => 'DAS'
@@ -60,10 +64,6 @@ return [
                 'url' => '/embung',
                 'id' => 'embung',
                 'title' => 'Embung'
-            ],[
-                'url' => '/luasandi',
-                'id' => 'luasandi',
-                'title' => 'Luasan Daerah Irigasi'
             ],[
                 'url' => '/mataair',
                 'id' => 'mataair',
