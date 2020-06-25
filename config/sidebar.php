@@ -79,16 +79,10 @@ return [
 			'title' => 'Jembatan'
 		],]
     ],[
-		'icon' => 'fad fa-cog',
-		'title' => 'Setup',
-		'url' => 'javascript:;',
-		'caret' => true,
-		'id' => 'setup',
-		'sub_menu' => [[
-			'url' => '/pengguna',
-			'id' => 'pengguna',
-			'title' => 'Pengguna'
-		]]
+		'icon' => 'fad fa-user',
+		'title' => 'Pengguna',
+		'url' => '/pengguna',
+		'id' => 'pengguna'
 	],[
 		'icon' => 'fad fa-map',
 		'title' => 'Wilayah',
