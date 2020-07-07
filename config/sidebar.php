@@ -23,17 +23,6 @@ return [
 		'title' => 'Data Master',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'datamaster',
-		'sub_menu' => [[
-			'url' => '/tipekonstruksi',
-			'id' => 'tipekonstruksi',
-			'title' => 'Tipe Konstruksi'
-        ]]
-	],[
-		'icon' => 'fad fa-building',
-		'title' => 'Infrastruktur',
-		'url' => 'javascript:;',
-		'caret' => true,
 		'id' => 'infrastruktur',
 		'sub_menu' => [[
             'title' => 'ISDA',
