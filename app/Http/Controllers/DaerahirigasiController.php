@@ -17,10 +17,12 @@ class DaerahirigasiController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = DaerahIrigasi::where('daerah_irigasi_nama', 'like', '%'.$req->cari.'%')->orWhere('daerah_irigasi_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('daerah_irigasi_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = DaerahIrigasi::whereHas('kabupaten_kota', function($q) use ($req){
+            $q->orWhere('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+        })->where('daerah_irigasi_nama', 'like', '%'.$req->cari.'%')->orWhere('daerah_irigasi_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('daerah_irigasi_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.daerahirigasi.index', [
+        return view('pages.datamaster.isda.daerahirigasi.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,10 +31,10 @@ class DaerahirigasiController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.daerahirigasi.form', [
+        return view('pages.datamaster.isda.daerahirigasi.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'kabupaten_kota' => KabupatenKota::all(),
             'back' => Str::contains(url()->previous(), ['daerahirigasi/tambah', 'daerahirigasi/edit'])? '/daerahirigasi': url()->previous(),
         ]);
     }
@@ -134,7 +136,7 @@ class DaerahirigasiController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.daerahirigasi.form', [
+            return view('pages.datamaster.isda.daerahirigasi.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -145,7 +147,7 @@ class DaerahirigasiController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+                'kabupaten_kota' => KabupatenKota::all(),
                 'back' => Str::contains(url()->previous(), ['daerahirigasi/tambah', 'daerahirigasi/edit'])? '/daerahirigasi': url()->previous(),
             ]);
 		}catch(\Exception $e){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jalan;
 use App\Jembatan;
+use App\KabupatenKota;
 use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -20,10 +21,12 @@ class JembatanController extends Controller
 	{
         $data = Jembatan::whereHas('jalan', function($q) use ($req){
             $q->orWhere('jalan_nama', 'like', '%'.$req->cari.'%');
-        })->where('jembatan_nama', 'like', '%'.$req->cari.'%')->orWhere('jembatan_nomor', 'like', '%'.$req->cari.'%')->orWhere('jembatan_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('jembatan_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        })->orWhereHas('kabupaten_kota', function($q) use ($req){
+            $q->orWhere('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+        })->orWhere('jembatan_nama', 'like', '%'.$req->cari.'%')->orWhere('jembatan_nomor', 'like', '%'.$req->cari.'%')->orWhere('jembatan_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.jembatan.index', [
+        return view('pages.datamaster.jembatan.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -32,11 +35,11 @@ class JembatanController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.jembatan.form', [
+        return view('pages.datamaster.jembatan.form', [
             'aksi' => 'tambah',
             'map' => [],
             'jalan' => Jalan::orderBy('jalan_nama')->get(),
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'kabupaten_kota' => KabupatenKota::all(),
             'back' => Str::contains(url()->previous(), ['jembatan/tambah', 'jembatan/edit'])? '/jembatan': url()->previous(),
         ]);
     }
@@ -139,7 +142,7 @@ class JembatanController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.jembatan.form', [
+            return view('pages.datamaster.jembatan.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -151,7 +154,7 @@ class JembatanController extends Controller
                     'polyline' => $polyline
                 ],
                 'jalan' => Jalan::orderBy('jalan_nama')->get(),
-                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+                'kabupaten_kota' => KabupatenKota::all(),
                 'back' => Str::contains(url()->previous(), ['jembatan/tambah', 'jembatan/edit'])? '/jembatan': url()->previous(),
             ]);
 		}catch(\Exception $e){

@@ -25,6 +25,11 @@ class Jembatan extends Model
         return $this->belongsTo('App\Jalan', 'jalan_id', 'jalan_id');
     }
 
+    public function kabupaten_kota()
+    {
+        return $this->belongsTo('App\KabupatenKota', 'kabupaten_kota_id', 'kabupaten_kota_id');
+    }
+
     public function pengguna(){
         return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }

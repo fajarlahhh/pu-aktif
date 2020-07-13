@@ -30,33 +30,13 @@ return [
             'caret' => true,
             'id' => 'isda',
             'sub_menu' => [[
-                'url' => '/bendungan',
-                'id' => 'bendungan',
-                'title' => 'Bendungan'
-            ],[
                 'url' => '/daerahirigasi',
                 'id' => 'daerahirigasi',
                 'title' => 'Daerah Irigasi'
             ],[
-                'url' => '/das',
-                'id' => 'das',
-                'title' => 'DAS'
-            ],[
                 'url' => '/embung',
                 'id' => 'embung',
                 'title' => 'Embung'
-            ],[
-                'url' => '/mataair',
-                'id' => 'mataair',
-                'title' => 'Mata Air'
-            ],[
-                'url' => '/poshidrologi',
-                'id' => 'poshidrologi',
-                'title' => 'Pos Hidrologi'
-            ],[
-                'url' => '/sumur',
-                'id' => 'sumur',
-                'title' => 'Sumur'
             ]]
         ],[
 			'url' => '/jalan',

@@ -17,7 +17,6 @@ class CreateJembatanTable extends Migration
             $table->bigIncrements('jembatan_id');
             $table->string('jembatan_nomor');
             $table->string('jembatan_nama');
-            $table->string('jembatan_nama_ruas');
             $table->decimal('jembatan_dimensi_panjang', 15, 2)->default(0);
             $table->decimal('jembatan_dimensi_lebar', 15, 2)->default(0);
             $table->decimal('jembatan_dimensi_bentang', 15, 2)->default(0);
@@ -30,6 +29,7 @@ class CreateJembatanTable extends Migration
             $table->string('jembatan_bangunan_lantai_tipe');
             $table->decimal('jembatan_bangunan_lantai_kondisi', 15, 2)->default(0);
             $table->text('jembatan_keterangan')->nullable();
+            $table->bigInteger('jalan_id')->unsigned()->nullable();
             $table->bigInteger('kabupaten_kota_id')->unsigned()->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();
@@ -38,6 +38,7 @@ class CreateJembatanTable extends Migration
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('kabupaten_kota_id')->references('kabupaten_kota_id')->on('kabupaten_kota')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('jalan_id')->references('jalan_id')->on('jalan')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

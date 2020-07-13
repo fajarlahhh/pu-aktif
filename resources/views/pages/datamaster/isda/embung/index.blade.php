@@ -1,6 +1,6 @@
 @extends('pages.infrastruktur.main')
 
-@section('title', ' | Jalan')
+@section('title', ' | Embung')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,11 +8,12 @@
 @endpush
 
 @section('page')
-	<li class="breadcrumb-item active">Jalan</li>
+    <li class="breadcrumb-item"><a href="javascript:;">ISDA</a></li>
+	<li class="breadcrumb-item active">Embung</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Jalan</h1>
+	<h1 class="page-header">Embung</h1>
 @endsection
 
 @section('subcontent')
@@ -23,12 +24,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('jalan.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('embung.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('jalan') }}" method="GET">
+                <form id="frm-cari" action="{{ route('embung') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -46,37 +47,28 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th rowspan="2">No.</th>
-                        <th colspan="4" class="text-center">Nomor Ruas</th>
-                        <th rowspan="2">Nama Jalan</th>
-                        <th rowspan="2">Tahun Pembuatan</th>
-                        <th rowspan="2">Biaya Pembuatan</th>
-                        <th rowspan="2">Keterangan</th>
-                        <th rowspan="2">Kelas</th>
-                        <th rowspan="2">Lokasi</th>
-                        <th rowspan="2" class="width-90"></th>
-                    </tr>
-                    <tr>
-                        <th colspan="2">Lama</th>
-                        <th colspan="2">Baru</th>
+                        <th>No.</th>
+                        <th>Nama Embung</th>
+                        <th>Tahun Pembuatan</th>
+                        <th>Biaya Pembuatan</th>
+                        <th>Keterangan</th>
+                        <th>Kelas</th>
+                        <th>Lokasi</th>
+                        <th class="width-90"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->jalan_ruas_lama }}</td>
-                        <td class="align-middle">{{ $row->jalan_subruas_lama }}</td>
-                        <td class="align-middle">{{ $row->jalan_ruas_baru }}</td>
-                        <td class="align-middle">{{ $row->jalan_subruas_baru }}</td>
-                        <td class="align-middle">{{ $row->jalan_nama }}</td>
-                        <td class="align-middle">{{ $row->jalan_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ number_format($row->jalan_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->jalan_keterangan }}</td>
-                        <td class="align-middle">{{ $row->jalan_kelas }}</td>
+                        <td class="align-middle">{{ $row->embung_nama }}</td>
+                        <td class="align-middle">{{ $row->embung_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ number_format($row->embung_biaya_pembuatan, 2) }}</td>
+                        <td class="align-middle">{{ $row->embung_keterangan }}</td>
+                        <td class="align-middle">{{ $row->embung_kelas }}</td>
                         <td class="align-middle">
                         @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->embung_id }}')">
                                 @if ($row->kelurahan_desa)
                                 {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
                                 @else
@@ -91,8 +83,8 @@
                         </td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('jalan.edit', ['id' => $row->jalan_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->jalan_id }}', '{{ $row->jalan_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="{{ route('embung.edit', ['id' => $row->embung_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->embung_id }}', '{{ $row->embung_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -110,6 +102,7 @@
         </div>
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
+</div>
 @include('includes.component.modal', ['judul' => 'Peta Lokasi'])
 @endsection
 
@@ -121,13 +114,13 @@
     });
 
     function peta(id){
-        $("#modal-content").load("{{ url('/jalan/peta') }}?id=" + id);
+        $("#modal-content").load("{{ url('/embung/peta') }}?id=" + id);
     }
 
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus jalan ' + ket + '',
+            text: 'Anda akan menghapus embung ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -142,7 +135,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/jalan/hapus/") }}/' + id,
+                    url: '{{ url("/embung/hapus/") }}/' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

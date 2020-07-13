@@ -23,10 +23,10 @@ class CreateDaerahIrigasiTable extends Migration
             $table->decimal('daerah_irigasi_belum_sawah', 15, 2)->default(0);
             $table->decimal('daerah_irigasi_alih_fungsi', 15, 2)->default(0);
             $table->text('daerah_irigasi_keterangan')->nullable();
+            $table->bigInteger('kabupaten_kota_id')->unsigned()->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();
             $table->polygon('polygon')->nullable();
-            $table->bigInteger('kabupaten_kota_id')->unsigned()->nullable();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');

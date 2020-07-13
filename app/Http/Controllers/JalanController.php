@@ -17,9 +17,9 @@ class JalanController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Jalan::where('jalan_ruas_lama', 'like', '%'.$req->cari.'%')->orWhere('jalan_subruas_lama', 'like', '%'.$req->cari.'%')->orWhere('jalan_ruas_baru', 'like', '%'.$req->cari.'%')->orWhere('jalan_subruas_baru', 'like', '%'.$req->cari.'%')->orWhere('jalan_nama', 'like', '%'.$req->cari.'%')->orWhere('jalan_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('jalan_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Jalan::where('jalan_ruas', 'like', '%'.$req->cari.'%')->orWhere('jalan_subruas', 'like', '%'.$req->cari.'%')->orWhere('jalan_nama', 'like', '%'.$req->cari.'%')->orWhere('jalan_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.jalan.index', [
+        return view('pages.datamaster.jalan.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -28,10 +28,9 @@ class JalanController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.jalan.form', [
+        return view('pages.datamaster.jalan.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
             'back' => Str::contains(url()->previous(), ['jalan/tambah', 'jalan/edit'])? '/jalan': url()->previous(),
         ]);
     }
@@ -40,11 +39,9 @@ class JalanController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'jalan_nama' => 'required',
-                'jalan_tahun_pembuatan' => 'required'
+                'jalan_nama' => 'required'
             ],[
-                'jalan_nama.required'  => 'Nama Jalan tidak boleh kosong',
-                'jalan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'jalan_nama.required'  => 'Nama Jalan tidak boleh kosong'
             ]
         );
 
@@ -55,13 +52,27 @@ class JalanController extends Controller
 
         try{
             $data = new Jalan();
-            $data->jalan_ruas_lama = $req->get('jalan_ruas_lama');
-            $data->jalan_subruas_lama = $req->get('jalan_subruas_lama');
-            $data->jalan_ruas_baru = $req->get('jalan_ruas_baru');
-            $data->jalan_subruas_baru = $req->get('jalan_subruas_baru');
+            $data->jalan_ruas = $req->get('jalan_ruas');
+            $data->jalan_subruas = $req->get('jalan_subruas');
             $data->jalan_nama = $req->get('jalan_nama');
-            $data->jalan_tahun_pembuatan = $req->get('jalan_tahun_pembuatan');
-            $data->jalan_biaya_pembuatan = str_replace(',', '', $req->get('jalan_biaya_pembuatan'));
+            $data->jalan_panjang = $req->get('jalan_panjang');
+            $data->jalan_fungsi_kp_2 = str_replace(',', '', $req->get('jalan_fungsi_kp_2'))?: 0;
+            $data->jalan_fungsi_kp_3 = str_replace(',', '', $req->get('jalan_fungsi_kp_3'))?: 0;
+            $data->jalan_lebar = $req->get('jalan_lebar');
+            $data->jalan_aspal_penetrasi_makadam = str_replace(',', '', $req->get('jalan_aspal_penetrasi_makadam'))?: 0;
+            $data->jalan_perkerasan_beton = str_replace(',', '', $req->get('jalan_perkerasan_beton'))?: 0;
+            $data->jalan_telford_kerikil = str_replace(',', '', $req->get('jalan_telford_kerikil'))?: 0;
+            $data->jalan_tanah_belum_tembus = str_replace(',', '', $req->get('jalan_tanah_belum_tembus'))?: 0;
+            $data->jalan_baik_km = str_replace(',', '', $req->get('jalan_baik_km'))?: 0;
+            $data->jalan_baik_persen = str_replace(',', '', $req->get('jalan_baik_persen'))?: 0;
+            $data->jalan_sedang_km = str_replace(',', '', $req->get('jalan_sedang_km'))?: 0;
+            $data->jalan_sedang_persen = str_replace(',', '', $req->get('jalan_sedang_persen'))?: 0;
+            $data->jalan_rusak_ringan_km = str_replace(',', '', $req->get('jalan_rusak_ringan_km'))?: 0;
+            $data->jalan_rusak_ringan_persen = str_replace(',', '', $req->get('jalan_rusak_ringan_persen'))?: 0;
+            $data->jalan_rusak_berat_km = str_replace(',', '', $req->get('jalan_rusak_berat_km'))?: 0;
+            $data->jalan_rusak_berat_persen = str_replace(',', '', $req->get('jalan_rusak_berat_persen'))?: 0;
+            $data->jalan_lhr = $req->get('jalan_lhr');
+            $data->jalan_akses_ke_npk = $req->get('jalan_akses_ke_npk');
             $data->jalan_keterangan = $req->get('jalan_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -105,7 +116,6 @@ class JalanController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil menambah jalan', 'success')->autoClose(2000);
@@ -137,7 +147,7 @@ class JalanController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.jalan.form', [
+            return view('pages.datamaster.jalan.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -161,11 +171,9 @@ class JalanController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'jalan_nama' => 'required',
-                'jalan_tahun_pembuatan' => 'required'
+                'jalan_nama' => 'required'
             ],[
-                'jalan_nama.required'  => 'Nama Jalan tidak boleh kosong',
-                'jalan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'jalan_nama.required'  => 'Nama Jalan tidak boleh kosong'
             ]
         );
 
@@ -176,13 +184,27 @@ class JalanController extends Controller
 
         try{
 			$data = Jalan::findOrFail($req->get('id'));
-            $data->jalan_ruas_lama = $req->get('jalan_ruas_lama');
-            $data->jalan_subruas_lama = $req->get('jalan_subruas_lama');
-            $data->jalan_ruas_baru = $req->get('jalan_ruas_baru');
-            $data->jalan_subruas_baru = $req->get('jalan_subruas_baru');
+            $data->jalan_ruas = $req->get('jalan_ruas');
+            $data->jalan_subruas = $req->get('jalan_subruas');
             $data->jalan_nama = $req->get('jalan_nama');
-            $data->jalan_tahun_pembuatan = $req->get('jalan_tahun_pembuatan');
-            $data->jalan_biaya_pembuatan = str_replace(',', '', $req->get('jalan_biaya_pembuatan'));
+            $data->jalan_panjang = $req->get('jalan_panjang');
+            $data->jalan_fungsi_kp_2 = str_replace(',', '', $req->get('jalan_fungsi_kp_2'))?: 0;
+            $data->jalan_fungsi_kp_3 = str_replace(',', '', $req->get('jalan_fungsi_kp_3'))?: 0;
+            $data->jalan_lebar = $req->get('jalan_lebar');
+            $data->jalan_aspal_penetrasi_makadam = str_replace(',', '', $req->get('jalan_aspal_penetrasi_makadam'))?: 0;
+            $data->jalan_perkerasan_beton = str_replace(',', '', $req->get('jalan_perkerasan_beton'))?: 0;
+            $data->jalan_telford_kerikil = str_replace(',', '', $req->get('jalan_telford_kerikil'))?: 0;
+            $data->jalan_tanah_belum_tembus = str_replace(',', '', $req->get('jalan_tanah_belum_tembus'))?: 0;
+            $data->jalan_baik_km = str_replace(',', '', $req->get('jalan_baik_km'))?: 0;
+            $data->jalan_baik_persen = str_replace(',', '', $req->get('jalan_baik_persen'))?: 0;
+            $data->jalan_sedang_km = str_replace(',', '', $req->get('jalan_sedang_km'))?: 0;
+            $data->jalan_sedang_persen = str_replace(',', '', $req->get('jalan_sedang_persen'))?: 0;
+            $data->jalan_rusak_ringan_km = str_replace(',', '', $req->get('jalan_rusak_ringan_km'))?: 0;
+            $data->jalan_rusak_ringan_persen = str_replace(',', '', $req->get('jalan_rusak_ringan_persen'))?: 0;
+            $data->jalan_rusak_berat_km = str_replace(',', '', $req->get('jalan_rusak_berat_km'))?: 0;
+            $data->jalan_rusak_berat_persen = str_replace(',', '', $req->get('jalan_rusak_berat_persen'))?: 0;
+            $data->jalan_lhr = $req->get('jalan_lhr');
+            $data->jalan_akses_ke_npk = $req->get('jalan_akses_ke_npk');
             $data->jalan_keterangan = $req->get('jalan_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -228,7 +250,6 @@ class JalanController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil mengedit jalan', 'success')->autoClose(2000);
