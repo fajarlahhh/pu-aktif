@@ -54,14 +54,14 @@ return [
 		'caret' => true,
 		'id' => 'infrastruktur',
 		'sub_menu' => [[
-			'url' => '/kewenanganprovinsi',
-			'id' => 'kewenanganprovinsi',
-			'title' => 'Kewenangan Provinsi'
-        ],[
 			'url' => '/aspirasimasyarakat',
 			'id' => 'aspirasimasyarakat',
 			'title' => 'Aspirasi Masyarakat'
-		],]
+		],[
+			'url' => '/kewenanganprovinsi',
+			'id' => 'kewenanganprovinsi',
+			'title' => 'Kewenangan Provinsi'
+        ]]
     ],[
 		'icon' => 'fad fa-file-chart-line',
 		'title' => 'Laporan',
@@ -75,6 +75,21 @@ return [
 		'url' => '/pengguna',
 		'id' => 'pengguna'
 	],[
+		'icon' => 'fad fa-cog',
+		'title' => 'Setup',
+		'url' => 'javascript:;',
+		'caret' => true,
+		'id' => 'setup',
+		'sub_menu' => [[
+			'url' => '/jenisinfrastruktur',
+			'id' => 'jenisinfrastruktur',
+			'title' => 'Jenis Infrastruktur'
+        ],[
+			'url' => '/sumberdana',
+			'id' => 'sumberdana',
+			'title' => 'Sumber Dana'
+		]]
+    ],[
 		'icon' => 'fad fa-map',
 		'title' => 'Wilayah',
 		'url' => 'javascript:;',

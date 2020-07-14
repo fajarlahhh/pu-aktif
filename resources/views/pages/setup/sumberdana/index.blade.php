@@ -1,6 +1,6 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.setup.main')
 
-@section('title', ' | Daerah Irigasi')
+@section('title', ' | Sumber Dana')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,12 +8,11 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
-	<li class="breadcrumb-item active">Daerah Irigasi</li>
+	<li class="breadcrumb-item active">Sumber Dana</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Daerah Irigasi</h1>
+	<h1 class="page-header">Sumber Dana</h1>
 @endsection
 
 @section('subcontent')
@@ -24,12 +23,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('daerahirigasi.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('sumberdana.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('daerahirigasi') }}" method="GET">
+                <form id="frm-cari" action="{{ route('sumberdana') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -48,41 +47,21 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Daerah Irigasi</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Keterangan</th>
-                        <th>Lokasi</th>
+                        <th>Sumber Dana</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $row)
+                    @foreach ($data as $index => $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_nama }}</td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ number_format($row->daerah_irigasi_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_keterangan }}</td>
                         <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->daerah_irigasi_id }}')">
-                                @if ($row->kelurahan_desa)
-                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                                @else
-                                Peta
-                                @endif
-                            </a>
-                        @else
-                            @if ($row->kelurahan_desa)
-                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                            @endif
-                        @endif
+                            <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->updated_at !!}">{{ $row->sumber_dana_nama }}</span>
                         </td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('daerahirigasi.edit', ['id' => $row->daerah_irigasi_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->daerah_irigasi_id }}', '{{ $row->daerah_irigasi_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="{{ route('sumberdana.edit', ['id' => $row->sumber_dana_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->sumber_dana_id }}', '{{ $row->sumber_dana_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -101,7 +80,7 @@
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
 </div>
-@include('includes.component.modal', ['judul' => 'Peta Lokasi'])
+
 @endsection
 
 @push('scripts')
@@ -111,14 +90,10 @@
          $("#frm-cari").submit();
     });
 
-    function peta(id){
-        $("#modal-content").load("{{ url('/daerahirigasi/peta') }}?id=" + id);
-    }
-
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus daerah irigasi ' + ket + '',
+            text: 'Anda akan menghapus sumber dana ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -133,7 +108,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/daerahirigasi/hapus/") }}/' + id,
+                    url: '{{ url("/sumberdana/hapus")."/" }}' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

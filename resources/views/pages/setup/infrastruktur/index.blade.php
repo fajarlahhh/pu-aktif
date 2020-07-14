@@ -1,6 +1,6 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.setup.main')
 
-@section('title', ' | DAS')
+@section('title', ' | Jenis Infrastruktur')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,12 +8,11 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
-	<li class="breadcrumb-item active">DAS</li>
+	<li class="breadcrumb-item active">Jenis Infrastruktur</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">DAS</h1>
+	<h1 class="page-header">Jenis Infrastruktur</h1>
 @endsection
 
 @section('subcontent')
@@ -24,12 +23,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('das.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('jenisinfrastruktur.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('das') }}" method="GET">
+                <form id="frm-cari" action="{{ route('jenisinfrastruktur') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -48,43 +47,21 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Kode WS</th>
-                        <th>Nama DAS</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Keterangan</th>
-                        <th>Lokasi</th>
+                        <th>Infrastruktur</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $row)
+                    @foreach ($data as $index => $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->das_kode }}</td>
-                        <td class="align-middle">{{ $row->das_nama }}</td>
-                        <td class="align-middle">{{ $row->das_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ number_format($row->das_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->das_keterangan }}</td>
                         <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->das_id }}')">
-                                @if ($row->kelurahan_desa)
-                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                                @else
-                                Peta
-                                @endif
-                            </a>
-                        @else
-                            @if ($row->kelurahan_desa)
-                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                            @endif
-                        @endif
+                            <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->updated_at !!}">{{ $row->infrastruktur_nama }}</span>
                         </td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('das.edit', ['id' => $row->das_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->das_id }}', '{{ $row->das_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="{{ route('jenisinfrastruktur.edit', ['id' => $row->infrastruktur_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->infrastruktur_id }}', '{{ $row->infrastruktur_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -103,7 +80,7 @@
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
 </div>
-@include('includes.component.modal', ['judul' => 'Peta Lokasi'])
+
 @endsection
 
 @push('scripts')
@@ -113,14 +90,10 @@
          $("#frm-cari").submit();
     });
 
-    function peta(id){
-        $("#modal-content").load("{{ url('/das/peta') }}?id=" + id);
-    }
-
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus DAS ' + ket + '',
+            text: 'Anda akan menghapus jenis infrastruktur ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -135,7 +108,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/das/hapus/") }}/' + id,
+                    url: '{{ url("/jenisinfrastruktur/hapus")."/" }}' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

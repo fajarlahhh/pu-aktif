@@ -2,38 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Das;
+use App\SumberDana;
+use App\Infrastruktur;
 use App\KelurahanDesa;
+use App\KewenanganProvinsi;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Grimzy\LaravelMysqlSpatial\Types\Point;
-use Grimzy\LaravelMysqlSpatial\Types\Polygon;
-use Grimzy\LaravelMysqlSpatial\Types\LineString;
 
-class DasController extends Controller
+class KewenanganprovinsiController extends Controller
 {
     //
     public function index(Request $req)
 	{
-        $data = Das::where('das_nama', 'like', '%'.$req->cari.'%')->orWhere('das_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('das_keterangan', 'like', '%'.$req->cari.'%')->orWhere('das_kode', 'like', '%'.$req->cari.'%')->paginate(10);
+        $tahun = $req->tahun? $req->tahun: date('Y');
+        $infrastruktur = $req->infrastruktur? $req->infrastruktur: 'semua';
+        $dana = $req->dana? $req->dana: 'semua';
+        $data = KewenanganProvinsi::where('kewenangan_provinsi_tahun', $tahun)->where(function($q) use($req){
+            $q->orWhere('kewenangan_provinsi_penanggung_jawab', 'like', '%'.$req->cari.'%')->orWhere('kewenangan_provinsi_deskripsi_kegiatan', 'like', '%'.$req->cari.'%');
+        });
+
+        if ($infrastruktur != 'semua') {
+            $data = $data->where('kewenangan_provinsi_jenis_infrastruktur', $infrastruktur);
+        }
+        if ($dana != 'semua') {
+            $data = $data->where('sumber_dana_nama', $dana);
+        }
+
+        $data = $data->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.das.index', [
+        return view('pages.infrastruktur.kewenanganprovinsi.index', [
+            'tahun' => $tahun,
+            'infrastruktur' => $infrastruktur,
+            'dana' => $dana,
+            'data_sumber_dana' => SumberDana::orderBy('sumber_dana_nama')->get(),
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
         ]);
     }
-
+    
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.das.form', [
+        return view('pages.infrastruktur.kewenanganprovinsi.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
-            'back' => Str::contains(url()->previous(), ['das/tambah', 'das/edit'])? '/das': url()->previous(),
+            'data_sumber_dana' => SumberDana::orderBy('sumber_dana_nama')->get(),
+            'back' => Str::contains(url()->previous(), ['kewenanganprovinsi/tambah', 'kewenanganprovinsi/edit'])? url('/kewenanganprovinsi'): url()->previous(),
         ]);
     }
 
@@ -41,13 +59,21 @@ class DasController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'das_nama' => 'required',
-                'das_kode' => 'required',
-                'das_tahun_pembuatan' => 'required'
+                'kewenangan_provinsi_deskripsi_kegiatan' => 'required',
+                'kewenangan_provinsi_tahun' => 'required',
+                'kewenangan_provinsi_nilai' => 'required',
+                'kewenangan_provinsi_penanggung_jawab' => 'required',
+                'kewenangan_provinsi_jenis_infrastruktur' => 'required',
+                'infrastruktur_id' => 'required',
+                'sumber_dana_nama' => 'required'
             ],[
-                'das_nama.required'  => 'Nama DAS tidak boleh kosong',
-                'das_kode.required'  => 'Kode WS tidak boleh kosong',
-                'das_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'kewenangan_provinsi_deskripsi_kegiatan.required'  => 'Deskripsi Kegiatan tidak boleh kosong',
+                'kewenangan_provinsi_tahun.required'  => 'Tahun tidak boleh kosong',
+                'kewenangan_provinsi_nilai.required'  => 'Nilai tidak boleh kosong',
+                'kewenangan_provinsi_penanggung_jawab.required'  => 'Penanggung Jawab tidak boleh kosong',
+                'kewenangan_provinsi_jenis_infrastruktur.required'  => 'Jenis Infrastruktur tidak boleh kosong',
+                'infrastruktur_id.required'  => 'Infrastruktur tidak boleh kosong',
+                'sumber_dana_nama.required'  => 'Sumber Dana tidak boleh kosong'
             ]
         );
 
@@ -57,12 +83,17 @@ class DasController extends Controller
         }
 
         try{
-            $data = new Das();
-            $data->das_nama = $req->get('das_nama');
-            $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
-            $data->das_biaya_pembuatan = str_replace(',', '', $req->get('das_biaya_pembuatan'));
-            $data->das_keterangan = $req->get('das_keterangan');
-            $data->das_kode = $req->get('das_kode');
+            $data = new KewenanganProvinsi();
+            $data->kewenangan_provinsi_deskripsi_kegiatan = $req->get('kewenangan_provinsi_deskripsi_kegiatan');
+            $data->kewenangan_provinsi_tahun = $req->get('kewenangan_provinsi_tahun');
+            $data->kewenangan_provinsi_nilai = str_replace(',', '', $req->get('kewenangan_provinsi_nilai'));
+            $data->kewenangan_provinsi_penanggung_jawab = $req->get('kewenangan_provinsi_penanggung_jawab');
+            $data->kewenangan_provinsi_spesifikasi = $req->get('kewenangan_provinsi_spesifikasi');
+            $data->kewenangan_provinsi_keterangan = $req->get('kewenangan_provinsi_keterangan');
+            $data->kewenangan_provinsi_jenis_infrastruktur = $req->get('kewenangan_provinsi_jenis_infrastruktur');
+            $data->infrastruktur_id = $req->get('infrastruktur_id');
+            $data->sumber_dana_nama = $req->get('sumber_dana_nama');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -105,22 +136,20 @@ class DasController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
-            toast('Berhasil menambah das', 'success')->autoClose(2000);
-            return redirect($req->get('redirect')? $req->get('redirect'): route('das'));
+            toast('Berhasil menambah infrastruktur kewenangan provinsi', 'success')->autoClose(2000);
+            return redirect($req->get('redirect')? $req->get('redirect'): route('kewenanganprovinsi'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'embung');
+            return redirect()->back()->withInput();
 		}
 	}
 
 	public function edit(Request $req)
 	{
         try{
-            $data = Das::findOrFail($req->get('id'));
-
+            $data = KewenanganProvinsi::findOrFail($req->id);
             $polygon = [];
             if($data->polygon){
                 foreach ($data->polygon[0] as $lineString) {
@@ -137,7 +166,7 @@ class DasController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.das.form', [
+            return view('pages.infrastruktur.kewenanganprovinsi.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -149,11 +178,12 @@ class DasController extends Controller
                     'polyline' => $polyline
                 ],
                 'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
-                'back' => Str::contains(url()->previous(), ['das/tambah', 'das/edit'])? '/das': url()->previous(),
+                'data_sumber_dana' => SumberDana::orderBy('sumber_dana_nama')->get(),
+                'back' => Str::contains(url()->previous(), ['kewenanganprovinsi/tambah', 'kewenanganprovinsi/edit'])? url('/kewenanganprovinsi'): url()->previous(),
             ]);
 		}catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'das');
+			return redirect(url()->previous()? url()->previous(): 'kewenanganprovinsi');
 		}
     }
 
@@ -161,13 +191,21 @@ class DasController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'das_nama' => 'required',
-                'das_kode' => 'required',
-                'das_tahun_pembuatan' => 'required'
+                'kewenangan_provinsi_deskripsi_kegiatan' => 'required',
+                'kewenangan_provinsi_tahun' => 'required',
+                'kewenangan_provinsi_nilai' => 'required',
+                'kewenangan_provinsi_penanggung_jawab' => 'required',
+                'kewenangan_provinsi_jenis_infrastruktur' => 'required',
+                'infrastruktur_id' => 'required',
+                'sumber_dana_nama' => 'required'
             ],[
-                'das_nama.required'  => 'Nama DAS tidak boleh kosong',
-                'das_kode.required'  => 'Kode WS tidak boleh kosong',
-                'das_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'kewenangan_provinsi_deskripsi_kegiatan.required'  => 'Deskripsi Kegiatan tidak boleh kosong',
+                'kewenangan_provinsi_tahun.required'  => 'Tahun tidak boleh kosong',
+                'kewenangan_provinsi_nilai.required'  => 'Nilai tidak boleh kosong',
+                'kewenangan_provinsi_penanggung_jawab.required'  => 'Penanggung Jawab tidak boleh kosong',
+                'kewenangan_provinsi_jenis_infrastruktur.required'  => 'Jenis Infrastruktur tidak boleh kosong',
+                'infrastruktur_id.required'  => 'Infrastruktur tidak boleh kosong',
+                'sumber_dana_nama.required'  => 'Sumber Dana tidak boleh kosong'
             ]
         );
 
@@ -177,12 +215,17 @@ class DasController extends Controller
         }
 
         try{
-			$data = Das::findOrFail($req->get('id'));
-            $data->das_nama = $req->get('das_nama');
-            $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
-            $data->das_biaya_pembuatan = str_replace(',', '', $req->get('das_biaya_pembuatan'));
-            $data->das_keterangan = $req->get('das_keterangan');
-            $data->das_kode = $req->get('das_kode');
+			$data = KewenanganProvinsi::findOrFail($req->get('id'));
+            $data->kewenangan_provinsi_deskripsi_kegiatan = $req->get('kewenangan_provinsi_deskripsi_kegiatan');
+            $data->kewenangan_provinsi_tahun = $req->get('kewenangan_provinsi_tahun');
+            $data->kewenangan_provinsi_nilai = str_replace(',', '', $req->get('kewenangan_provinsi_nilai'));
+            $data->kewenangan_provinsi_penanggung_jawab = $req->get('kewenangan_provinsi_penanggung_jawab');
+            $data->kewenangan_provinsi_spesifikasi = $req->get('kewenangan_provinsi_spesifikasi');
+            $data->kewenangan_provinsi_keterangan = $req->get('kewenangan_provinsi_keterangan');
+            $data->kewenangan_provinsi_jenis_infrastruktur = $req->get('kewenangan_provinsi_jenis_infrastruktur');
+            $data->infrastruktur_id = $req->get('infrastruktur_id');
+            $data->sumber_dana_nama = $req->get('sumber_dana_nama');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -208,7 +251,6 @@ class DasController extends Controller
                         return new Point($point[0], $point[1]);
                     })->toArray())
                 ]);
-                $data->polyline = null;
             }
             if($req->get('polyline')){
                 $coordinate = [];
@@ -223,65 +265,25 @@ class DasController extends Controller
                     }
                 }
                 $data->polyline = new LineString(collect($coordinate)->map(function($point){
-                    return new Point($point[0], $point[1]);
+                     return new Point($point[0], $point[1]);
                 })->toArray());
-                $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
-            toast('Berhasil mengedit das', 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('das'));
+            toast('Berhasil mengedit infrastruktur kewenangan provinsi', 'success')->autoClose(2000);
+			return redirect($req->get('redirect')? $req->get('redirect'): route('kewenanganprovinsi'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
             return redirect()->back()->withInput();
-        }
-	}
-
-    public function peta(Request $req)
-    {
-		try{
-            $data = Das::findOrFail($req->get('id'));
-
-            $polygon = [];
-            if($data->polygon){
-                foreach ($data->polygon[0] as $lineString) {
-                    array_push($polygon, [
-                        $lineString->getLng(), $lineString->getLat()
-                    ]);
-                }
-            }
-            $polyline = [];
-            if($data->polyline){
-                foreach ($data->polyline as $point) {
-                    array_push($polyline, [
-                        $point->getLng(), $point->getLat()
-                    ]);
-                }
-            }
-            return view('includes.component.leaflet-preview', [
-                'data' => $data,
-                'map' => [
-                    'marker' => $data->marker? [
-                        'long' => $data->marker->getLng(),
-                        'lat' => $data->marker->getLat()
-                    ]: [],
-                    'polygon' => $polygon,
-                    'polyline' => $polyline
-                ]
-            ]);
-        }catch(\Exception $e){
-            alert()->error('Edit Data', $e->getMessage());
-            return back();
         }
     }
 
 	public function hapus($id)
 	{
 		try{
-            $data = Das::findOrFail($id);
+            $data = Infrastruktur::findOrFail($id);
             $data->delete();
-            toast('Berhasil menghapus das '.$data->das_nama, 'success')->autoClose(2000);
+            toast('Berhasil menghapus infrastruktur kewenangan provinsi '.$data->kewenangan_provinsi_deskripsi_kegiatan, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

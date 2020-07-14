@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : Localhost 57
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 50724
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 14/07/2020 19:02:26
+ Date: 14/07/2020 22:15:58
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `activity_log`  (
   INDEX `activity_log_log_name_index`(`log_name`) USING BTREE,
   INDEX `subject`(`subject_id`, `subject_type`) USING BTREE,
   INDEX `causer`(`causer_id`, `causer_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity_log
@@ -77,6 +77,63 @@ INSERT INTO `activity_log` VALUES (33, 'default', 'updated', '1', 'App\\Jembatan
 INSERT INTO `activity_log` VALUES (34, 'default', 'updated', '1', 'App\\Jembatan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 11:34:45', '2020-07-14 11:34:45');
 INSERT INTO `activity_log` VALUES (35, 'default', 'updated', '880', 'App\\DaerahIrigasi', 'admin', 'App\\Pengguna', '[]', '2020-07-14 11:45:37', '2020-07-14 11:45:37');
 INSERT INTO `activity_log` VALUES (36, 'default', 'updated', '9', 'App\\Embung', 'admin', 'App\\Pengguna', '[]', '2020-07-14 12:22:39', '2020-07-14 12:22:39');
+INSERT INTO `activity_log` VALUES (37, 'default', 'created', '1', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 20:54:00', '2020-07-14 20:54:00');
+INSERT INTO `activity_log` VALUES (38, 'default', 'updated', '1', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 20:55:50', '2020-07-14 20:55:50');
+INSERT INTO `activity_log` VALUES (39, 'default', 'updated', '1', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 20:55:55', '2020-07-14 20:55:55');
+INSERT INTO `activity_log` VALUES (40, 'default', 'deleted', '1', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 20:56:00', '2020-07-14 20:56:00');
+INSERT INTO `activity_log` VALUES (41, 'default', 'created', '2', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 20:56:06', '2020-07-14 20:56:06');
+INSERT INTO `activity_log` VALUES (42, 'default', 'created', '1', 'App\\SumberDana', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:01:31', '2020-07-14 21:01:31');
+INSERT INTO `activity_log` VALUES (43, 'default', 'updated', '1', 'App\\SumberDana', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:01:35', '2020-07-14 21:01:35');
+INSERT INTO `activity_log` VALUES (44, 'default', 'deleted', '1', 'App\\SumberDana', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:01:52', '2020-07-14 21:01:52');
+INSERT INTO `activity_log` VALUES (45, 'default', 'created', '2', 'App\\SumberDana', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:02:36', '2020-07-14 21:02:36');
+INSERT INTO `activity_log` VALUES (46, 'default', 'created', '3', 'App\\SumberDana', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:02:41', '2020-07-14 21:02:41');
+INSERT INTO `activity_log` VALUES (47, 'default', 'created', '4', 'App\\SumberDana', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:02:47', '2020-07-14 21:02:47');
+INSERT INTO `activity_log` VALUES (48, 'default', 'created', '3', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:02:53', '2020-07-14 21:02:53');
+INSERT INTO `activity_log` VALUES (49, 'default', 'deleted', '2', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:02:56', '2020-07-14 21:02:56');
+INSERT INTO `activity_log` VALUES (50, 'default', 'created', '4', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:03:04', '2020-07-14 21:03:04');
+INSERT INTO `activity_log` VALUES (51, 'default', 'deleted', '4', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:03:07', '2020-07-14 21:03:07');
+INSERT INTO `activity_log` VALUES (52, 'default', 'deleted', '3', 'App\\Infrastruktur', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:03:10', '2020-07-14 21:03:10');
+INSERT INTO `activity_log` VALUES (53, 'default', 'created', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:45:52', '2020-07-14 21:45:52');
+INSERT INTO `activity_log` VALUES (54, 'default', 'updated', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:57:14', '2020-07-14 21:57:14');
+INSERT INTO `activity_log` VALUES (55, 'default', 'updated', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:57:19', '2020-07-14 21:57:19');
+INSERT INTO `activity_log` VALUES (56, 'default', 'updated', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:58:17', '2020-07-14 21:58:17');
+
+-- ----------------------------
+-- Table structure for aspirasi_masyarakat
+-- ----------------------------
+DROP TABLE IF EXISTS `aspirasi_masyarakat`;
+CREATE TABLE `aspirasi_masyarakat`  (
+  `aspirasi_masyarakat_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `aspirasi_masyarakat_deskripsi_kegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `aspirasi_masyarakat_tahun` int(11) NOT NULL,
+  `aspirasi_masyarakat_nilai` double(15, 2) NOT NULL DEFAULT 0.00,
+  `aspirasi_masyarakat_penanggung_jawab` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `aspirasi_masyarakat_spesifikasi` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `aspirasi_masyarakat_keterangan` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `infrastruktur_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `sumber_dana_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kelurahan_desa_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
+  `marker` point NULL,
+  `polyline` linestring NULL,
+  `polygon` polygon NULL,
+  `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`aspirasi_masyarakat_id`) USING BTREE,
+  INDEX `aspirasi_masyarakat_pengguna_id_foreign`(`pengguna_id`) USING BTREE,
+  INDEX `aspirasi_masyarakat_infrastruktur_nama_foreign`(`infrastruktur_nama`) USING BTREE,
+  INDEX `aspirasi_masyarakat_sumber_dana_nama_foreign`(`sumber_dana_nama`) USING BTREE,
+  INDEX `aspirasi_masyarakat_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
+  CONSTRAINT `aspirasi_masyarakat_infrastruktur_nama_foreign` FOREIGN KEY (`infrastruktur_nama`) REFERENCES `infrastruktur` (`infrastruktur_nama`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `aspirasi_masyarakat_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `aspirasi_masyarakat_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `aspirasi_masyarakat_sumber_dana_nama_foreign` FOREIGN KEY (`sumber_dana_nama`) REFERENCES `sumber_dana` (`sumber_dana_nama`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of aspirasi_masyarakat
+-- ----------------------------
+INSERT INTO `aspirasi_masyarakat` VALUES (1, 'Deskripsi Kegiatans', 2016, 2000000.00, 'Penanggung Jawab', 'Spesifikasi Teknis', 'Keterangan', 'Bendungan', 'APBD', 253, NULL, NULL, NULL, 'admin', '2020-07-14 21:45:52', '2020-07-14 21:58:17');
 
 -- ----------------------------
 -- Table structure for daerah_irigasi
@@ -699,6 +756,29 @@ INSERT INTO `embung` VALUES (184, 'Embung Kore ', 1998, 528498000.00, 8.25, 3.50
 INSERT INTO `embung` VALUES (185, 'Embung Kolo ', NULL, NULL, 7.38, 4.98, 'Timbunan ', 116322.00, 233.00, 14.85, 20.00, 0.00, 0.00, 0.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (186, 'Embung Ngirah I ', 1996, 85000000.00, 1.20, 1.00, 'Timbunan ', 50000.00, 50.00, 0.00, 0.00, 0.00, 5.00, 85.00, 250.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (187, 'Embung Ngirah II ', 1997, 82006000.00, 1.35, 2.30, 'Timbunan ', 10000.00, 60.00, 0.00, 0.00, 0.00, 5.00, 35.00, 300.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
+
+-- ----------------------------
+-- Table structure for infrastruktur
+-- ----------------------------
+DROP TABLE IF EXISTS `infrastruktur`;
+CREATE TABLE `infrastruktur`  (
+  `infrastruktur_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `infrastruktur_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`infrastruktur_id`) USING BTREE,
+  UNIQUE INDEX `infrastruktur_infrastruktur_nama_unique`(`infrastruktur_nama`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of infrastruktur
+-- ----------------------------
+INSERT INTO `infrastruktur` VALUES (1, 'Bendungan', NULL, NULL);
+INSERT INTO `infrastruktur` VALUES (2, 'Daerah Aliran Sungai', NULL, NULL);
+INSERT INTO `infrastruktur` VALUES (3, 'Mata Air', NULL, NULL);
+INSERT INTO `infrastruktur` VALUES (4, 'Pos Hidrologi', NULL, NULL);
+INSERT INTO `infrastruktur` VALUES (5, 'SPAM', NULL, NULL);
+INSERT INTO `infrastruktur` VALUES (6, 'Sumur', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for jalan
@@ -2025,6 +2105,34 @@ INSERT INTO `kelurahan_desa` VALUES (384, 'Temba Lae', 142, 'admin', '2020-06-22
 INSERT INTO `kelurahan_desa` VALUES (385, 'UPT. Woko', 142, 'admin', '2020-06-22 01:00:00', '2020-06-22 01:00:00');
 
 -- ----------------------------
+-- Table structure for kewenangan_provinsi
+-- ----------------------------
+DROP TABLE IF EXISTS `kewenangan_provinsi`;
+CREATE TABLE `kewenangan_provinsi`  (
+  `kewenangan_provinsi_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `kewenangan_provinsi_deskripsi_kegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kewenangan_provinsi_jenis_infrastruktur` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kewenangan_provinsi_tahun` int(11) NOT NULL,
+  `kewenangan_provinsi_nilai` double(15, 2) NOT NULL DEFAULT 0.00,
+  `kewenangan_provinsi_penanggung_jawab` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kewenangan_provinsi_spesifikasi` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `kewenangan_provinsi_keterangan` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `infrastruktur_id` bigint(20) NOT NULL,
+  `sumber_dana_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `marker` point NULL,
+  `polyline` linestring NULL,
+  `polygon` polygon NULL,
+  `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`kewenangan_provinsi_id`) USING BTREE,
+  INDEX `kewenangan_provinsi_pengguna_id_foreign`(`pengguna_id`) USING BTREE,
+  INDEX `kewenangan_provinsi_sumber_dana_nama_foreign`(`sumber_dana_nama`) USING BTREE,
+  CONSTRAINT `kewenangan_provinsi_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `kewenangan_provinsi_sumber_dana_nama_foreign` FOREIGN KEY (`sumber_dana_nama`) REFERENCES `sumber_dana` (`sumber_dana_nama`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for migrations
 -- ----------------------------
 DROP TABLE IF EXISTS `migrations`;
@@ -2033,7 +2141,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -2048,6 +2156,10 @@ INSERT INTO `migrations` VALUES (19, '2020_06_25_055119_create_embung_table', 2)
 INSERT INTO `migrations` VALUES (20, '2020_06_25_080159_create_daerah_irigasi_table', 2);
 INSERT INTO `migrations` VALUES (21, '2020_06_25_094239_create_jalan_table', 2);
 INSERT INTO `migrations` VALUES (23, '2020_06_25_094247_create_jembatan_table', 3);
+INSERT INTO `migrations` VALUES (26, '2020_07_14_183331_create_sumber_dana_table', 4);
+INSERT INTO `migrations` VALUES (29, '2020_07_14_183841_create_infrastruktur_table', 5);
+INSERT INTO `migrations` VALUES (30, '2020_07_14_193010_create_aspirasi_masyarakat_table', 6);
+INSERT INTO `migrations` VALUES (33, '2020_07_14_215916_create_kewenangan_provinsi_table', 7);
 
 -- ----------------------------
 -- Table structure for model_has_permissions
@@ -2199,5 +2311,25 @@ INSERT INTO `roles` VALUES (1, 'super-admin', 'web', '2020-06-19 10:45:42', '202
 INSERT INTO `roles` VALUES (2, 'supervisor', 'web', '2020-06-19 10:45:42', '2020-06-19 10:45:42');
 INSERT INTO `roles` VALUES (3, 'user', 'web', '2020-06-19 10:45:42', '2020-06-19 10:45:42');
 INSERT INTO `roles` VALUES (4, 'guest', 'web', '2020-06-19 10:45:42', '2020-06-19 10:45:42');
+
+-- ----------------------------
+-- Table structure for sumber_dana
+-- ----------------------------
+DROP TABLE IF EXISTS `sumber_dana`;
+CREATE TABLE `sumber_dana`  (
+  `sumber_dana_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `sumber_dana_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `created_at` timestamp(0) NULL DEFAULT NULL,
+  `updated_at` timestamp(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`sumber_dana_id`) USING BTREE,
+  UNIQUE INDEX `sumber_dana_sumber_dana_nama_unique`(`sumber_dana_nama`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sumber_dana
+-- ----------------------------
+INSERT INTO `sumber_dana` VALUES (2, 'APBN', '2020-07-14 21:02:36', '2020-07-14 21:02:36');
+INSERT INTO `sumber_dana` VALUES (3, 'APBD', '2020-07-14 21:02:41', '2020-07-14 21:02:41');
+INSERT INTO `sumber_dana` VALUES (4, 'Hibah', '2020-07-14 21:02:47', '2020-07-14 21:02:47');
 
 SET FOREIGN_KEY_CHECKS = 1;

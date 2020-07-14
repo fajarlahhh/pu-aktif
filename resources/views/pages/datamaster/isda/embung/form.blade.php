@@ -80,7 +80,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @include('includes.error')
+                            
                         </div>
                         <div class="col-md-3">
                             <div class="note note-primary">

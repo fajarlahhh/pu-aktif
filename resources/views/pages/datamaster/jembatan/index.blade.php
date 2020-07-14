@@ -51,6 +51,7 @@
                         <th class="align-middle" rowspan="3">Nama Jembatan</th>
                         <th class="align-middle" rowspan="3">Nama Ruas Jalan</th>
                         <th colspan="3" class="text-center">Dimensi</th>
+                        <th rowspan="3">&nbsp;</th>
                         <th colspan="8" class="text-center">Tipe/Kondisi</th>
                         <th class="align-middle" rowspan="3">Keterangan</th>
                         <th class="align-middle" rowspan="3">Kabupaten/ Kota</th>
@@ -94,6 +95,7 @@
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_panjang != 0? number_format($row->jembatan_dimensi_panjang, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_lebar != 0? number_format($row->jembatan_dimensi_lebar, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_bentang != 0? number_format($row->jembatan_dimensi_bentang, 2): "-" }}</td>
+                        <td></td>
                         <td class="align-middle">{{ $row->jembatan_bangunan_atas_tipe }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_bangunan_atas_kondisi != 0? number_format($row->jembatan_bangunan_atas_kondisi, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->jembatan_bangunan_bawah_tipe }}</td>

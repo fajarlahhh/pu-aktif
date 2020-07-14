@@ -80,7 +80,7 @@
                                 <label class="control-label">Keterangan</label>
                                 <textarea class="form-control" rows="3" id="jalan_keterangan" name="jalan_keterangan">{{ $aksi == 'edit'? $data->jalan_keterangan: old('jalan_keterangan') }}</textarea>
                             </div>
-                            @include('includes.error')
+                            
                         </div>
                         <div class="col-md-3">
                             <div class="note note-primary">

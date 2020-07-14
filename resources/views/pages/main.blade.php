@@ -1,12 +1,11 @@
 @extends('layouts.default')
 
-@section(config("app.name"), ' | Infrastruktur')
+@section(config("app.name"), ' | Setup')
 
 @section('content')
 	<!-- begin breadcrumb -->
 	<ol class="breadcrumb pull-right">
 		<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-		<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
 		@yield('page')
 	</ol>
 	<!-- end breadcrumb -->
