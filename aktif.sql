@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : Localhost 57
  Source Server Type    : MySQL
  Source Server Version : 50724
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 13/07/2020 19:36:01
+ Date: 14/07/2020 19:02:26
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `activity_log`  (
   INDEX `activity_log_log_name_index`(`log_name`) USING BTREE,
   INDEX `subject`(`subject_id`, `subject_type`) USING BTREE,
   INDEX `causer`(`causer_id`, `causer_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity_log
@@ -61,6 +61,22 @@ INSERT INTO `activity_log` VALUES (17, 'default', 'updated', '85', 'App\\Jalan',
 INSERT INTO `activity_log` VALUES (18, 'default', 'updated', '12', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-11 12:21:32', '2020-07-11 12:21:32');
 INSERT INTO `activity_log` VALUES (19, 'default', 'updated', '12', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-11 12:21:40', '2020-07-11 12:21:40');
 INSERT INTO `activity_log` VALUES (20, 'default', 'updated', '103', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-11 12:22:36', '2020-07-11 12:22:36');
+INSERT INTO `activity_log` VALUES (21, 'default', 'updated', 'admin', 'App\\Pengguna', 'admin', 'App\\Pengguna', '[]', '2020-07-14 08:28:43', '2020-07-14 08:28:43');
+INSERT INTO `activity_log` VALUES (22, 'default', 'created', '111', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:12:39', '2020-07-14 09:12:39');
+INSERT INTO `activity_log` VALUES (23, 'default', 'deleted', '111', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:12:51', '2020-07-14 09:12:51');
+INSERT INTO `activity_log` VALUES (24, 'default', 'created', '112', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:12:57', '2020-07-14 09:12:57');
+INSERT INTO `activity_log` VALUES (25, 'default', 'deleted', '112', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:13:01', '2020-07-14 09:13:01');
+INSERT INTO `activity_log` VALUES (26, 'default', 'created', '113', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:15:05', '2020-07-14 09:15:05');
+INSERT INTO `activity_log` VALUES (27, 'default', 'deleted', '113', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:15:22', '2020-07-14 09:15:22');
+INSERT INTO `activity_log` VALUES (28, 'default', 'created', '111', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:35:50', '2020-07-14 09:35:50');
+INSERT INTO `activity_log` VALUES (29, 'default', 'created', '112', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:37:26', '2020-07-14 09:37:26');
+INSERT INTO `activity_log` VALUES (30, 'default', 'deleted', '112', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:37:38', '2020-07-14 09:37:38');
+INSERT INTO `activity_log` VALUES (31, 'default', 'deleted', '111', 'App\\Jalan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 09:37:40', '2020-07-14 09:37:40');
+INSERT INTO `activity_log` VALUES (32, 'default', 'updated', '1', 'App\\Jembatan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 11:34:34', '2020-07-14 11:34:34');
+INSERT INTO `activity_log` VALUES (33, 'default', 'updated', '1', 'App\\Jembatan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 11:34:40', '2020-07-14 11:34:40');
+INSERT INTO `activity_log` VALUES (34, 'default', 'updated', '1', 'App\\Jembatan', 'admin', 'App\\Pengguna', '[]', '2020-07-14 11:34:45', '2020-07-14 11:34:45');
+INSERT INTO `activity_log` VALUES (35, 'default', 'updated', '880', 'App\\DaerahIrigasi', 'admin', 'App\\Pengguna', '[]', '2020-07-14 11:45:37', '2020-07-14 11:45:37');
+INSERT INTO `activity_log` VALUES (36, 'default', 'updated', '9', 'App\\Embung', 'admin', 'App\\Pengguna', '[]', '2020-07-14 12:22:39', '2020-07-14 12:22:39');
 
 -- ----------------------------
 -- Table structure for daerah_irigasi
@@ -72,7 +88,7 @@ CREATE TABLE `daerah_irigasi`  (
   `daerah_irigasi_tahun_pembuatan` int(11) NULL DEFAULT NULL,
   `daerah_irigasi_luas_area_potensial` decimal(15, 2) NULL DEFAULT 0.00,
   `daerah_irigasi_sawah_irigasi` decimal(15, 2) NULL DEFAULT 0.00,
-  `daerah_irigasi_belum irigasi` decimal(15, 2) NULL DEFAULT 0.00,
+  `daerah_irigasi_belum_irigasi` decimal(15, 2) NULL DEFAULT 0.00,
   `daerah_irigasi_belum_sawah` decimal(15, 2) NULL DEFAULT 0.00,
   `daerah_irigasi_alih_fungsi` decimal(15, 2) NULL DEFAULT 0.00,
   `daerah_irigasi_keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
@@ -93,7 +109,7 @@ CREATE TABLE `daerah_irigasi`  (
 -- ----------------------------
 -- Records of daerah_irigasi
 -- ----------------------------
-INSERT INTO `daerah_irigasi` VALUES (880, 'Mataram', 1927, 697.00, 465.00, 0.00, 0.00, 232.00, '<1000', NULL, NULL, NULL, NULL, 'admin', NULL, NULL);
+INSERT INTO `daerah_irigasi` VALUES (880, 'Mataram', 1927, 697.00, 465.00, 0.00, 0.00, 232.00, '<1000', 11, NULL, NULL, NULL, 'admin', NULL, '2020-07-14 11:45:37');
 INSERT INTO `daerah_irigasi` VALUES (881, 'Pamotan', 1969, 295.00, 206.00, 0.00, 0.00, 89.00, '<1000', NULL, NULL, NULL, NULL, 'admin', NULL, NULL);
 INSERT INTO `daerah_irigasi` VALUES (882, 'Unus', 1969, 596.00, 358.00, 0.00, 0.00, 238.00, '<1000', NULL, NULL, NULL, NULL, 'admin', NULL, NULL);
 INSERT INTO `daerah_irigasi` VALUES (883, 'Pesongoran', 1969, 282.00, 241.00, 0.00, 0.00, 41.00, '<1000', NULL, NULL, NULL, NULL, 'admin', NULL, NULL);
@@ -475,22 +491,22 @@ CREATE TABLE `embung`  (
   `embung_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `embung_tahun_pembuatan` int(11) NULL DEFAULT NULL,
   `embung_biaya_pembuatan` decimal(15, 2) NULL DEFAULT 0.00,
-  `embung_data_teknik_ca_km` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_data_teknik_luasan_genangan` decimal(15, 2) NOT NULL DEFAULT 0.00,
+  `embung_data_teknik_ca_km` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_data_teknik_luasan_genangan` decimal(15, 2) NULL DEFAULT 0.00,
   `embung_data_teknik_tipe_konstruksi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `embung_data_teknik_volume` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_data_teknik_l` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_data_teknik_h` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_lebar_spillway` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_fungsi_irigasi` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_fungsi_ternak` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_fungsi_air_baku` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_fungsi_pltm` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `embung_tipe_keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `embung_data_teknik_volume` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_data_teknik_l` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_data_teknik_h` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_data_teknik_lebar_spillway` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_fungsi_irigasi` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_fungsi_ternak` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_fungsi_air_baku` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_fungsi_pltm` decimal(15, 2) NULL DEFAULT 0.00,
+  `embung_keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `kelurahan_desa_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
   `marker` point NULL,
   `polyline` linestring NULL,
   `polygon` polygon NULL,
-  `kelurahan_desa_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
   `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
@@ -504,7 +520,7 @@ CREATE TABLE `embung`  (
 -- ----------------------------
 -- Records of embung
 -- ----------------------------
-INSERT INTO `embung` VALUES (9, 'Embung Telekong I', 1996, 231997485.00, 0.75, 2.50, 'Timb Tanah ', 45000.00, 97.00, 10.00, 10.00, 5.00, 52.00, 72.00, 0.00, 'tidak ada saluran', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
+INSERT INTO `embung` VALUES (9, 'Embung Telekong I', 1996, 231997485.00, 0.75, 2.50, 'Timb Tanah', 45000.00, 97.00, 10.00, 10.00, 5.00, 52.00, 72.00, 0.00, 'tidak ada saluran', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-14 12:22:39');
 INSERT INTO `embung` VALUES (10, 'Embung Telekong II', 1996, 345590515.00, 0.50, 2.00, 'Pas Bt Kali ', 55000.00, 47.00, 6.50, 7.00, 75.00, 74.00, 100.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (11, 'Embung Bantir', 1980, 0.00, 0.50, 1.20, 'Timb Tanah ', 50000.00, 60.00, 5.00, 4.00, 65.00, 25.00, 25.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (12, 'Embung Bentenu', 1980, 0.00, 0.50, 1.70, 'Timb Tanah ', 55000.00, 60.00, 5.00, 3.00, 60.00, 25.00, 25.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
@@ -721,7 +737,7 @@ CREATE TABLE `jalan`  (
   PRIMARY KEY (`jalan_id`) USING BTREE,
   INDEX `jalan_pengguna_id_foreign`(`pengguna_id`) USING BTREE,
   CONSTRAINT `jalan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 111 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of jalan
@@ -843,17 +859,17 @@ CREATE TABLE `jembatan`  (
   `jembatan_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `jembatan_nomor` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `jembatan_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `jembatan_dimensi_panjang` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `jembatan_dimensi_lebar` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `jembatan_dimensi_bentang` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `jembatan_bangunan_atas_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `jembatan_bangunan_atas_kondisi` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `jembatan_bangunan_bawah_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `jembatan_bangunan_bawah_kondisi` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `jembatan_bangunan_pondasi_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `jembatan_bangunan_pondasi_kondisi` decimal(15, 2) NOT NULL DEFAULT 0.00,
-  `jembatan_bangunan_lantai_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `jembatan_bangunan_lantai_kondisi` decimal(15, 2) NOT NULL DEFAULT 0.00,
+  `jembatan_dimensi_panjang` decimal(15, 2) NULL DEFAULT 0.00,
+  `jembatan_dimensi_lebar` decimal(15, 2) NULL DEFAULT 0.00,
+  `jembatan_dimensi_bentang` decimal(15, 2) NULL DEFAULT 0.00,
+  `jembatan_bangunan_atas_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `jembatan_bangunan_atas_kondisi` decimal(15, 2) NULL DEFAULT 0.00,
+  `jembatan_bangunan_bawah_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `jembatan_bangunan_bawah_kondisi` decimal(15, 2) NULL DEFAULT 0.00,
+  `jembatan_bangunan_pondasi_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `jembatan_bangunan_pondasi_kondisi` decimal(15, 2) NULL DEFAULT 0.00,
+  `jembatan_bangunan_lantai_tipe` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `jembatan_bangunan_lantai_kondisi` decimal(15, 2) NULL DEFAULT 0.00,
   `jembatan_keterangan` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `jalan_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
   `kabupaten_kota_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
@@ -875,7 +891,7 @@ CREATE TABLE `jembatan`  (
 -- ----------------------------
 -- Records of jembatan
 -- ----------------------------
-INSERT INTO `jembatan` VALUES (1, ' 42.101.010.0 ', 'PENENDEM IV ', 2.00, 6.20, 2.00, 'ATI', 1.00, 'B', 1.00, 'LS', 1.00, 'TA', 1.00, '', NULL, NULL, NULL, NULL, NULL, 'admin', '2020-07-12 00:00:00', '2020-07-12 00:00:00');
+INSERT INTO `jembatan` VALUES (1, '42.101.010.0', 'PENENDEM IV', 2.00, 6.20, 2.00, 'ATI', 1.00, 'B', 1.00, 'LS', 1.00, 'TA', 1.00, NULL, NULL, NULL, NULL, NULL, NULL, 'admin', '2020-07-12 00:00:00', '2020-07-14 11:34:45');
 INSERT INTO `jembatan` VALUES (2, ' 42.052.004.1.1 ', 'TL. SIDEMEN ', 3.00, 8.40, 2.00, 'ATI', 1.00, 'B', 1.00, 'LS', 1.00, 'TA', 1.00, '', NULL, NULL, NULL, NULL, NULL, 'admin', '2020-07-12 00:00:00', '2020-07-12 00:00:00');
 INSERT INTO `jembatan` VALUES (3, ' 42.092.005.0.12 ', 'TELABAH SANGKON ', 3.60, 7.70, 3.00, 'ATI', 1.00, 'B', 1.00, 'LS', 1.00, 'TA', 1.00, '', NULL, NULL, NULL, NULL, NULL, 'admin', '2020-07-12 00:00:00', '2020-07-12 00:00:00');
 INSERT INTO `jembatan` VALUES (4, ' 42.092.004.0.2 ', 'TELABAH KETUJUR ', 2.00, 7.90, 1.00, 'ETI', 1.00, 'B', 1.00, 'LS', 1.00, 'TA', 1.00, '', NULL, NULL, NULL, NULL, NULL, 'admin', '2020-07-12 00:00:00', '2020-07-12 00:00:00');
@@ -1650,7 +1666,7 @@ CREATE TABLE `kabupaten_kota`  (
   PRIMARY KEY (`kabupaten_kota_id`) USING BTREE,
   INDEX `kabupaten_kota_pengguna_id_foreign`(`pengguna_id`) USING BTREE,
   CONSTRAINT `kabupaten_kota_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of kabupaten_kota
@@ -2112,7 +2128,7 @@ CREATE TABLE `pengguna`  (
 -- ----------------------------
 -- Records of pengguna
 -- ----------------------------
-INSERT INTO `pengguna` VALUES ('admin', 'Administrator', '$2y$10$KdwMkM/05.9AYsd/n0n/8u5nBAa2EXVDtppyKavVhiG2yiOmgBr9.', NULL, 1, NULL, 'wFY3YtO58wfxZgS0Fk1PmPtBY58kD9NTDXTUftfNdfllWmMkPjClaNNjotlh', '2020-06-19 10:45:42', '2020-06-19 10:45:42', NULL);
+INSERT INTO `pengguna` VALUES ('admin', 'Administrator', '$2y$10$KdwMkM/05.9AYsd/n0n/8u5nBAa2EXVDtppyKavVhiG2yiOmgBr9.', NULL, 1, NULL, 'kcMvCpFk7bvavtFZHZPHZ65nkfw2AMXrZtgLXojFT7b2b1iPHFd39QySbX13', '2020-06-19 10:45:42', '2020-06-19 10:45:42', NULL);
 INSERT INTO `pengguna` VALUES ('asdf', 'asdf', '$2y$10$1f45SRbgeNbXdmMN2E71D.cQknMxGc8R3KvTc6uskfaUTzY3Z4DC6', NULL, 1, NULL, NULL, '2020-06-19 15:45:07', '2020-06-19 15:45:07', NULL);
 INSERT INTO `pengguna` VALUES ('tes', 'tes', '$2y$10$OEXBlv1zSpuSUT3MtZ1w9eaS91WKuH42HPCl2qaAj6vKhWoknguTO', NULL, 1, NULL, NULL, '2020-06-19 15:11:40', '2020-06-19 15:11:40', NULL);
 
