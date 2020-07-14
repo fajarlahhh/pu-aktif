@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 14/07/2020 22:15:58
+ Date: 15/07/2020 06:32:28
 */
 
 SET NAMES utf8mb4;
@@ -635,7 +635,7 @@ INSERT INTO `embung` VALUES (63, 'Embung Pasekar', 1981, 198865863.00, 0.75, 1.4
 INSERT INTO `embung` VALUES (64, 'Embung Monggas', 1982, 150000000.00, 4.50, 2.00, 'Timb Tanah ', 65000.00, 100.00, 6.00, 4.00, 100.00, 50.00, 50.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (65, 'Embung Tibu Reban', 1980, 50000000.00, 3.00, 0.65, 'Timb Tanah ', 13230.00, 95.00, 4.00, 4.00, 100.00, 50.00, 75.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (66, 'Embung Gusi', 1981, 33718000.00, 0.68, 3.00, 'Timb Tanah ', 100000.00, 70.75, 7.00, 3.00, 45.00, 22.00, 18.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
-INSERT INTO `embung` VALUES (67, 'Embgun Jebak', 1981, 23130000.00, 0.78, 2.51, 'Timb Tanah ', 71785.00, 134.00, 6.50, 7.40, 98.00, 34.00, 27.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
+INSERT INTO `embung` VALUES (67, 'Embung Jebak', 1981, 23130000.00, 0.78, 2.51, 'Timb Tanah ', 71785.00, 134.00, 6.50, 7.40, 98.00, 34.00, 27.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (68, 'Embung Lendang Telage', 1982, 3410000.00, 0.78, 5.75, 'Timb Tanah ', 13125.00, 130.00, 5.00, 16.00, 136.00, 36.00, 24.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (69, 'Embung Pejeruk', 1982, 48460000.00, 0.81, 0.75, 'Timb Tanah ', 81820.00, 177.55, 6.00, 1.60, 63.00, 26.00, 32.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (70, 'Embung Perok', 1984, 38859000.00, 0.46, 0.85, 'Timb Tanah ', 268250.00, 88.00, 6.00, 4.00, 35.00, 12.00, 26.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
@@ -817,7 +817,7 @@ CREATE TABLE `jalan`  (
   PRIMARY KEY (`jalan_id`) USING BTREE,
   INDEX `jalan_pengguna_id_foreign`(`pengguna_id`) USING BTREE,
   CONSTRAINT `jalan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 111 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of jalan
@@ -1746,7 +1746,7 @@ CREATE TABLE `kabupaten_kota`  (
   PRIMARY KEY (`kabupaten_kota_id`) USING BTREE,
   INDEX `kabupaten_kota_pengguna_id_foreign`(`pengguna_id`) USING BTREE,
   CONSTRAINT `kabupaten_kota_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of kabupaten_kota
