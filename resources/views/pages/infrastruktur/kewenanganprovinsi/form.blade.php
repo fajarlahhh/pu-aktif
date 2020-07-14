@@ -81,24 +81,34 @@
                         <textarea class="form-control" rows="3" name="kewenangan_provinsi_keterangan">{{ $aksi == 'edit'? $data->kewenangan_provinsi_keterangan: old('kewenangan_provinsi_keterangan') }}</textarea>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Jenis Infrastruktur</label>
-                        <select class="form-control selectpicker cari" name="infrastruktur_nama" data-live-search="true" data-style="btn-danger" data-width="100%">
-                            @foreach ($data_infrastruktur as $row)
+                        <label class="control-label">Infrastruktur</label>
+                        <select class="form-control selectpicker" name="nama" data-live-search="true" data-style="btn-success" data-width="100%">
+                            @foreach ($infrastruktur as $row)
                             @php
                                 $selected = '';
                                 if ($aksi == 'edit') {
-                                    if($data->infrastruktur_nama == $row->infrastruktur_nama){
+                                    if($data->nama == $row->nama){
                                         $selected = 'selected';
                                     }
                                 }else{
                                     if(old('kelurahan_desa_id')){
-                                        if(old('infrastruktur_nama') == $row->infrastruktur_nama){
+                                        if(old('nama') == $row->nama){
                                             $selected = 'selected';
                                         }
                                     }
                                 }
                             @endphp
-                                <option value="{{ $row->infrastruktur_nama }}" {{ $selected }}>{{ $row->infrastruktur_nama }}</option>
+                                <option value="{{ $row->nama }}" {{ $selected }}>
+                                    @if ($row->jenis == 'Jalan')
+                                        @if (Str::contains('Jln.', '$row->alias'))
+                                        {{ strtoupper($row->alias) }}
+                                        @else
+                                        JLN. {{ strtoupper($row->alias) }}
+                                        @endif
+                                    @else
+                                    {{ strtoupper($row->alias) }}
+                                    @endif
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -121,29 +131,6 @@
                                 }
                             @endphp
                                 <option value="{{ $row->sumber_dana_nama }}" {{ $selected }}>{{ $row->sumber_dana_nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Kelurahan/Desa</label>
-                        <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-purple" data-width="100%" data-size="5" onchange="caridesa()">
-                            <option value="">Pilih Kelurahan/Desa</option>
-                            @foreach ($desa as $row)
-                            @php
-                                $selected = '';
-                                if ($aksi == 'edit') {
-                                    if($data->kelurahan_desa_id == $row->kelurahan_desa_id){
-                                        $selected = 'selected';
-                                    }
-                                }else{
-                                    if(old('kelurahan_desa_id')){
-                                        if(old('kelurahan_desa_id') == $row->kelurahan_desa_id){
-                                            $selected = 'selected';
-                                        }
-                                    }
-                                }
-                            @endphp
-                            <option value="{{ $row->kelurahan_desa_id }}" {{ $selected }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
                             @endforeach
                         </select>
                     </div>

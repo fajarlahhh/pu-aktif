@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Jalan;
+use App\Embung;
+use App\Jembatan;
 use App\SumberDana;
+use App\DaerahIrigasi;
 use App\Infrastruktur;
 use App\KelurahanDesa;
 use App\KewenanganProvinsi;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,12 +48,42 @@ class KewenanganprovinsiController extends Controller
             'cari' => $req->cari
         ]);
     }
+
+    public function infrastruktur()
+    {
+        $jalan = Jalan::get([
+            'jalan_id as id',
+            'jalan_nama as nama',
+            DB::raw('jalan_nama as alias'),
+            DB::raw('"Jalan" as jenis')
+        ]);
+        $jembatan = Jembatan::get([
+            'jembatan_id as id',
+            'jembatan_nama as nama',
+            DB::raw('concat("Jembatan ", jembatan_nama) as alias'),
+            DB::raw('"Jembatan" as jenis')
+        ]);
+        $di = DaerahIrigasi::get([
+            'daerah_irigasi_id as id',
+            'daerah_irigasi_nama as nama',
+            DB::raw('concat("Daerah Irigasi ", daerah_irigasi_nama) as alias'),
+            DB::raw('"Daerah Irigasi" as jenis')
+        ]);
+        $embung = Embung::get([
+            'embung_id as id',
+            'embung_nama as nama',
+            DB::raw('embung_nama as alias'),
+            DB::raw('"Embung" as jenis')
+        ]);
+        return collect($jalan)->merge($jembatan)->merge($embung)->merge($di)->sortBy('alias');
+    }
     
 	public function tambah(Request $req)
 	{
         return view('pages.infrastruktur.kewenanganprovinsi.form', [
             'aksi' => 'tambah',
             'map' => [],
+            'infrastruktur' => $this->infrastruktur(),
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
             'data_sumber_dana' => SumberDana::orderBy('sumber_dana_nama')->get(),
             'back' => Str::contains(url()->previous(), ['kewenanganprovinsi/tambah', 'kewenanganprovinsi/edit'])? url('/kewenanganprovinsi'): url()->previous(),
@@ -169,6 +204,7 @@ class KewenanganprovinsiController extends Controller
             return view('pages.infrastruktur.kewenanganprovinsi.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'infrastruktur' => $this->infrastruktur(),
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),

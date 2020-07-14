@@ -160,7 +160,7 @@
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus kewenangan provinsi ' + ket + '',
+            text: 'Anda akan menghapus infrastruktur kewenangan provinsi ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
