@@ -23,7 +23,7 @@ return [
 		'title' => 'Data Master',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'infrastruktur',
+		'id' => 'datamaster',
 		'sub_menu' => [[
             'title' => 'ISDA',
             'url' => 'javascript:;',
@@ -47,6 +47,28 @@ return [
 			'id' => 'jembatan',
 			'title' => 'Jembatan'
 		],]
+    ],[
+		'icon' => 'fad fa-building',
+		'title' => 'Infrastruktur',
+		'url' => 'javascript:;',
+		'caret' => true,
+		'id' => 'infrastruktur',
+		'sub_menu' => [[
+			'url' => '/kewenanganprovinsi',
+			'id' => 'kewenanganprovinsi',
+			'title' => 'Kewenangan Provinsi'
+        ],[
+			'url' => '/aspirasimasyarakat',
+			'id' => 'aspirasimasyarakat',
+			'title' => 'Aspirasi Masyarakat'
+		],]
+    ],[
+		'icon' => 'fad fa-file-chart-line',
+		'title' => 'Laporan',
+		'url' => 'javascript:;',
+		'caret' => true,
+		'id' => 'laporan',
+		'sub_menu' => []
     ],[
 		'icon' => 'fad fa-user',
 		'title' => 'Pengguna',

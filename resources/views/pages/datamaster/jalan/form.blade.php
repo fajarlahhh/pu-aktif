@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-items">
-                    <a href="#default-tab-2" data-toggle="tab" class="nav-link">
+                    <a href="#default-tab-2" data-toggle="tab" onclick="initMap()" class="nav-link">
                         <span class="d-sm-none">Tab 2</span>
                         <span class="d-sm-block d-none">Peta</span>
                     </a>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Lebar</label>
-                                <input class="form-control" type="text" name="jalan_lebar" value="{{ $aksi == 'edit'? $data->jalan_lebar: old('jalan_lebar') }}" autocomplete="off"  />
+                                <input class="form-control decimal text-right" type="text" name="jalan_lebar" value="{{ $aksi == 'edit'? $data->jalan_lebar: old('jalan_lebar') }}" autocomplete="off"  />
                             </div>
                             <div class="form-group">
                                 <label class="control-label">LHR</label>
@@ -76,23 +76,13 @@
                                 <label class="control-label">Akses Ke N/P/K</label>
                                 <input class="form-control" type="text" name="jalan_akses_ke_npk" value="{{ $aksi == 'edit'? $data->jalan_akses_ke_npk: old('jalan_akses_ke_npk') }}" autocomplete="off"  />
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="catatan">
                                 <label class="control-label">Keterangan</label>
-                                <input class="form-control" type="text" name="jalan_keterangan" value="{{ $aksi == 'edit'? $data->jalan_keterangan: old('jalan_keterangan') }}" autocomplete="off"  />
+                                <textarea class="form-control" rows="3" id="jalan_keterangan" name="jalan_keterangan">{{ $aksi == 'edit'? $data->jalan_keterangan: old('jalan_keterangan') }}</textarea>
                             </div>
+                            @include('includes.error')
                         </div>
-                        <div class="col-md-6">
-                            <div class="note note-danger">
-                                <h5>Fungsi</h5>
-                                <div class="form-group">
-                                    <label class="control-label">KP-2</label>
-                                    <input class="form-control decimal text-right" type="text" name="jalan_fungsi_kp_2" value="{{ $aksi == 'edit'? $data->jalan_fungsi_kp_2: old('jalan_fungsi_kp_2') }}" autocomplete="off"  />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">KP-3</label>
-                                    <input class="form-control decimal text-right" type="text" name="jalan_fungsi_kp_3" value="{{ $aksi == 'edit'? $data->jalan_fungsi_kp_3: old('jalan_fungsi_kp_3') }}" autocomplete="off"  />
-                                </div>
-                            </div>
+                        <div class="col-md-3">
                             <div class="note note-primary">
                                 <h5>Panjang Tiap Jenis Permukaan</h5>
                                 <div class="form-group">
@@ -145,6 +135,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="note note-danger">
+                                <h5>Fungsi</h5>
+                                <div class="form-group">
+                                    <label class="control-label">KP-2</label>
+                                    <input class="form-control decimal text-right" type="text" name="jalan_fungsi_kp_2" value="{{ $aksi == 'edit'? $data->jalan_fungsi_kp_2: old('jalan_fungsi_kp_2') }}" autocomplete="off"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">KP-3</label>
+                                    <input class="form-control decimal text-right" type="text" name="jalan_fungsi_kp_3" value="{{ $aksi == 'edit'? $data->jalan_fungsi_kp_3: old('jalan_fungsi_kp_3') }}" autocomplete="off"  />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- end tab-pane -->
@@ -174,11 +177,13 @@
 <script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/autonumeric/autonumeric.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script>    
+    <script>
+        function initMap() {
+            setTimeout(function() {
+                map.invalidateSize();
+            }, 500);
+        }
 
-        setTimeout(function() {
-            map.invalidateSize();
-        }, 1000);
         AutoNumeric.multiple('.decimal', {
             modifyValueOnWheel : false,
             minimumValue: "0"

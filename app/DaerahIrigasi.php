@@ -20,9 +20,9 @@ class DaerahIrigasi extends Model
         'polygon'
     ];
 
-    public function kelurahan_desa()
+    public function kabupaten_kota()
     {
-        return $this->belongsTo('App\KelurahanDesa', 'kelurahan_desa_id', 'kelurahan_desa_id');
+        return $this->belongsTo('App\KabupatenKota', 'kabupaten_kota_id', 'kabupaten_kota_id');
     }
 
     public function pengguna(){

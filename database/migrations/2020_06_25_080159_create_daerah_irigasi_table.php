@@ -19,7 +19,7 @@ class CreateDaerahIrigasiTable extends Migration
             $table->integer('daerah_irigasi_tahun_pembuatan')->nullable();
             $table->decimal('daerah_irigasi_luas_area_potensial', 15, 2)->default(0);
             $table->decimal('daerah_irigasi_sawah_irigasi', 15, 2)->default(0);
-            $table->decimal('daerah_irigasi_belum irigasi', 15, 2)->default(0);
+            $table->decimal('daerah_irigasi_belum_irigasi', 15, 2)->default(0);
             $table->decimal('daerah_irigasi_belum_sawah', 15, 2)->default(0);
             $table->decimal('daerah_irigasi_alih_fungsi', 15, 2)->default(0);
             $table->text('daerah_irigasi_keterangan')->nullable();

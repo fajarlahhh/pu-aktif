@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Jalan;
 use App\Jembatan;
 use App\KabupatenKota;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,10 +48,10 @@ class JembatanController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'jembatan_nama' => 'required',
-                'jembatan_tahun_pembuatan' => 'required'
+                'jembatan_nomor' => 'required'
             ],[
                 'jembatan_nama.required'  => 'Nama Jembatan tidak boleh kosong',
-                'jembatan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'jembatan_nomor.required'  => 'Nomor Jembatan tidak boleh kosong'
             ]
         );
 
@@ -65,10 +64,20 @@ class JembatanController extends Controller
             $data = new Jembatan();
             $data->jembatan_nomor = $req->get('jembatan_nomor');
             $data->jembatan_nama = $req->get('jembatan_nama');
-            $data->jembatan_tahun_pembuatan = $req->get('jembatan_tahun_pembuatan');
-            $data->jembatan_biaya_pembuatan = str_replace(',', '', $req->get('jembatan_biaya_pembuatan'));
+            $data->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'));
+            $data->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'));
+            $data->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'));
+            $data->jembatan_bangunan_atas_tipe = str_replace(',', '', $req->get('jembatan_bangunan_atas_tipe'));
+            $data->jembatan_bangunan_atas_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_atas_kondisi'));
+            $data->jembatan_bangunan_bawah_tipe = str_replace(',', '', $req->get('jembatan_bangunan_bawah_tipe'));
+            $data->jembatan_bangunan_bawah_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_bawah_kondisi'));
+            $data->jembatan_bangunan_pondasi_tipe = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_tipe'));
+            $data->jembatan_bangunan_pondasi_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_kondisi'));
+            $data->jembatan_bangunan_lantai_tipe = str_replace(',', '', $req->get('jembatan_bangunan_lantai_tipe'));
+            $data->jembatan_bangunan_lantai_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_lantai_kondisi'));
             $data->jembatan_keterangan = $req->get('jembatan_keterangan');
             $data->jalan_id = $req->get('jalan_id');
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -168,10 +177,10 @@ class JembatanController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'jembatan_nama' => 'required',
-                'jembatan_tahun_pembuatan' => 'required'
+                'jembatan_nomor' => 'required'
             ],[
                 'jembatan_nama.required'  => 'Nama Jembatan tidak boleh kosong',
-                'jembatan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'jembatan_nomor.required'  => 'Nomor Jembatan tidak boleh kosong'
             ]
         );
 
@@ -184,10 +193,20 @@ class JembatanController extends Controller
 			$data = Jembatan::findOrFail($req->get('id'));
             $data->jembatan_nomor = $req->get('jembatan_nomor');
             $data->jembatan_nama = $req->get('jembatan_nama');
-            $data->jembatan_tahun_pembuatan = $req->get('jembatan_tahun_pembuatan');
-            $data->jembatan_biaya_pembuatan = str_replace(',', '', $req->get('jembatan_biaya_pembuatan'));
+            $data->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'));
+            $data->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'));
+            $data->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'));
+            $data->jembatan_bangunan_atas_tipe = str_replace(',', '', $req->get('jembatan_bangunan_atas_tipe'));
+            $data->jembatan_bangunan_atas_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_atas_kondisi'));
+            $data->jembatan_bangunan_bawah_tipe = str_replace(',', '', $req->get('jembatan_bangunan_bawah_tipe'));
+            $data->jembatan_bangunan_bawah_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_bawah_kondisi'));
+            $data->jembatan_bangunan_pondasi_tipe = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_tipe'));
+            $data->jembatan_bangunan_pondasi_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_kondisi'));
+            $data->jembatan_bangunan_lantai_tipe = str_replace(',', '', $req->get('jembatan_bangunan_lantai_tipe'));
+            $data->jembatan_bangunan_lantai_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_lantai_kondisi'));
             $data->jembatan_keterangan = $req->get('jembatan_keterangan');
             $data->jalan_id = $req->get('jalan_id');
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);

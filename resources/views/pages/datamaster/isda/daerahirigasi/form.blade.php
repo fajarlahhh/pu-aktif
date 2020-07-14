@@ -33,45 +33,86 @@
             @if($aksi == 'edit')
             <input type="hidden" name="id" value="{{ $data->daerah_irigasi_id }}">
             @endif
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Daerah Irigasi</label>
-                        <input class="form-control" type="text" name="daerah_irigasi_nama" value="{{ $aksi == 'edit'? $data->daerah_irigasi_nama: old('daerah_irigasi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Tahun Pembuatan</label>
-                        <select class="form-control selectpicker" name="daerah_irigasi_tahun_pembuatan" id="daerah_irigasi_tahun_pembuatan" data-live-search="true" data-style="btn-info" data-width="100%">
-                            @for ($i = date('Y'); $i >= 1900; $i--)
-                            <option value="{{ $i }}" {{ $aksi == 'edit' && $data->daerah_irigasi_tahun_pembuatan == $i? 'selected': '' }}>{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Biaya Pembuatan</label>
-                        <input class="form-control numbering" type="text" name="daerah_irigasi_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->daerah_irigasi_biaya_pembuatan: (old('daerah_irigasi_biaya_pembuatan')?? 0) }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                    </div>
-                    <div class="form-group" id="catatan">
-                        <label class="control-label">Keterangan</label>
-                        <textarea class="form-control" rows="3" id="daerah_irigasi_keterangan" name="daerah_irigasi_keterangan">{{ $aksi == 'edit'? $data->daerah_irigasi_keterangan: old('daerah_irigasi_keterangan') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Kelurahan/Desa</label>
-                        <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-info" data-width="100%" data-size="5" onchange="caridesa()">
-                            <option value="">Pilih Kelurahan/Desa</option>
-                            @foreach ($desa as $row)
-                            <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
-                            @endforeach
-                        </select>
+            <!-- begin nav-tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-items">
+                    <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+                        <span class="d-sm-none">Tab 1</span>
+                        <span class="d-sm-block d-none">Spesifikasi</span>
+                    </a>
+                </li>
+                <li class="nav-items">
+                    <a href="#default-tab-2" data-toggle="tab" onclick="initMap()" class="nav-link">
+                        <span class="d-sm-none">Tab 2</span>
+                        <span class="d-sm-block d-none">Peta</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- end nav-tabs -->
+            <!-- begin tab-content -->
+            <div class="tab-content">
+                <!-- begin tab-pane -->
+                <div class="tab-pane fade active show" id="default-tab-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Daerah Irigasi</label>
+                                <input class="form-control" type="text" name="daerah_irigasi_nama" value="{{ $aksi == 'edit'? $data->daerah_irigasi_nama: old('daerah_irigasi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Tahun Pembuatan</label>
+                                <input class="form-control" type="number" name="daerah_irigasi_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->daerah_irigasi_tahun_pembuatan: old('daerah_irigasi_tahun_pembuatan') }}" autocomplete="off"  />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Luas Area Potensial</label>
+                                <input class="form-control decimal text-right" type="text" name="daerah_irigasi_luas_area_potensial" value="{{ $aksi == 'edit'? $data->daerah_irigasi_luas_area_potensial: old('daerah_irigasi_luas_area_potensial') }}" autocomplete="off"  />
+                            </div>
+                            <div class="form-group" id="catatan">
+                                <label class="control-label">Keterangan</label>
+                                <textarea class="form-control" rows="3" id="daerah_irigasi_keterangan" name="daerah_irigasi_keterangan">{{ $aksi == 'edit'? $data->daerah_irigasi_keterangan: old('daerah_irigasi_keterangan') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Kabupaten/Kota</label>
+                                <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-purple" data-width="100%" onchange="caridesa()">
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                    @foreach ($kabupaten_kota as $row)
+                                    <option value="{{ $row->kabupaten_kota_id }}" {{ $aksi == 'edit' && $data->kabupaten_kota_id == $row->kabupaten_kota_id? 'selected': '' }}>{{ $row->kabupaten_kota_nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @include('includes.error')
+                        </div>
+                        <div class="col-md-6">
+                            <div class="note note-primary">
+                                <h5>Uraian Areal Potensial</h5>
+                                <div class="form-group">
+                                    <label class="control-label">Sawah Irigasi</label>
+                                    <input class="form-control decimal text-right" type="text" name="daerah_irigasi_sawah_irigasi" value="{{ $aksi == 'edit'? $data->daerah_irigasi_sawah_irigasi: old('daerah_irigasi_sawah_irigasi') }}" autocomplete="off"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Belum Irigasi</label>
+                                    <input class="form-control decimal text-right" type="text" name="daerah_irigasi_belum_irigasi" value="{{ $aksi == 'edit'? $data->daerah_irigasi_belum_irigasi: old('daerah_irigasi_belum_irigasi') }}" autocomplete="off"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Belum Sawah</label>
+                                    <input class="form-control decimal text-right" type="text" name="daerah_irigasi_belum_sawah" value="{{ $aksi == 'edit'? $data->daerah_irigasi_belum_sawah: old('daerah_irigasi_belum_sawah') }}" autocomplete="off"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Alih Fungsi</label>
+                                    <input class="form-control decimal text-right" type="text" name="daerah_irigasi_alih_fungsi" value="{{ $aksi == 'edit'? $data->daerah_irigasi_alih_fungsi: old('daerah_irigasi_alih_fungsi') }}" autocomplete="off"  />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="note note-primary">
-                        <h5>Peta</h5>
-                        @include('includes.component.leaflet')
-                    </div>
+                <!-- end tab-pane -->
+                <!-- begin tab-pane -->
+                <div class="tab-pane fade" id="default-tab-2">
+                    @include('includes.component.leaflet')
                 </div>
+                <!-- end tab-pane -->
             </div>
+            <!-- end tab-content -->
         </div>
         <div class="panel-footer">
             @role('user|super-admin|supervisor')
@@ -91,15 +132,10 @@
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
-        function caridesa(){
-            var alamat = $("#kelurahan_desa_id option:selected").text()+", Nusa Tenggara Barat";
-            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
-            .done(function(data){
-                if(data.length > 0){
-                    position = [data[0].lat,data[0].lon];
-                    map.setView(position,14);
-                }
-            });
+        function initMap() {
+            setTimeout(function() {
+                map.invalidateSize();
+            }, 500);
         }
     </script>
 @endpush

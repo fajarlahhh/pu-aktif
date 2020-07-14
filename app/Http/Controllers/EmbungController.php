@@ -17,10 +17,16 @@ class EmbungController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Embung::where('embung_nama', 'like', '%'.$req->cari.'%')->orWhere('embung_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('embung_keterangan', 'like', '%'.$req->cari.'%')->orWhere('embung_kelas', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Embung::whereHas('kelurahan_desa', function($q) use ($req){
+            $q->orWhere('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kecamatan', function($q) use ($req){
+                $q->orWhere('kecamatan_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kabupaten_kota', function($q) use ($req){
+                    $q->orWhere('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+                });
+            });
+        })->where('embung_nama', 'like', '%'.$req->cari.'%')->orWhere('embung_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('embung_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.embung.index', [
+        return view('pages.datamaster.isda.embung.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,7 +35,7 @@ class EmbungController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.embung.form', [
+        return view('pages.datamaster.isda.embung.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
@@ -41,11 +47,9 @@ class EmbungController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'embung_nama' => 'required',
-                'embung_tahun_pembuatan' => 'required'
+                'embung_nama' => 'required'
             ],[
-                'embung_nama.required'  => 'Nama Embung tidak boleh kosong',
-                'embung_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'embung_nama.required'  => 'Nama Embung tidak boleh kosong'
             ]
         );
 
@@ -59,8 +63,19 @@ class EmbungController extends Controller
             $data->embung_nama = $req->get('embung_nama');
             $data->embung_tahun_pembuatan = $req->get('embung_tahun_pembuatan');
             $data->embung_biaya_pembuatan = str_replace(',', '', $req->get('embung_biaya_pembuatan'));
+            $data->embung_data_teknik_ca_km = str_replace(',', '', $req->get('embung_data_teknik_ca_km'));
+            $data->embung_data_teknik_luasan_genangan = str_replace(',', '', $req->get('embung_data_teknik_luasan_genangan'));
+            $data->embung_data_teknik_tipe_konstruksi = $req->get('embung_data_teknik_tipe_konstruksi');
+            $data->embung_data_teknik_volume = str_replace(',', '', $req->get('embung_data_teknik_volume'));
+            $data->embung_data_teknik_l = str_replace(',', '', $req->get('embung_data_teknik_l'));
+            $data->embung_data_teknik_h = str_replace(',', '', $req->get('embung_data_teknik_h'));
+            $data->embung_data_teknik_lebar_spillway = str_replace(',', '', $req->get('embung_data_teknik_lebar_spillway'));
+            $data->embung_fungsi_irigasi = str_replace(',', '', $req->get('embung_fungsi_irigasi'));
+            $data->embung_fungsi_ternak = str_replace(',', '', $req->get('embung_fungsi_ternak'));
+            $data->embung_fungsi_air_baku = str_replace(',', '', $req->get('embung_fungsi_air_baku'));
+            $data->embung_fungsi_pltm = str_replace(',', '', $req->get('embung_fungsi_pltm'));
             $data->embung_keterangan = $req->get('embung_keterangan');
-            $data->embung_kelas = $req->get('embung_kelas');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -103,7 +118,6 @@ class EmbungController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil menambah embung', 'success')->autoClose(2000);
@@ -135,7 +149,7 @@ class EmbungController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.embung.form', [
+            return view('pages.datamaster.isda.embung.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -159,11 +173,9 @@ class EmbungController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'embung_nama' => 'required',
-                'embung_tahun_pembuatan' => 'required'
+                'embung_nama' => 'required'
             ],[
-                'embung_nama.required'  => 'Nama Embung tidak boleh kosong',
-                'embung_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'embung_nama.required'  => 'Nama Embung tidak boleh kosong'
             ]
         );
 
@@ -177,8 +189,19 @@ class EmbungController extends Controller
             $data->embung_nama = $req->get('embung_nama');
             $data->embung_tahun_pembuatan = $req->get('embung_tahun_pembuatan');
             $data->embung_biaya_pembuatan = str_replace(',', '', $req->get('embung_biaya_pembuatan'));
+            $data->embung_data_teknik_ca_km = str_replace(',', '', $req->get('embung_data_teknik_ca_km'));
+            $data->embung_data_teknik_luasan_genangan = str_replace(',', '', $req->get('embung_data_teknik_luasan_genangan'));
+            $data->embung_data_teknik_tipe_konstruksi = $req->get('embung_data_teknik_tipe_konstruksi');
+            $data->embung_data_teknik_volume = str_replace(',', '', $req->get('embung_data_teknik_volume'));
+            $data->embung_data_teknik_l = str_replace(',', '', $req->get('embung_data_teknik_l'));
+            $data->embung_data_teknik_h = str_replace(',', '', $req->get('embung_data_teknik_h'));
+            $data->embung_data_teknik_lebar_spillway = str_replace(',', '', $req->get('embung_data_teknik_lebar_spillway'));
+            $data->embung_fungsi_irigasi = str_replace(',', '', $req->get('embung_fungsi_irigasi'));
+            $data->embung_fungsi_ternak = str_replace(',', '', $req->get('embung_fungsi_ternak'));
+            $data->embung_fungsi_air_baku = str_replace(',', '', $req->get('embung_fungsi_air_baku'));
+            $data->embung_fungsi_pltm = str_replace(',', '', $req->get('embung_fungsi_pltm'));
             $data->embung_keterangan = $req->get('embung_keterangan');
-            $data->embung_kelas = $req->get('embung_kelas');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -223,7 +246,6 @@ class EmbungController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil mengedit embung', 'success')->autoClose(2000);

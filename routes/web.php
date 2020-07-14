@@ -123,17 +123,6 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|tipekonstruksi']], function () {
-        Route::prefix('tipekonstruksi')->group(function () {
-            Route::get('/', 'TipekonstruksiController@index')->name('tipekonstruksi');
-            Route::get('/tambah', 'TipekonstruksiController@tambah')->middleware(['role:super-admin|user'])->name('tipekonstruksi.tambah');
-            Route::post('/tambah', 'TipekonstruksiController@do_tambah')->middleware(['role:super-admin|user'])->name('tipekonstruksi.tambah.simpan');
-            Route::get('/edit/{id}', 'TipekonstruksiController@edit')->middleware(['role:super-admin|user'])->name('tipekonstruksi.edit');
-            Route::put('/edit', 'TipekonstruksiController@do_edit')->middleware(['role:super-admin|user'])->name('tipekonstruksi.edit.simpan');
-            Route::delete('/hapus/{id}', 'TipekonstruksiController@hapus')->name('tipekonstruksi.hapus');
-        });
-    });
-
     Route::group(['middleware' => ['role_or_permission:super-admin|jalan']], function () {
         Route::prefix('jalan')->group(function () {
             Route::get('/', 'JalanController@index')->name('jalan');

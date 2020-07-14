@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DaerahIrigasi;
-use App\KelurahanDesa;
+use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +43,9 @@ class DaerahirigasiController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'daerah_irigasi_nama' => 'required',
-                'daerah_irigasi_tahun_pembuatan' => 'required'
+                'daerah_irigasi_nama' => 'required'
             ],[
-                'daerah_irigasi_nama.required'  => 'Nama Daerah Irigasi tidak boleh kosong',
-                'daerah_irigasi_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'daerah_irigasi_nama.required'  => 'Daerah Irigasi tidak boleh kosong'
             ]
         );
 
@@ -60,8 +58,13 @@ class DaerahirigasiController extends Controller
             $data = new DaerahIrigasi();
             $data->daerah_irigasi_nama = $req->get('daerah_irigasi_nama');
             $data->daerah_irigasi_tahun_pembuatan = $req->get('daerah_irigasi_tahun_pembuatan');
-            $data->daerah_irigasi_biaya_pembuatan = str_replace(',', '', $req->get('daerah_irigasi_biaya_pembuatan'));
+            $data->daerah_irigasi_luas_area_potensial = str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial'));
+            $data->daerah_irigasi_sawah_irigasi = str_replace(',', '', $req->get('daerah_irigasi_sawah_irigasi'));
+            $data->daerah_irigasi_belum_irigasi = str_replace(',', '', $req->get('daerah_irigasi_belum_irigasi'));
+            $data->daerah_irigasi_belum_sawah = str_replace(',', '', $req->get('daerah_irigasi_belum_sawah'));
+            $data->daerah_irigasi_alih_fungsi = str_replace(',', '', $req->get('daerah_irigasi_alih_fungsi'));
             $data->daerah_irigasi_keterangan = $req->get('daerah_irigasi_keterangan');
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -104,7 +107,6 @@ class DaerahirigasiController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil menambah luasan daerah irigasi', 'success')->autoClose(2000);
@@ -160,11 +162,9 @@ class DaerahirigasiController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'daerah_irigasi_nama' => 'required',
-                'daerah_irigasi_tahun_pembuatan' => 'required'
+                'daerah_irigasi_nama' => 'required'
             ],[
-                'daerah_irigasi_nama.required'  => 'Nama Daerah Irigasi tidak boleh kosong',
-                'daerah_irigasi_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'daerah_irigasi_nama.required'  => 'Daerah Irigasi tidak boleh kosong'
             ]
         );
 
@@ -177,8 +177,13 @@ class DaerahirigasiController extends Controller
 			$data = DaerahIrigasi::findOrFail($req->get('id'));
             $data->daerah_irigasi_nama = $req->get('daerah_irigasi_nama');
             $data->daerah_irigasi_tahun_pembuatan = $req->get('daerah_irigasi_tahun_pembuatan');
-            $data->daerah_irigasi_biaya_pembuatan = str_replace(',', '', $req->get('daerah_irigasi_biaya_pembuatan'));
+            $data->daerah_irigasi_luas_area_potensial = str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial'));
+            $data->daerah_irigasi_sawah_irigasi = str_replace(',', '', $req->get('daerah_irigasi_sawah_irigasi'));
+            $data->daerah_irigasi_belum_irigasi = str_replace(',', '', $req->get('daerah_irigasi_belum_irigasi'));
+            $data->daerah_irigasi_belum_sawah = str_replace(',', '', $req->get('daerah_irigasi_belum_sawah'));
+            $data->daerah_irigasi_alih_fungsi = str_replace(',', '', $req->get('daerah_irigasi_alih_fungsi'));
             $data->daerah_irigasi_keterangan = $req->get('daerah_irigasi_keterangan');
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -223,7 +228,6 @@ class DaerahirigasiController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil mengedit luasan daerah irigasi', 'success')->autoClose(2000);

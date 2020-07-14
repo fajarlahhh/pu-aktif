@@ -47,38 +47,43 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Daerah Irigasi</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Keterangan</th>
-                        <th>Lokasi</th>
-                        <th class="width-90"></th>
+                        <th class="align-middle" rowspan="2">No.</th>
+                        <th class="align-middle" rowspan="2">Daerah Irigasi</th>
+                        <th class="align-middle" rowspan="2">Luas Area Potensial</th>
+                        <th colspan="4" class="text-center">Uraian Area Potensial</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th class="align-middle" rowspan="2">Kabupaten</th>
+                        <th class="align-middle" rowspan="2" class="width-90"></th>
+                    </tr>
+                    <tr>
+                        <th>Sawah Irigasi</th>
+                        <th>Belum Irigasi</th>
+                        <th>Belum Sawah</th>
+                        <th>Alih Fungsi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_nama }}</td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ number_format($row->daerah_irigasi_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_keterangan }}</td>
                         <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->daerah_irigasi_id }}')">
-                                @if ($row->kelurahan_desa)
-                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                                @else
-                                Peta
-                                @endif
-                            </a>
-                        @else
-                            @if ($row->kelurahan_desa)
-                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
+                            @if ($row->marker)
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                                    {{ $row->daerah_irigasi_nama }}
+                                </a>
+                            @else
+                            {{ $row->daerah_irigasi_nama }}
                             @endif
-                        @endif
                         </td>
+                        <td class="align-middle text-right">{{ $row->daerah_irigasi_luas_area_potensial != 0? number_format($row->daerah_irigasi_luas_area_potensial): '-' }}</td>
+                        <td class="align-middle text-right">{{ $row->daerah_irigasi_sawah_irigasi != 0? number_format($row->daerah_irigasi_sawah_irigasi): '-' }}</td>
+                        <td class="align-middle text-right">{{ $row->daerah_irigasi_belum_irigasi != 0? number_format($row->daerah_irigasi_belum_irigasi): '-' }}</td>
+                        <td class="align-middle text-right">{{ $row->daerah_irigasi_belum_sawah != 0? number_format($row->daerah_irigasi_belum_sawah): '-' }}</td>
+                        <td class="align-middle text-right">{{ $row->daerah_irigasi_alih_fungsi != 0? number_format($row->daerah_irigasi_alih_fungsi): '-' }}</td>
+                        <td class="align-middle">{{ $row->daerah_irigasi_tahun_pembuatan }}</td>
+                        <td class="align-middle">{{ $row->daerah_irigasi_keterangan }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('daerahirigasi.edit', ['id' => $row->daerah_irigasi_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
