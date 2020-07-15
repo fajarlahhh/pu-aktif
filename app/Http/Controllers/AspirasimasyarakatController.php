@@ -281,6 +281,45 @@ class AspirasimasyarakatController extends Controller
         }
     }
 
+    public function index_laporan(Request $req)
+	{
+        $tahun = $req->tahun? $req->tahun: date('Y');
+        $infrastruktur = $req->infrastruktur? $req->infrastruktur: 'semua';
+        $dana = $req->dana? $req->dana: 'semua';
+        $wilayah = $req->wilayah? $req->wilayah: 'semua';
+        $data = AspirasiMasyarakat::where('aspirasi_masyarakat_tahun', $tahun)->where(function($q) use($req){
+            $q->orWhereHas('kelurahan_desa', function($q) use ($req){
+                $q->orWhere('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kecamatan', function($q) use ($req){
+                    $q->orWhere('kecamatan_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kabupaten_kota', function($q) use ($req){
+                        $q->orWhere('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+                    });
+                });
+            })->orWhere('aspirasi_masyarakat_penanggung_jawab', 'like', '%'.$req->cari.'%')->orWhere('aspirasi_masyarakat_deskripsi_kegiatan', 'like', '%'.$req->cari.'%');
+        });
+
+        if ($infrastruktur != 'semua') {
+            $data = $data->where('infrastruktur_nama', $infrastruktur);
+        }
+        if ($dana != 'semua') {
+            $data = $data->where('sumber_dana_nama', $dana);
+        }
+
+        $data = $data->paginate(10);
+
+        $data->appends(['cari' => $req->cari]);
+        return view('pages.laporan.aspirasimasyarakat.index', [
+            'tahun' => $tahun,
+            'infrastruktur' => $infrastruktur,
+            'dana' => $dana,
+            'wilayah' => $wilayah,
+            'data_infrastruktur' => Infrastruktur::orderBy('infrastruktur_nama')->get(),
+            'data_sumber_dana' => SumberDana::orderBy('sumber_dana_nama')->get(),
+            'data' => $data,
+            'i' => ($req->input('page', 1) - 1) * 10,
+            'cari' => $req->cari
+        ]);
+    }
+
 	public function hapus($id)
 	{
 		try{

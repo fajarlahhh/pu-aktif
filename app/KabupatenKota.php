@@ -19,6 +19,11 @@ class KabupatenKota extends Model
         return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }
 
+    public function daerah_irigasi()
+    {
+        return $this->hasMany('App\DaerahIrigasi', 'kabupaten_kota_id', 'kabupaten_kota_id');
+    }
+
     public function getCreatedAtAttribute($value)
     {
          return Carbon::parse($value)->isoFormat('LLLL');

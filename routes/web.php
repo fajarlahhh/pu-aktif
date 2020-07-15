@@ -97,6 +97,20 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
+    Route::group(['middleware' => ['role_or_permission:super-admin|laporanaspirasimasyarakat']], function () {
+        Route::prefix('laporanaspirasimasyarakat')->group(function () {
+            Route::get('/', 'AspirasimasyarakatController@index_laporan')->name('laporanaspirasimasyarakat');
+            Route::get('/cetak', 'AspirasimasyarakatController@cetak')->middleware(['role:super-admin|user'])->name('laporanaspirasimasyarakat.cetak');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:super-admin|laporankewenanganprovinsi']], function () {
+        Route::prefix('laporankewenanganprovinsi')->group(function () {
+            Route::get('/', 'KewenanganprovinsiController@index_laporan')->name('laporankewenanganprovinsi');
+            Route::get('/cetak', 'KewenanganprovinsiController@cetak')->middleware(['role:super-admin|user'])->name('laporankewenanganprovinsi.cetak');
+        });
+    });
+
     Route::group(['middleware' => ['role_or_permission:super-admin|jembatan']], function () {
         Route::prefix('jembatan')->group(function () {
             Route::get('/', 'JembatanController@index')->name('jembatan');

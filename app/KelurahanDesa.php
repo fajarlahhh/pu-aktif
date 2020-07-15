@@ -19,6 +19,11 @@ class KelurahanDesa extends Model
         return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }
 
+    public function embung()
+    {
+        return $this->hasMany('App\Embung', 'kelurahan_desa_id', 'kelurahan_desa_id');
+    }
+
     public function getCreatedAtAttribute($value)
     {
          return Carbon::parse($value)->isoFormat('LLLL');

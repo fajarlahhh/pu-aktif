@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : Localhost 57
  Source Server Type    : MySQL
  Source Server Version : 50724
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 15/07/2020 06:32:28
+ Date: 15/07/2020 09:43:09
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `activity_log`  (
   INDEX `activity_log_log_name_index`(`log_name`) USING BTREE,
   INDEX `subject`(`subject_id`, `subject_type`) USING BTREE,
   INDEX `causer`(`causer_id`, `causer_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity_log
@@ -97,6 +97,12 @@ INSERT INTO `activity_log` VALUES (53, 'default', 'created', '1', 'App\\Aspirasi
 INSERT INTO `activity_log` VALUES (54, 'default', 'updated', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:57:14', '2020-07-14 21:57:14');
 INSERT INTO `activity_log` VALUES (55, 'default', 'updated', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:57:19', '2020-07-14 21:57:19');
 INSERT INTO `activity_log` VALUES (56, 'default', 'updated', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-14 21:58:17', '2020-07-14 21:58:17');
+INSERT INTO `activity_log` VALUES (57, 'default', 'created', '1', 'App\\KewenanganProvinsi', 'admin', 'App\\Pengguna', '[]', '2020-07-15 09:05:23', '2020-07-15 09:05:23');
+INSERT INTO `activity_log` VALUES (58, 'default', 'updated', '1', 'App\\KewenanganProvinsi', 'admin', 'App\\Pengguna', '[]', '2020-07-15 09:07:00', '2020-07-15 09:07:00');
+INSERT INTO `activity_log` VALUES (59, 'default', 'updated', '1', 'App\\KewenanganProvinsi', 'admin', 'App\\Pengguna', '[]', '2020-07-15 09:07:11', '2020-07-15 09:07:11');
+INSERT INTO `activity_log` VALUES (60, 'default', 'updated', '1', 'App\\KewenanganProvinsi', 'admin', 'App\\Pengguna', '[]', '2020-07-15 09:07:16', '2020-07-15 09:07:16');
+INSERT INTO `activity_log` VALUES (61, 'default', 'deleted', '1', 'App\\AspirasiMasyarakat', 'admin', 'App\\Pengguna', '[]', '2020-07-15 09:07:58', '2020-07-15 09:07:58');
+INSERT INTO `activity_log` VALUES (62, 'default', 'deleted', '1', 'App\\KewenanganProvinsi', 'admin', 'App\\Pengguna', '[]', '2020-07-15 09:08:04', '2020-07-15 09:08:04');
 
 -- ----------------------------
 -- Table structure for aspirasi_masyarakat
@@ -129,11 +135,6 @@ CREATE TABLE `aspirasi_masyarakat`  (
   CONSTRAINT `aspirasi_masyarakat_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `aspirasi_masyarakat_sumber_dana_nama_foreign` FOREIGN KEY (`sumber_dana_nama`) REFERENCES `sumber_dana` (`sumber_dana_nama`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of aspirasi_masyarakat
--- ----------------------------
-INSERT INTO `aspirasi_masyarakat` VALUES (1, 'Deskripsi Kegiatans', 2016, 2000000.00, 'Penanggung Jawab', 'Spesifikasi Teknis', 'Keterangan', 'Bendungan', 'APBD', 253, NULL, NULL, NULL, 'admin', '2020-07-14 21:45:52', '2020-07-14 21:58:17');
 
 -- ----------------------------
 -- Table structure for daerah_irigasi
@@ -732,7 +733,7 @@ INSERT INTO `embung` VALUES (160, 'Embung Mantar ', 1998, 844230000.00, 1.50, 2.
 INSERT INTO `embung` VALUES (161, 'Embung Ai Buak ', 2007, 1724991653.00, 5.00, 6.50, 'Pas. Batu ', 140000.00, 105.00, 0.00, 10.50, 125.00, 150.00, 50.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (162, 'Embung Pompong ', 2007, 5379300000.00, 3.70, 0.53, 'Pas. Batu  ', 170000.00, 50.00, 0.00, 8.50, 125.00, 75.00, 50.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (163, 'Embung Mamak ', 1994, 300000000.00, 0.86, 2.00, 'timbunan ', 42910.00, 155.00, 0.00, 6.00, 50.00, 1000.00, 50.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
-INSERT INTO `embung` VALUES (164, 'PATM Beringin Sila ', 2000, 0.00, 0.00, 0.00, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
+INSERT INTO `embung` VALUES (164, 'Embung PATM Beringin Sila ', 2000, 0.00, 0.00, 0.00, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (165, 'Embung Jeruk Lone ', 2008, 1199964650.00, 1.04, 0.45, 'Pas. Batu ', 58240.00, 75.00, 0.00, 10.00, 250.00, 125.00, 50.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (166, 'Embung Tiu Rantok ', 0, 0.00, 0.00, 0.00, 'Timbunan ', 120000.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
 INSERT INTO `embung` VALUES (167, 'Embung Tiu Nisung ', 0, 0.00, 0.00, 0.00, 'Timbunan ', 152500.00, 0.00, 0.00, 0.00, 50.00, 250.00, 20.00, 0.00, '', NULL, NULL, NULL, NULL, 'admin', '2020-07-07 08:00:00', '2020-07-07 08:00:00');
@@ -822,7 +823,7 @@ CREATE TABLE `jalan`  (
 -- ----------------------------
 -- Records of jalan
 -- ----------------------------
-INSERT INTO `jalan` VALUES (3, '050', '11.K', 'Jln.  Terminal Mandalika (Bertais - Sweta)', 1.70, 1.70, NULL, '2 X 6 ', 1.70, NULL, 0.00, 0.00, 1.35, 79.41, 0.15, 8.82, 0.10, 5.88, 0.10, 5.88, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (3, '050', '11.K', 'Jln. Terminal Mandalika (Bertais - Sweta)', 1.70, 1.70, NULL, '2 X 6 ', 1.70, NULL, 0.00, 0.00, 1.35, 79.41, 0.15, 8.82, 0.10, 5.88, 0.10, 5.88, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (4, '051', '11.K', 'Jln. DR. Sutomo/Mataram - Rembiga', 2.39, NULL, 2.39, '6', 2.39, NULL, 0.00, 0.00, 2.39, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (5, '052', '11.K', 'Jln. DR. Wahidin (Bts. Kota)', 0.70, 0.70, NULL, '6', 0.70, NULL, 0.00, 0.00, 0.70, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (6, '053', '11.K', 'Jln. Yos Sudarso', 0.85, NULL, 0.85, '9', 0.85, NULL, 0.00, 0.00, 0.05, 5.88, 0.80, 94.12, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
@@ -856,76 +857,76 @@ INSERT INTO `jalan` VALUES (33, '077', '11.K', 'Jln. Sultan Salahudin', 1.10, NU
 INSERT INTO `jalan` VALUES (34, '077', '12.K', 'Jln. Sultan Kaharudin', 1.85, NULL, 1.85, '4.5', 1.85, NULL, 0.00, 0.00, 1.85, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (35, '078', '11.K', 'Jln. TGH. Bangkol', 1.72, NULL, 1.72, '4.5', 1.72, NULL, 0.00, 0.00, 1.72, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (36, '079', '11.K', 'Jln. I Gusti Ketut Jelantik Gosa', 1.70, NULL, 1.70, '4.5', 1.70, NULL, 0.00, 0.00, 1.70, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (37, '052', '', 'Rembiga (Bts. Kota) - Pemenang', 21.64, 21.64, NULL, '4.5', 21.64, NULL, 0.00, 0.00, 5.36, 24.77, 14.78, 68.30, 1.50, 6.93, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (38, '080', '', 'Bengkel - Kediri', 2.56, 2.56, NULL, '4.5', 2.56, NULL, 0.00, 0.00, 0.00, 0.00, 1.82, 71.09, 0.30, 11.72, 0.44, 17.19, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (39, '081', '', 'Kediri - Rumak', 3.00, 3.00, NULL, '6', 3.00, NULL, 0.00, 0.00, 3.00, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (40, '082', '', 'Kediri - Praya', 14.46, 14.46, NULL, '6', 14.46, NULL, 0.00, 0.00, 12.06, 83.40, 1.80, 12.45, 0.60, 4.15, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (41, '086', '1', 'Mapak - Parampuan', 0.80, NULL, 0.80, '4.5', 0.80, NULL, 0.00, 0.00, 0.80, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (42, '086', '2', 'Parampuan - Kebun Ayu - Lembar', 14.68, NULL, 14.68, '4.5', 14.68, NULL, 0.00, 0.00, 13.28, 90.46, 1.10, 7.49, 0.30, 2.04, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (43, '087', '', 'Lembar - Sekotong - Pelangan', 41.00, NULL, 41.00, '6 / 3.5', 41.00, NULL, 0.00, 0.00, 23.09, 56.32, 17.51, 42.71, 0.40, 0.98, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (44, '088', '', 'Pelangan - Sp. Pengantap', 36.38, NULL, 36.38, '4.5', 22.57, NULL, 0.00, 13.81, 6.20, 17.04, 13.57, 37.30, 2.80, 7.70, 13.81, 37.96, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (45, '095', '', 'Kediri - Kuripan', 5.30, 5.30, NULL, '4.5', 5.30, NULL, 0.00, 0.00, 3.80, 71.70, 1.00, 18.87, 0.50, 9.43, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (46, '096', '', 'Kuripan - Giri Menang', 2.80, 2.80, NULL, '4.5', 2.80, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2.80, 100.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (37, '052', '', 'Jln. Rembiga (Bts. Kota) - Pemenang', 21.64, 21.64, NULL, '4.5', 21.64, NULL, 0.00, 0.00, 5.36, 24.77, 14.78, 68.30, 1.50, 6.93, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (38, '080', '', 'Jln. Bengkel - Kediri', 2.56, 2.56, NULL, '4.5', 2.56, NULL, 0.00, 0.00, 0.00, 0.00, 1.82, 71.09, 0.30, 11.72, 0.44, 17.19, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (39, '081', '', 'Jln. Kediri - Rumak', 3.00, 3.00, NULL, '6', 3.00, NULL, 0.00, 0.00, 3.00, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (40, '082', '', 'Jln. Kediri - Praya', 14.46, 14.46, NULL, '6', 14.46, NULL, 0.00, 0.00, 12.06, 83.40, 1.80, 12.45, 0.60, 4.15, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (41, '086', '1', 'Jln. Mapak - Parampuan', 0.80, NULL, 0.80, '4.5', 0.80, NULL, 0.00, 0.00, 0.80, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (42, '086', '2', 'Jln. Parampuan - Kebun Ayu - Lembar', 14.68, NULL, 14.68, '4.5', 14.68, NULL, 0.00, 0.00, 13.28, 90.46, 1.10, 7.49, 0.30, 2.04, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (43, '087', '', 'Jln. Lembar - Sekotong - Pelangan', 41.00, NULL, 41.00, '6 / 3.5', 41.00, NULL, 0.00, 0.00, 23.09, 56.32, 17.51, 42.71, 0.40, 0.98, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (44, '088', '', 'Jln. Pelangan - Sp. Pengantap', 36.38, NULL, 36.38, '4.5', 22.57, NULL, 0.00, 13.81, 6.20, 17.04, 13.57, 37.30, 2.80, 7.70, 13.81, 37.96, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (45, '095', '', 'Jln. Kediri - Kuripan', 5.30, 5.30, NULL, '4.5', 5.30, NULL, 0.00, 0.00, 3.80, 71.70, 1.00, 18.87, 0.50, 9.43, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (46, '096', '', 'Jln. Kuripan - Giri Menang', 2.80, 2.80, NULL, '4.5', 2.80, NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 2.80, 100.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (47, '096', '11.K', 'Jln. Soekarno Hatta (Gerung)', 1.80, 1.80, NULL, '2 X 6', 1.80, NULL, 0.00, 0.00, 0.00, 0.00, 1.80, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (48, '082', '11.K', 'Jln. Gajah Mada', 2.95, 2.95, NULL, '6', 2.95, NULL, 0.00, 0.00, 1.35, 45.76, 1.60, 54.24, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (49, '083', '', 'Praya - Kruak ', 21.50, 21.50, NULL, '6', 21.50, NULL, 0.00, 0.00, 16.70, 77.67, 4.80, 22.33, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (50, '089', '', 'Sp. Pengantap - Mt. Ajan - Kuta', 36.44, NULL, 36.44, '4.5', 36.44, NULL, 0.00, 0.00, 20.84, 57.19, 15.60, 42.81, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (51, '090', '', 'Kuta - Kruak', 37.95, NULL, 37.95, '4.5', 37.95, NULL, 0.00, 0.00, 37.95, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (52, '097', '', 'Mantang - Praya', 11.27, NULL, 11.27, '6', 11.27, NULL, 0.00, 0.00, 10.77, 95.56, 0.50, 4.44, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (49, '083', '', 'Jln. Praya - Kruak ', 21.50, 21.50, NULL, '6', 21.50, NULL, 0.00, 0.00, 16.70, 77.67, 4.80, 22.33, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (50, '089', '', 'Jln. Sp. Pengantap - Mt. Ajan - Kuta', 36.44, NULL, 36.44, '4.5', 36.44, NULL, 0.00, 0.00, 20.84, 57.19, 15.60, 42.81, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (51, '090', '', 'Jln. Kuta - Kruak', 37.95, NULL, 37.95, '4.5', 37.95, NULL, 0.00, 0.00, 37.95, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (52, '097', '', 'Jln. Mantang - Praya', 11.27, NULL, 11.27, '6', 11.27, NULL, 0.00, 0.00, 10.77, 95.56, 0.50, 4.44, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (53, '097', '11.K', 'Jln. Basuki Rahmat', 1.00, NULL, 1.00, '6', 1.00, NULL, 0.00, 0.00, 1.00, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (54, '098', '11.K', 'Wakul - Ketejer', 3.53, NULL, 3.53, '6', 3.53, NULL, 0.00, 0.00, 3.53, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (55, '098', '12.K', 'Ketejer - Jontlak', 2.93, NULL, 2.93, '4.5', 2.93, NULL, 0.00, 0.00, 2.63, 89.76, 0.30, 10.24, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (56, '099', '', 'Sp. Penujak - Tanah Awu', 4.46, NULL, 4.46, '4.5', 4.46, NULL, 0.00, 0.00, 1.86, 41.70, 1.10, 24.66, 0.10, 2.24, 1.40, 31.39, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (57, '100', '', 'Penujak - Mt. Ajan', 23.00, NULL, 23.00, '4.5', 23.00, NULL, 0.00, 0.00, 16.00, 69.57, 7.00, 30.43, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (58, '127', '', 'Batunyala - Sengkol', 9.20, NULL, 9.20, '3.5', 9.20, NULL, 0.00, 0.00, 9.20, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (59, '084', '', 'Kruak - Lb. Haji', 15.05, 15.05, NULL, '4.5', 15.05, NULL, 0.00, 0.00, 15.05, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (60, '085', '', 'Tanjung Geres - Pohgading - Pringgabaya', 15.23, 15.23, NULL, '4.5', 15.23, NULL, 0.00, 0.00, 14.33, 94.09, 0.90, 5.91, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (61, '091', '', 'Kruak - Pancor', 22.77, NULL, 22.77, '4.5', 22.77, NULL, 0.00, 0.00, 20.37, 89.46, 1.20, 5.27, 1.20, 5.27, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (62, '092', '', 'Masbagik - Pancor', 6.30, 6.30, NULL, '6', 6.30, NULL, 0.00, 0.00, 6.30, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (54, '098', '11.K', 'Jln. Wakul - Ketejer', 3.53, NULL, 3.53, '6', 3.53, NULL, 0.00, 0.00, 3.53, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (55, '098', '12.K', 'Jln. Ketejer - Jontlak', 2.93, NULL, 2.93, '4.5', 2.93, NULL, 0.00, 0.00, 2.63, 89.76, 0.30, 10.24, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (56, '099', '', 'Jln. Sp. Penujak - Tanah Awu', 4.46, NULL, 4.46, '4.5', 4.46, NULL, 0.00, 0.00, 1.86, 41.70, 1.10, 24.66, 0.10, 2.24, 1.40, 31.39, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (57, '100', '', 'Jln. Penujak - Mt. Ajan', 23.00, NULL, 23.00, '4.5', 23.00, NULL, 0.00, 0.00, 16.00, 69.57, 7.00, 30.43, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (58, '127', '', 'Jln. Batunyala - Sengkol', 9.20, NULL, 9.20, '3.5', 9.20, NULL, 0.00, 0.00, 9.20, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (59, '084', '', 'Jln. Kruak - Lb. Haji', 15.05, 15.05, NULL, '4.5', 15.05, NULL, 0.00, 0.00, 15.05, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (60, '085', '', 'Jln. Tanjung Geres - Pohgading - Pringgabaya', 15.23, 15.23, NULL, '4.5', 15.23, NULL, 0.00, 0.00, 14.33, 94.09, 0.90, 5.91, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (61, '091', '', 'Jln. Kruak - Pancor', 22.77, NULL, 22.77, '4.5', 22.77, NULL, 0.00, 0.00, 20.37, 89.46, 1.20, 5.27, 1.20, 5.27, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (62, '092', '', 'Jln. Masbagik - Pancor', 6.30, 6.30, NULL, '6', 6.30, NULL, 0.00, 0.00, 6.30, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (63, '092', '12.K', 'Jln. TGH. Zainudin Abd. Majid (Pancor-Selong)', 3.45, 3.45, NULL, '2 X 6', 3.45, NULL, 0.00, 0.00, 3.45, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (64, '092', '13.K', 'Jln. Cokroaminoto', 1.92, 1.92, NULL, '6', 1.92, NULL, 0.00, 0.00, 1.92, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (65, '093', '', 'Selong - Lb. Haji', 5.45, 5.45, NULL, '6', 5.45, NULL, 0.00, 0.00, 0.00, 0.00, 5.45, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (66, '094', '', 'Pancor - Rempung', 4.41, NULL, 4.41, '4.5', 4.41, NULL, 0.00, 0.00, 4.41, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (67, '101', '1', 'Lb.Lombok - Sambalia', 29.73, 29.73, NULL, '4.5', 29.73, NULL, 0.00, 0.00, 3.31, 11.13, 26.42, 88.87, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (68, '101', '2', 'Sambalia - Ds. Biluk', 23.52, 23.52, NULL, '4.5', 23.52, NULL, 0.00, 0.00, 0.00, 0.00, 23.52, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (69, '102', '', 'Aikmal - Swela', 8.40, NULL, 8.40, '4.5', 8.40, NULL, 0.00, 0.00, 0.00, 0.00, 7.10, 84.52, 1.30, 15.48, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (70, '103', '', 'Pringgabaya - Sembalun Bumbung', 26.90, NULL, 26.90, '4.5', 26.90, NULL, 0.00, 0.00, 6.10, 22.68, 20.80, 77.32, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (65, '093', '', 'Jln. Selong - Lb. Haji', 5.45, 5.45, NULL, '6', 5.45, NULL, 0.00, 0.00, 0.00, 0.00, 5.45, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (66, '094', '', 'Jln. Pancor - Rempung', 4.41, NULL, 4.41, '4.5', 4.41, NULL, 0.00, 0.00, 4.41, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (67, '101', '1', 'Jln. Lb.Lombok - Sambalia', 29.73, 29.73, NULL, '4.5', 29.73, NULL, 0.00, 0.00, 3.31, 11.13, 26.42, 88.87, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (68, '101', '2', 'Jln. Sambalia - Ds. Biluk', 23.52, 23.52, NULL, '4.5', 23.52, NULL, 0.00, 0.00, 0.00, 0.00, 23.52, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (69, '102', '', 'Jln. Aikmal - Swela', 8.40, NULL, 8.40, '4.5', 8.40, NULL, 0.00, 0.00, 0.00, 0.00, 7.10, 84.52, 1.30, 15.48, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (70, '103', '', 'Jln. Pringgabaya - Sembalun Bumbung', 26.90, NULL, 26.90, '4.5', 26.90, NULL, 0.00, 0.00, 6.10, 22.68, 20.80, 77.32, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (71, '104', '11.K', 'Jln. RA. Kartini', 0.95, NULL, 0.95, '4.5', 0.95, NULL, 0.00, 0.00, 0.95, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (72, '105', '11.K', 'Jln. Diponegoro', 2.80, NULL, 2.80, '4.5', 2.80, NULL, 0.00, 0.00, 1.82, 65.00, 0.00, 0.00, 0.00, 0.00, 0.98, 35.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (73, '105', '12.K', 'Jln. Hasanudin 1', 0.43, NULL, 0.43, '4.5', 0.43, NULL, 0.00, 0.00, 0.43, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (74, '105', '13.K', 'Jln. Abdullah', 0.31, NULL, 0.31, '4.5', 0.31, NULL, 0.00, 0.00, 0.31, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (75, '106', '', 'Simpang Tano - Simpang Seteluk', 3.85, 3.85, NULL, '6', 3.85, NULL, 0.00, 0.00, 3.35, 87.01, 0.00, 0.00, 0.00, 0.00, 0.50, 12.99, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (76, '107', '1', 'Benete - Sejorong', 30.44, 30.44, NULL, '4.5 / 6', 30.44, NULL, 0.00, 0.00, 26.84, 88.17, 3.30, 10.84, 0.00, 0.00, 0.30, 0.99, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (77, '107', '2', 'Sejorong Tetar - Bts. KSB', 42.10, 42.10, NULL, '4.5 / 6', 32.89, NULL, 3.10, 6.11, 31.99, 75.99, 0.90, 2.14, 0.00, 0.00, 9.21, 21.88, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (78, '108', '', 'Tetar (Bts. KSB) - Lunyuk', 32.40, 32.40, NULL, '4.5 / 6', 25.10, NULL, 7.30, 0.00, 0.30, 0.93, 23.50, 72.53, 1.30, 4.01, 7.30, 22.53, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (79, '109', '', 'Sumbawa Besar - Semongkat - Batu Dulang', 24.90, NULL, 24.90, '4.5', 24.90, NULL, 0.00, 0.00, 13.50, 54.22, 11.40, 45.78, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (75, '106', '', 'Jln. Simpang Tano - Simpang Seteluk', 3.85, 3.85, NULL, '6', 3.85, NULL, 0.00, 0.00, 3.35, 87.01, 0.00, 0.00, 0.00, 0.00, 0.50, 12.99, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (76, '107', '1', 'Jln. Benete - Sejorong', 30.44, 30.44, NULL, '4.5 / 6', 30.44, NULL, 0.00, 0.00, 26.84, 88.17, 3.30, 10.84, 0.00, 0.00, 0.30, 0.99, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (77, '107', '2', 'Jln. Sejorong Tetar - Bts. KSB', 42.10, 42.10, NULL, '4.5 / 6', 32.89, NULL, 3.10, 6.11, 31.99, 75.99, 0.90, 2.14, 0.00, 0.00, 9.21, 21.88, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (78, '108', '', 'Jln. Tetar (Bts. KSB) - Lunyuk', 32.40, 32.40, NULL, '4.5 / 6', 25.10, NULL, 7.30, 0.00, 0.30, 0.93, 23.50, 72.53, 1.30, 4.01, 7.30, 22.53, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (79, '109', '', 'Jln. Sumbawa Besar - Semongkat - Batu Dulang', 24.90, NULL, 24.90, '4.5', 24.90, NULL, 0.00, 0.00, 13.50, 54.22, 11.40, 45.78, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (80, '109', '11.K', 'Jln. Sultan Kaharudin', 1.75, NULL, 1.75, '4.5', 1.75, NULL, 0.00, 0.00, 1.36, 77.66, 0.26, 14.86, 0.13, 7.49, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (81, '110', '', 'Sumbawa - Sebewe - Lua Air', 20.70, 20.70, NULL, '4.5', 17.00, NULL, 3.70, 0.00, 16.70, 80.68, 0.00, 0.00, 0.30, 1.45, 3.70, 17.87, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (81, '110', '', 'Jln. Sumbawa - Sebewe - Lua Air', 20.70, 20.70, NULL, '4.5', 17.00, NULL, 3.70, 0.00, 16.70, 80.68, 0.00, 0.00, 0.30, 1.45, 3.70, 17.87, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (82, '110', '11.K', 'Jln. Sudirman', 1.00, NULL, 1.00, '4.5', 1.00, NULL, 0.00, 0.00, 1.00, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (83, '111', '', 'Sp. Negara - Moyo - Lua Air', 25.86, 25.86, NULL, '4.5', 23.36, NULL, 0.00, 2.50, 17.66, 68.29, 5.00, 19.33, 0.70, 2.71, 2.50, 9.67, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (84, '112', '1', 'Pal IV - Lenangguar', 35.37, 35.37, NULL, '4.5', 35.37, NULL, 0.00, 0.00, 14.72, 41.62, 19.35, 54.71, 0.90, 2.54, 0.40, 1.13, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (85, '112', '2', 'Lenangguar - Lunyuk', 56.20, 56.20, 0.00, '4.5', 54.95, 0.00, 1.25, 0.00, 27.35, 48.67, 20.20, 35.94, 3.30, 5.87, 5.35, 9.52, NULL, 'N', NULL, NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-11 12:21:23');
-INSERT INTO `jalan` VALUES (86, '113', '1', 'Lunyuk - Ropang', 45.00, NULL, 45.00, '', 0.00, NULL, 0.00, 45.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 45.00, 100.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (87, '113', '2', 'Ropang - Sekokat', 59.40, NULL, 59.40, '4.5', 12.40, NULL, 0.00, 47.00, 10.10, 17.00, 2.30, 3.87, 0.00, 0.00, 47.00, 79.12, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (88, '114', '', 'Sekokat - Bawi', 91.00, NULL, 91.00, '4.5', 6.00, NULL, 0.00, 85.00, 6.00, 6.59, 0.00, 0.00, 0.00, 0.00, 85.00, 93.41, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (89, '115', '', 'Plampang - Sekokat', 13.60, NULL, 13.60, '4.5', 13.60, NULL, 0.00, 0.00, 8.70, 63.97, 1.90, 13.97, 3.00, 22.06, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (90, '117', '', 'Simpang Kempo - Simpang Kore', 18.19, NULL, 18.19, '4.5', 18.19, NULL, 0.00, 0.00, 13.21, 72.62, 4.88, 26.83, 0.10, 0.55, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (91, '118', '1', 'Simpang Kore - Kiwu', 29.05, 29.05, NULL, '4.5', 23.65, NULL, 5.40, 0.00, 20.35, 70.05, 3.30, 11.36, 0.00, 0.00, 5.40, 18.59, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (92, '120', '', 'H u\' u - Parado', 40.24, 40.24, NULL, '4.5', 27.60, NULL, 6.54, 6.10, 16.00, 39.76, 0.00, 0.00, 0.00, 0.00, 24.24, 60.24, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (93, '116', '1', 'Lb. Kenanga (Bts. Dompu) - Kawinda To\'i', 41.26, 41.26, NULL, '4.5', 41.26, NULL, 0.00, 0.00, 5.80, 14.06, 11.22, 27.19, 0.00, 0.00, 24.24, 58.75, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (94, '116', '2', 'Kawinda Toi - Piong', 35.57, 35.57, NULL, '4.5', 21.37, NULL, 14.20, 0.00, 18.20, 51.17, 2.70, 7.59, 0.00, 0.00, 14.67, 41.24, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (95, '116', '3', 'Piong - Sp. Kore', 14.75, 14.75, NULL, '4.5', 14.75, NULL, 0.00, 0.00, 0.00, 0.00, 6.58, 44.61, 2.30, 15.59, 5.87, 39.80, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (96, '118', '2', 'Kiwu - Sampungu', 16.22, 16.22, NULL, '4.5', 0.00, NULL, 0.00, 16.22, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 16.22, 100.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (97, '118', '3', 'Sampungu - Bajo', 41.60, 41.60, NULL, '4.5', 27.80, NULL, 0.00, 13.80, 5.60, 13.46, 20.40, 49.04, 1.80, 4.33, 13.80, 33.17, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (98, '119', '', 'Sila - Bajo', 10.00, 10.00, NULL, '4.5', 10.00, NULL, 0.00, 0.00, 0.00, 0.00, 10.00, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (99, '121', '1', 'Bima - Tawali', 42.32, 42.32, NULL, '4.5', 42.32, NULL, 0.00, 0.00, 28.06, 66.30, 10.46, 24.72, 3.60, 8.51, 0.20, 0.47, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (100, '121', '2', 'Tawali - Sape', 46.71, 46.71, NULL, '4.5', 46.71, NULL, 0.00, 0.00, 14.22, 30.43, 5.90, 12.63, 0.30, 0.64, 26.30, 56.29, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (101, '122', '1', 'Talabiu - Simpasai', 16.50, NULL, 16.50, '4.5', 16.50, NULL, 0.00, 0.00, 12.10, 73.33, 4.30, 26.06, 0.00, 0.00, 0.10, 0.61, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (102, '122', '2', 'Simpasai - Parado', 17.60, 17.60, NULL, '4.5', 17.60, NULL, 0.00, 0.00, 11.00, 62.50, 6.10, 34.66, 0.50, 2.84, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (103, '123', '1', 'Simpasai - Wilamaci', 4.70, 4.70, 0.00, '4.5', 4.70, 0.00, 0.00, 0.00, 1.74, 37.02, 2.86, 60.85, 0.10, 2.13, 0.00, 0.00, NULL, 'N', NULL, NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-11 12:22:36');
-INSERT INTO `jalan` VALUES (104, '123', '2', 'Wilamaci - Karumbu', 24.50, 24.50, NULL, '4.5', 24.50, NULL, 0.00, 0.00, 15.97, 65.18, 8.53, 34.82, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (105, '123', '3', 'Karumbu - Sape', 37.00, 37.00, NULL, '4.5', 37.00, NULL, 0.00, 0.00, 8.30, 22.43, 17.10, 46.22, 0.40, 1.08, 11.20, 30.27, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
-INSERT INTO `jalan` VALUES (106, '123', '4', 'Wilamaci - Parado', 16.30, NULL, 16.30, '4.5', 8.57, NULL, 0.00, 7.73, 8.37, 51.35, 0.20, 1.23, 0.00, 0.00, 7.73, 47.42, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (83, '111', '', 'Jln. Sp. Negara - Moyo - Lua Air', 25.86, 25.86, NULL, '4.5', 23.36, NULL, 0.00, 2.50, 17.66, 68.29, 5.00, 19.33, 0.70, 2.71, 2.50, 9.67, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (84, '112', '1', 'Jln. Pal IV - Lenangguar', 35.37, 35.37, NULL, '4.5', 35.37, NULL, 0.00, 0.00, 14.72, 41.62, 19.35, 54.71, 0.90, 2.54, 0.40, 1.13, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (85, '112', '2', 'Jln. Lenangguar - Lunyuk', 56.20, 56.20, 0.00, '4.5', 54.95, 0.00, 1.25, 0.00, 27.35, 48.67, 20.20, 35.94, 3.30, 5.87, 5.35, 9.52, NULL, 'N', NULL, NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-11 12:21:23');
+INSERT INTO `jalan` VALUES (86, '113', '1', 'Jln. Lunyuk - Ropang', 45.00, NULL, 45.00, '', 0.00, NULL, 0.00, 45.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 45.00, 100.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (87, '113', '2', 'Jln. Ropang - Sekokat', 59.40, NULL, 59.40, '4.5', 12.40, NULL, 0.00, 47.00, 10.10, 17.00, 2.30, 3.87, 0.00, 0.00, 47.00, 79.12, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (88, '114', '', 'Jln. Sekokat - Bawi', 91.00, NULL, 91.00, '4.5', 6.00, NULL, 0.00, 85.00, 6.00, 6.59, 0.00, 0.00, 0.00, 0.00, 85.00, 93.41, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (89, '115', '', 'Jln. Plampang - Sekokat', 13.60, NULL, 13.60, '4.5', 13.60, NULL, 0.00, 0.00, 8.70, 63.97, 1.90, 13.97, 3.00, 22.06, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (90, '117', '', 'Jln. Simpang Kempo - Simpang Kore', 18.19, NULL, 18.19, '4.5', 18.19, NULL, 0.00, 0.00, 13.21, 72.62, 4.88, 26.83, 0.10, 0.55, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (91, '118', '1', 'Jln. Simpang Kore - Kiwu', 29.05, 29.05, NULL, '4.5', 23.65, NULL, 5.40, 0.00, 20.35, 70.05, 3.30, 11.36, 0.00, 0.00, 5.40, 18.59, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (92, '120', '', 'Jln. H u\' u - Parado', 40.24, 40.24, NULL, '4.5', 27.60, NULL, 6.54, 6.10, 16.00, 39.76, 0.00, 0.00, 0.00, 0.00, 24.24, 60.24, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (93, '116', '1', 'Jln. Lb. Kenanga (Bts. Dompu) - Kawinda To\'i', 41.26, 41.26, NULL, '4.5', 41.26, NULL, 0.00, 0.00, 5.80, 14.06, 11.22, 27.19, 0.00, 0.00, 24.24, 58.75, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (94, '116', '2', 'Jln. Kawinda Toi - Piong', 35.57, 35.57, NULL, '4.5', 21.37, NULL, 14.20, 0.00, 18.20, 51.17, 2.70, 7.59, 0.00, 0.00, 14.67, 41.24, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (95, '116', '3', 'Jln. Piong - Sp. Kore', 14.75, 14.75, NULL, '4.5', 14.75, NULL, 0.00, 0.00, 0.00, 0.00, 6.58, 44.61, 2.30, 15.59, 5.87, 39.80, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (96, '118', '2', 'Jln. Kiwu - Sampungu', 16.22, 16.22, NULL, '4.5', 0.00, NULL, 0.00, 16.22, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 16.22, 100.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (97, '118', '3', 'Jln. Sampungu - Bajo', 41.60, 41.60, NULL, '4.5', 27.80, NULL, 0.00, 13.80, 5.60, 13.46, 20.40, 49.04, 1.80, 4.33, 13.80, 33.17, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (98, '119', '', 'Jln. Sila - Bajo', 10.00, 10.00, NULL, '4.5', 10.00, NULL, 0.00, 0.00, 0.00, 0.00, 10.00, 100.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (99, '121', '1', 'Jln. Bima - Tawali', 42.32, 42.32, NULL, '4.5', 42.32, NULL, 0.00, 0.00, 28.06, 66.30, 10.46, 24.72, 3.60, 8.51, 0.20, 0.47, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (100, '121', '2', 'Jln. Tawali - Sape', 46.71, 46.71, NULL, '4.5', 46.71, NULL, 0.00, 0.00, 14.22, 30.43, 5.90, 12.63, 0.30, 0.64, 26.30, 56.29, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (101, '122', '1', 'Jln. Talabiu - Simpasai', 16.50, NULL, 16.50, '4.5', 16.50, NULL, 0.00, 0.00, 12.10, 73.33, 4.30, 26.06, 0.00, 0.00, 0.10, 0.61, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (102, '122', '2', 'Jln. Simpasai - Parado', 17.60, 17.60, NULL, '4.5', 17.60, NULL, 0.00, 0.00, 11.00, 62.50, 6.10, 34.66, 0.50, 2.84, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (103, '123', '1', 'Jln. Simpasai - Wilamaci', 4.70, 4.70, 0.00, '4.5', 4.70, 0.00, 0.00, 0.00, 1.74, 37.02, 2.86, 60.85, 0.10, 2.13, 0.00, 0.00, NULL, 'N', NULL, NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-11 12:22:36');
+INSERT INTO `jalan` VALUES (104, '123', '2', 'Jln. Wilamaci - Karumbu', 24.50, 24.50, NULL, '4.5', 24.50, NULL, 0.00, 0.00, 15.97, 65.18, 8.53, 34.82, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (105, '123', '3', 'Jln. Karumbu - Sape', 37.00, 37.00, NULL, '4.5', 37.00, NULL, 0.00, 0.00, 8.30, 22.43, 17.10, 46.22, 0.40, 1.08, 11.20, 30.27, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
+INSERT INTO `jalan` VALUES (106, '123', '4', 'Jln. Wilamaci - Parado', 16.30, NULL, 16.30, '4.5', 8.57, NULL, 0.00, 7.73, 8.37, 51.35, 0.20, 1.23, 0.00, 0.00, 7.73, 47.42, NULL, 'P', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (107, '121', '11.K', 'Jln. Datuk Dibanta - Bts. Kota', 11.90, 11.90, NULL, '4.5', 11.90, NULL, 0.00, 0.00, 0.30, 2.52, 5.50, 46.22, 5.80, 48.74, 0.30, 2.52, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (108, '124', '11.K', 'Jln. Hasanudin', 1.09, 1.09, NULL, '9', 1.09, NULL, 0.00, 0.00, 1.09, 100.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
 INSERT INTO `jalan` VALUES (109, '125', '11.K', 'Jln. Gajah Mada', 4.70, 4.70, NULL, '4.5', 4.70, NULL, 0.00, 0.00, 3.01, 64.04, 1.69, 35.96, 0.00, 0.00, 0.00, 0.00, NULL, 'N', '', NULL, NULL, NULL, 'admin', '2020-07-08 08:00:00', '2020-07-08 08:00:00');
@@ -2119,9 +2120,6 @@ CREATE TABLE `kewenangan_provinsi`  (
   `kewenangan_provinsi_keterangan` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `infrastruktur_id` bigint(20) NOT NULL,
   `sumber_dana_nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `marker` point NULL,
-  `polyline` linestring NULL,
-  `polygon` polygon NULL,
   `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
@@ -2130,7 +2128,7 @@ CREATE TABLE `kewenangan_provinsi`  (
   INDEX `kewenangan_provinsi_sumber_dana_nama_foreign`(`sumber_dana_nama`) USING BTREE,
   CONSTRAINT `kewenangan_provinsi_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `kewenangan_provinsi_sumber_dana_nama_foreign` FOREIGN KEY (`sumber_dana_nama`) REFERENCES `sumber_dana` (`sumber_dana_nama`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for migrations
@@ -2141,7 +2139,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -2159,7 +2157,7 @@ INSERT INTO `migrations` VALUES (23, '2020_06_25_094247_create_jembatan_table', 
 INSERT INTO `migrations` VALUES (26, '2020_07_14_183331_create_sumber_dana_table', 4);
 INSERT INTO `migrations` VALUES (29, '2020_07_14_183841_create_infrastruktur_table', 5);
 INSERT INTO `migrations` VALUES (30, '2020_07_14_193010_create_aspirasi_masyarakat_table', 6);
-INSERT INTO `migrations` VALUES (33, '2020_07_14_215916_create_kewenangan_provinsi_table', 7);
+INSERT INTO `migrations` VALUES (34, '2020_07_14_215916_create_kewenangan_provinsi_table', 7);
 
 -- ----------------------------
 -- Table structure for model_has_permissions
@@ -2174,29 +2172,6 @@ CREATE TABLE `model_has_permissions`  (
   CONSTRAINT `model_has_permissions_model_id_foreign` FOREIGN KEY (`model_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of model_has_permissions
--- ----------------------------
-INSERT INTO `model_has_permissions` VALUES (1, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (2, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (3, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (4, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (5, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (6, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (7, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (8, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (9, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (10, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (11, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (12, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (13, 'App\\Pengguna', 'asdf');
-INSERT INTO `model_has_permissions` VALUES (1, 'App\\Pengguna', 'tes');
-INSERT INTO `model_has_permissions` VALUES (2, 'App\\Pengguna', 'tes');
-INSERT INTO `model_has_permissions` VALUES (3, 'App\\Pengguna', 'tes');
-INSERT INTO `model_has_permissions` VALUES (14, 'App\\Pengguna', 'tes');
-INSERT INTO `model_has_permissions` VALUES (15, 'App\\Pengguna', 'tes');
-INSERT INTO `model_has_permissions` VALUES (16, 'App\\Pengguna', 'tes');
 
 -- ----------------------------
 -- Table structure for model_has_roles
@@ -2255,28 +2230,30 @@ CREATE TABLE `permissions`  (
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of permissions
 -- ----------------------------
-INSERT INTO `permissions` VALUES (1, 'dashboard', 'web', '2020-06-19 10:45:42', '2020-06-19 10:45:42');
-INSERT INTO `permissions` VALUES (2, 'datamaster', 'web', '2020-06-19 10:45:42', '2020-06-19 10:45:42');
-INSERT INTO `permissions` VALUES (3, 'tipekonstruksi', 'web', '2020-06-19 10:45:42', '2020-06-19 10:45:42');
-INSERT INTO `permissions` VALUES (4, 'infrastruktur', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (5, 'bendungan', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (6, 'embung', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (7, 'sumur', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (8, 'isda', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (9, 'jalan', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (10, 'jembatan', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (11, 'jalandanjembatan', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (12, 'setup', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (13, 'pengguna', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (14, 'wilayah', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (15, 'kabupatenkota', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (16, 'kecamatan', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
-INSERT INTO `permissions` VALUES (17, 'kelurahandesa', 'web', '2020-06-19 10:45:43', '2020-06-19 10:45:43');
+INSERT INTO `permissions` VALUES (1, 'dashboard', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (2, 'datamaster', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (3, 'daerahirigasi', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (4, 'embung', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (5, 'isda', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (6, 'jalan', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (7, 'jembatan', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (8, 'infrastruktur', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (9, 'aspirasimasyarakat', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (10, 'kewenanganprovinsi', 'web', '2020-07-15 09:42:54', '2020-07-15 09:42:54');
+INSERT INTO `permissions` VALUES (11, 'laporan', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (12, 'pengguna', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (13, 'setup', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (14, 'jenisinfrastruktur', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (15, 'sumberdana', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (16, 'wilayah', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (17, 'kabupatenkota', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (18, 'kecamatan', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
+INSERT INTO `permissions` VALUES (19, 'kelurahandesa', 'web', '2020-07-15 09:42:55', '2020-07-15 09:42:55');
 
 -- ----------------------------
 -- Table structure for role_has_permissions

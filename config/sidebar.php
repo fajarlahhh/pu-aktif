@@ -68,7 +68,15 @@ return [
 		'url' => 'javascript:;',
 		'caret' => true,
 		'id' => 'laporan',
-		'sub_menu' => []
+		'sub_menu' => [[
+			'url' => '/laporanaspirasimasyarakat',
+			'id' => 'laporanaspirasimasyarakat',
+			'title' => 'Aspirasi Masyarakat'
+		],[
+			'url' => '/laporankewenanganprovinsi',
+			'id' => 'laporankewenanganprovinsi',
+			'title' => 'Kewenangan Provinsi'
+        ]]
     ],[
 		'icon' => 'fad fa-user',
 		'title' => 'Pengguna',
