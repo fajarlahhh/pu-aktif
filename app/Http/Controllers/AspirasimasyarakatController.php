@@ -50,7 +50,7 @@ class AspirasimasyarakatController extends Controller
             'cari' => $req->cari
         ]);
     }
-    
+
 	public function tambah(Request $req)
 	{
         return view('pages.infrastruktur.aspirasimasyarakat.form', [
@@ -284,7 +284,7 @@ class AspirasimasyarakatController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $data = Infrastruktur::findOrFail($id);
+            $data = AspirasiMasyarakat::findOrFail($id);
             $data->delete();
             toast('Berhasil menghapus aspirasi masyarakat '.$data->aspirasi_masyarakat_deskripsi_kegiatan, 'success')->autoClose(2000);
 		}catch(\Exception $e){

@@ -24,9 +24,6 @@ class CreateKewenanganProvinsiTable extends Migration
             $table->longText('kewenangan_provinsi_keterangan')->nullable();
             $table->bigInteger('infrastruktur_id');
             $table->string('sumber_dana_nama');
-            $table->point('marker')->nullable();
-            $table->lineString('polyline')->nullable();
-            $table->polygon('polygon')->nullable();
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');

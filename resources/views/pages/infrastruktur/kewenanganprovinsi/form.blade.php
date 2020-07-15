@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.infrastruktur.main')
 
 @section('title', ' | '.ucFirst($aksi).' Kewenangan Provinsi')
 
@@ -32,112 +32,98 @@
             @if($aksi == 'edit')
             <input type="hidden" name="id" value="{{ $data->kewenangan_provinsi_id }}">
             @endif
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="control-label">Deskripsi Kegiatan</label>
-                        <input class="form-control" type="text" name="kewenangan_provinsi_deskripsi_kegiatan" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_deskripsi_kegiatan: old('kewenangan_provinsi_deskripsi_kegiatan') }}" autocomplete="off"  />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Tahun</label>
-                        <select class="form-control selectpicker cari" name="kewenangan_provinsi_tahun" data-live-search="true" data-size="5" data-style="btn-info" data-width="100%">
-                            @for($i=2015; $i <= date('Y') + 5; $i++)
-                            @php
-                                $selected = '';
-                                if ($aksi == 'edit') {
-                                    if($data->kewenangan_provinsi_tahun == $i){
-                                        $selected = 'selected';
-                                    }
-                                }else{
-                                    if(old('kewenangan_provinsi_tahun')){
-                                        if(old('kewenangan_provinsi_tahun') == $i){
-                                            $selected = 'selected';
-                                        }
-                                    }else{
-                                        if (date('Y') == $i) {
-                                            $selected = 'selected';
-                                        }
-                                    }
+            <div class="form-group">
+                <label class="control-label">Deskripsi Kegiatan</label>
+                <input class="form-control" type="text" name="kewenangan_provinsi_deskripsi_kegiatan" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_deskripsi_kegiatan: old('kewenangan_provinsi_deskripsi_kegiatan') }}" autocomplete="off"  />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tahun</label>
+                <select class="form-control selectpicker cari" name="kewenangan_provinsi_tahun" data-live-search="true" data-size="5" data-style="btn-info" data-width="100%">
+                    @for($i=2015; $i <= date('Y') + 5; $i++)
+                    @php
+                        $selected = '';
+                        if ($aksi == 'edit') {
+                            if($data->kewenangan_provinsi_tahun == $i){
+                                $selected = 'selected';
+                            }
+                        }else{
+                            if(old('kewenangan_provinsi_tahun')){
+                                if(old('kewenangan_provinsi_tahun') == $i){
+                                    $selected = 'selected';
                                 }
-                            @endphp
-                            <option value="{{ $i }}" {{ $selected }}>{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Nilai</label>
-                        <input class="form-control decimal text-right" type="text" name="kewenangan_provinsi_nilai" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_nilai: old('kewenangan_provinsi_nilai') }}" autocomplete="off"  />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Penanggung Jawab</label>
-                        <input class="form-control" type="text" name="kewenangan_provinsi_penanggung_jawab" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_penanggung_jawab: old('kewenangan_provinsi_penanggung_jawab') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                    </div>
-                    <div class="form-group" id="catatan">
-                        <label class="control-label">Spesifikasi Teknis</label>
-                        <textarea class="form-control" rows="6" id="kewenangan_provinsi_spesifikasi" name="kewenangan_provinsi_spesifikasi">{{ $aksi == 'edit'? $data->kewenangan_provinsi_spesifikasi: old('kewenangan_provinsi_spesifikasi') }}</textarea>
-                    </div>
-                    <div class="form-group" id="catatan">
-                        <label class="control-label">Keterangan</label>
-                        <textarea class="form-control" rows="3" name="kewenangan_provinsi_keterangan">{{ $aksi == 'edit'? $data->kewenangan_provinsi_keterangan: old('kewenangan_provinsi_keterangan') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Infrastruktur</label>
-                        <select class="form-control selectpicker" name="nama" data-live-search="true" data-style="btn-success" data-width="100%">
-                            @foreach ($infrastruktur as $row)
-                            @php
-                                $selected = '';
-                                if ($aksi == 'edit') {
-                                    if($data->nama == $row->nama){
-                                        $selected = 'selected';
-                                    }
-                                }else{
-                                    if(old('kelurahan_desa_id')){
-                                        if(old('nama') == $row->nama){
-                                            $selected = 'selected';
-                                        }
-                                    }
+                            }else{
+                                if (date('Y') == $i) {
+                                    $selected = 'selected';
                                 }
-                            @endphp
-                                <option value="{{ $row->nama }}" {{ $selected }}>
-                                    @if ($row->jenis == 'Jalan')
-                                        @if (Str::contains('Jln.', '$row->alias'))
-                                        {{ strtoupper($row->alias) }}
-                                        @else
-                                        JLN. {{ strtoupper($row->alias) }}
-                                        @endif
-                                    @else
-                                    {{ strtoupper($row->alias) }}
-                                    @endif
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Sumber Dana</label>
-                        <select class="form-control selectpicker" name="sumber_dana_nama" data-live-search="true" data-style="btn-success" data-width="100%">
-                            @foreach ($data_sumber_dana as $row)
-                            @php
-                                $selected = '';
-                                if ($aksi == 'edit') {
-                                    if($data->sumber_dana_nama == $row->sumber_dana_nama){
-                                        $selected = 'selected';
-                                    }
-                                }else{
-                                    if(old('kelurahan_desa_id')){
-                                        if(old('sumber_dana_nama') == $row->sumber_dana_nama){
-                                            $selected = 'selected';
-                                        }
-                                    }
+                            }
+                        }
+                    @endphp
+                    <option value="{{ $i }}" {{ $selected }}>{{ $i }}</option>
+                    @endfor
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Nilai</label>
+                <input class="form-control decimal text-right" type="text" name="kewenangan_provinsi_nilai" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_nilai: old('kewenangan_provinsi_nilai') }}" autocomplete="off"  />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Penanggung Jawab</label>
+                <input class="form-control" type="text" name="kewenangan_provinsi_penanggung_jawab" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_penanggung_jawab: old('kewenangan_provinsi_penanggung_jawab') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+            </div>
+            <div class="form-group" id="catatan">
+                <label class="control-label">Spesifikasi Teknis</label>
+                <textarea class="form-control" rows="6" id="kewenangan_provinsi_spesifikasi" name="kewenangan_provinsi_spesifikasi">{{ $aksi == 'edit'? $data->kewenangan_provinsi_spesifikasi: old('kewenangan_provinsi_spesifikasi') }}</textarea>
+            </div>
+            <div class="form-group" id="catatan">
+                <label class="control-label">Keterangan</label>
+                <textarea class="form-control" rows="3" name="kewenangan_provinsi_keterangan">{{ $aksi == 'edit'? $data->kewenangan_provinsi_keterangan: old('kewenangan_provinsi_keterangan') }}</textarea>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Infrastruktur</label>
+                <select class="form-control selectpicker" name="infrastruktur_id" id="infrastruktur_id" data-live-search="true" data-style="btn-danger" onchange="jenis_infrastruktur()" data-width="100%">
+                    @foreach ($infrastruktur as $row)
+                    @php
+                        $selected = '';
+                        if ($aksi == 'edit') {
+                            if($data->infrastruktur_id == $row->id && $data->kewenangan_provinsi_jenis_infrastruktur == $row->jenis){
+                                $selected = 'selected';
+                            }
+                        }else{
+                            if(old('infrastruktur_id')){
+                                if(old('infrastruktur_id') == $row->id && old('kewenangan_provinsi_jenis_infrastruktur') == $row->jenis){
+                                    $selected = 'selected';
                                 }
-                            @endphp
-                                <option value="{{ $row->sumber_dana_nama }}" {{ $selected }}>{{ $row->sumber_dana_nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    @include('includes.component.leaflet')
-                </div>
+                            }
+                        }
+                    @endphp
+                        <option value="{{ $row->id }}" data-id="{{ $row->id }}" data-jenis="{{ $row->jenis }}" {{ $selected }}>
+                            {{ strtoupper($row->alias) }}
+                        </option>
+                    @endforeach
+                </select>
+                <input type="hidden" id="kewenangan_provinsi_jenis_infrastruktur" name="kewenangan_provinsi_jenis_infrastruktur" value="{{ $aksi == 'edit'? $data->kewenangan_provinsi_jenis_infrastruktur: old('kewenangan_provinsi_jenis_infrastruktur') }}" readonly />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Sumber Dana</label>
+                <select class="form-control selectpicker" name="sumber_dana_nama" data-live-search="true" data-style="btn-success" data-width="100%">
+                    @foreach ($data_sumber_dana as $row)
+                    @php
+                        $selected = '';
+                        if ($aksi == 'edit') {
+                            if($data->sumber_dana_nama == $row->sumber_dana_nama){
+                                $selected = 'selected';
+                            }
+                        }else{
+                            if(old('sumber_dana_nama')){
+                                if(old('sumber_dana_nama') == $row->sumber_dana_nama){
+                                    $selected = 'selected';
+                                }
+                            }
+                        }
+                    @endphp
+                        <option value="{{ $row->sumber_dana_nama }}" {{ $selected }}>{{ $row->sumber_dana_nama }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="panel-footer">
@@ -159,21 +145,12 @@
 <script src="{{ url('/public/assets/plugins/autonumeric/autonumeric.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
-        $(document).ready(function(){
-            if ('{{ $aksi }}' == 'tambah') {
-                caridesa();
-            }
+        $('document').ready(function(){
+            jenis_infrastruktur();
         });
 
-        function caridesa(){
-            var alamat = $("#kelurahan_desa_id option:selected").text()+", Nusa Tenggara Barat";
-            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
-            .done(function(data){
-                if(data.length > 0){
-                    position = [data[0].lat,data[0].lon];
-                    map.setView(position,14);
-                }
-            });
+        function jenis_infrastruktur() {
+            $("#kewenangan_provinsi_jenis_infrastruktur").val($("#infrastruktur_id option:selected").data('jenis'));
         }
 
         AutoNumeric.multiple('.decimal', {

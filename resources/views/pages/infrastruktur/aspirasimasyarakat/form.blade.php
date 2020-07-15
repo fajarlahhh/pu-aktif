@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.infrastruktur.main')
 
 @section('title', ' | '.ucFirst($aksi).' Aspirasi Masyarakat')
 
@@ -33,7 +33,7 @@
             <input type="hidden" name="id" value="{{ $data->aspirasi_masyarakat_id }}">
             @endif
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label class="control-label">Deskripsi Kegiatan</label>
                         <input class="form-control" type="text" name="aspirasi_masyarakat_deskripsi_kegiatan" value="{{ $aksi == 'edit'? $data->aspirasi_masyarakat_deskripsi_kegiatan: old('aspirasi_masyarakat_deskripsi_kegiatan') }}" autocomplete="off"  />
@@ -148,7 +148,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-7">
                     @include('includes.component.leaflet')
                 </div>
             </div>

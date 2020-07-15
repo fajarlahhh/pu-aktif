@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.infrastruktur.main')
 
 @section('title', ' | Kewenangan Provinsi')
 
@@ -113,7 +113,7 @@
                                 @case('Daerah Irigasi')
                                     {{ $row->daerah_irigasi->daerah_irigasi_nama }}
                                     @break
-                                    
+
                             @endswitch
                         </td>
                         <td class="align-middle">{{ $row->kewenangan_provinsi_tahun }}</td>

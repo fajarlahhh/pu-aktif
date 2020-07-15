@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.infrastruktur.main')
 
 @section('title', ' | Aspirasi Masyarakat')
 
