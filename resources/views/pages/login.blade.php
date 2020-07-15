@@ -14,9 +14,6 @@
 	    <div class="news-image" style="background-image: url({{ 'public/assets/img/login-bg/login-bg.jpg' }})"></div>
 		<div class="news-caption">
 			<h4 class="caption-title"><b>Color</b> Admin App</h4>
-			<p>
-				Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			</p>
 		</div>
 	</div>
 	<!-- end news-feed -->
