@@ -1,48 +1,28 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-	@include('includes.head')
+    <meta charset="utf-8" />
+    <title>{{ config("app.name") }} @yield('title')</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <link rel="icon" href="{{ url('public/assets/img/logo/favicon.png') }}" type="image/gif">
+    <meta content="{{ config("app.name")." ".env('APP_COMPANY') }}" name="description" />
+    <meta content="Andi Fajar Nugraha" name="author" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="{{ url('/public/assets/css/app.css') }}" rel="stylesheet" />
+    <link href="{{ url('/public/assets/plugins/animate/animate.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('/public/assets/css/jqueryui/jquery-ui.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('/public/assets/css/material/style.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('/public/assets/css/material/style-responsive.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('/public/assets/css/material/theme/default.css" rel="styl') }}esheet" id="theme" />
+    <link href="{{ url('/public/assets/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" />
+    <link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
 </head>
-@php
-	$bodyClass = (!empty($boxedLayout)) ? 'boxed-layout ' : '';
-	$bodyClass .= (!empty($paceTop)) ? 'pace-top ' : '';
-	$bodyClass .= (!empty($bodyExtraClass)) ? $bodyExtraClass . ' ' : '';
-@endphp
-<style type="text/css">
-@page {
-	header: page-header;
-	footer: page-footer;
-}
-.numbering{
-    text-align: right;
-}
-@page {
-    size: auto;
-}
-body {
-    font-size: 11px;
-}
-</style>
-<body class="bg-white ">
+<body class="bg-white">
     <div class="text-center">
-        <img src="/assets/img/logo/favicon.png" class="width-100" alt=""><hr>
-        {{ $judul }}
+        <img src="{{ url('public/assets/img/logo/favicon.png') }}" alt="" class="width-100"><br>
+        <h5 class="p-t-10">{!! $judul !!}</h5>
+        <hr>
     </div>
-
     @include($halaman)
-
-    <htmlpagefooter name="page-footer">
-        <table width="100%" style="border: 0px">
-            <tr>
-                <td style="border: 0px">
-                    Usulan {{ strtolower($judul)." (Tahun : ".$data->periode_tahun.")" }}<br>
-                    <small>Tanggal Cetak {{ \Carbon\Carbon::now()->isoFormat('LLL') }}</small>
-                </td>
-                <td class="text-right" style="border: 0px">
-                    {PAGENO}
-                </td>
-            </tr>
-        </table>
-    </htmlpagefooter>
 </body>
 </html>

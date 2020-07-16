@@ -20,24 +20,24 @@ class KewenanganProvinsi extends Model
         'polyline',
         'polygon'
     ];
-    
+
     public function pengguna(){
         return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }
-    
+
     public function jalan(){
         return $this->belongsTo('App\Jalan', 'infrastruktur_id', 'jalan_id');
     }
-    
+
     public function jembatan(){
         return $this->belongsTo('App\Jembatan', 'infrastruktur_id', 'jalan_id');
     }
-    
+
     public function embung(){
-        return $this->belongsTo('App\Jalan', 'infrastruktur_id', 'embung_id');
+        return $this->belongsTo('App\Embung', 'infrastruktur_id', 'embung_id');
     }
-    
+
     public function daerah_irigasi(){
-        return $this->belongsTo('App\Jalan', 'infrastruktur_id', 'daerah_irigasi_id');
+        return $this->belongsTo('App\DaerahIrigasi', 'infrastruktur_id', 'daerah_irigasi_id');
     }
 }
