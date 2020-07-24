@@ -15,6 +15,11 @@ class KelurahanDesa extends Model
         return $this->belongsTo('App\Kecamatan', 'kecamatan_id', 'kecamatan_id');
     }
 
+    public function aspirasi_masyarakat()
+    {
+        return $this->hasMany('App\AspirasiMasyarakat', 'kelurahan_desa_id', 'kelurahan_desa_id');
+    }
+
     public function pengguna(){
         return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }

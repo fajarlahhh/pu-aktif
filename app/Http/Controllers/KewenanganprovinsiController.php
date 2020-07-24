@@ -203,6 +203,50 @@ class KewenanganprovinsiController extends Controller
         }
     }
 
+    public function index_laporan(Request $req)
+	{
+        $tahun = $req->tahun? $req->tahun: date('Y');
+        $dana = $req->dana? $req->dana: 'semua';
+
+        $laporan = KewenanganProvinsi::select('kewenangan_provinsi_jenis_infrastruktur', DB::raw('sum(kewenangan_provinsi_nilai) nilai'), DB::raw('count(kewenangan_provinsi_id) jumlah'))->groupBy('kewenangan_provinsi_jenis_infrastruktur');
+
+        if ($dana != 'semua') {
+            $laporan = $laporan->where('sumber_dana_nama', $dana);
+        }
+        $laporan = $laporan->get();
+
+        return view('pages.laporan.kewenanganprovinsi.index', [
+            'tahun' => $tahun,
+            'dana' => $dana,
+            'data_sumber_dana' => SumberDana::orderBy('sumber_dana_nama')->get(),
+            'laporan' => $laporan,
+            'i' => 0,
+            'total_biaya' => 0,
+            'total_infrastruktur' => 0,
+        ]);
+    }
+
+    public function cetak(Request $req)
+	{
+        $tahun = $req->tahun? $req->tahun: date('Y');
+        $dana = $req->dana? $req->dana: 'semua';
+
+        $laporan = KewenanganProvinsi::select('kewenangan_provinsi_jenis_infrastruktur', DB::raw('sum(kewenangan_provinsi_nilai) nilai'), DB::raw('count(kewenangan_provinsi_id) jumlah'))->groupBy('kewenangan_provinsi_jenis_infrastruktur');
+
+        if ($dana != 'semua') {
+            $laporan = $laporan->where('sumber_dana_nama', $dana);
+        }
+        $laporan = $laporan->get();
+        return view('layouts.print', [
+            'halaman' => 'pages.laporan.kewenanganprovinsi.cetak',
+            'judul' => '<strong>Laporan Infrastruktur Kewanangan Provinsi</strong><br>'.($dana == 'semua'? 'Semua Jenis Dana': $dana).' tahun '.$tahun,
+            'laporan' => $laporan,
+            'i' => 0,
+            'total_biaya' => 0,
+            'total_infrastruktur' => 0,
+        ]);
+    }
+
 	public function hapus($id)
 	{
 		try{

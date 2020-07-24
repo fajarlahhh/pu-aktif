@@ -93,7 +93,7 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Porsi Data Embung per Kabupaten/Kota'
+				text: 'Data Embung per Kabupaten/Kota'
 			},
 			tooltip: {
 				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -122,7 +122,7 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Porsi Data Daerah Irigasi per Kabupaten/Kota'
+				text: 'Data Daerah Irigasi per Kabupaten/Kota'
 			},
 			tooltip: {
 				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

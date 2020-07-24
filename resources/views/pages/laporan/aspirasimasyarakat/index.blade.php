@@ -23,7 +23,7 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('laporanaspirasimasyarakat.cetak', [ 'tahun' => $tahun, 'infrastruktur' => $infrastruktur, 'dana' => $dana, 'wilayah' => $wilayah ]) }}" target="_blank" class="btn btn-warning">Cetak</a>
+                    <a href="{{ route('laporanaspirasimasyarakat.cetak', [ 'tahun' => $tahun, 'dana' => $dana, 'wilayah' => $wilayah ]) }}" target="_blank" class="btn btn-warning">Cetak</a>
                 </div>
                 @endrole
             </div>
@@ -38,14 +38,6 @@
                             </select>
                         </div>&nbsp;
                         <div class="form-group">
-                            <select class="form-control selectpicker cari" name="infrastruktur" data-live-search="true" data-style="btn-danger" data-width="100%">
-                                <option value="semua" {{ $infrastruktur == 'semua'? 'selected': ''}}>Semua Jenis Infrastruktur</option>
-                                @foreach ($data_infrastruktur as $row)
-                                    <option value="{{ $row->infrastruktur_nama }}" {{ $infrastruktur == $row->infrastruktur_nama? 'selected': ''}}>{{ $row->infrastruktur_nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>&nbsp;
-                        <div class="form-group">
                             <select class="form-control selectpicker cari" name="dana" data-live-search="true" data-style="btn-success" data-width="100%">
                                 <option value="semua" {{ $dana == 'semua'? 'selected': ''}}>Semua Sumber Dana</option>
                                 @foreach ($data_sumber_dana as $row)
@@ -55,17 +47,11 @@
                         </div>&nbsp;
                         <div class="form-group">
                             <select class="form-control selectpicker cari" name="wilayah" data-live-search="true" data-style="btn-primary" data-width="100%">
-                                <option value="semua" {{ $wilayah == 'semua'? 'selected': ''}}>Seprovinsi NTB</option>
-                                <option value="kabkota" {{ $wilayah == 'kabkota'? 'selected': ''}}>Per Kabupaten/Kota</option>
-                                <option value="kecamatan" {{ $wilayah == 'kecamatan'? 'selected': ''}}>Per Kecamatan</option>
-                                <option value="kelurahandesa" {{ $wilayah == 'kelurahandesa'? 'selected': ''}}>Per Kelurahan/Desa</option>
+                                <option value="semua" {{ $wilayah == 'semua'? 'selected': ''}}>Semua Kabupaten/Kota</option>
+                                @foreach ($kabupaten_kota as $row)
+                                    <option value="{{ $row->kabupaten_kota_id }}" {{ $dana == $row->kabupaten_kota_id? 'selected': ''}}>{{ $row->kabupaten_kota_nama }}</option>
+                                @endforeach
                             </select>
-                        </div>&nbsp;
-                        <div class="input-group">
-                            <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -78,63 +64,41 @@
                 <thead>
                     <tr>
                         <th class="align-middle" rowspan="2">No.</th>
-                        <th class="align-middle" rowspan="2">Deskripsi Kegiatan</th>
-                        <th class="align-middle" rowspan="2">Jenis Infrastruktur</th>
-                        <th class="align-middle" rowspan="2">Tahun</th>
+                        <th class="align-middle" rowspan="2">Kecamatan</th>
+                        <th class="align-middle" rowspan="2">Kelurahan/Desa</th>
+                        <th class="align-middle text-center" colspan="2">Infrastruktur</th>
                         <th class="align-middle" rowspan="2">Biaya</th>
-                        <th class="align-middle" rowspan="2">Sumber Anggaran</th>
-                        <th class="align-middle" rowspan="2">Penanggung Jawab</th>
-                        <th colspan="3" class="text-center">Lokasi</th>
-                        <th class="align-middle" rowspan="2">Keterangan</th>
-                        <th class="width-90" rowspan="2"></th>
                     </tr>
                     <tr>
-                        <th>Kelurahan/Desa</th>
-                        <th>Kecamatan</th>
-                        <th>Kabupaten/Kota</th>
+                        <th>Jenis</th>
+                        <th>Jumlah</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $row)
+                    @foreach ($laporan as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                {{ $row->aspirasi_masyarakat_deskripsi_kegiatan }}
-                            </a>
-                        @else
-                        {{ $row->aspirasi_masyarakat_deskripsi_kegiatan }}
-                        @endif
-                        </td>
-                        <td class="align-middle">{{ $row->infrastruktur_nama }}</td>
-                        <td class="align-middle">{{ $row->aspirasi_masyarakat_tahun }}</td>
-                        <td class="align-middle text-right">{{ $row->aspirasi_masyarakat_nilai != 0? number_format($row->aspirasi_masyarakat_nilai, 2): "-" }}</td>
-                        <td class="align-middle">{{ $row->sumber_dana_nama }}</td>
-                        <td class="align-middle">{{ $row->aspirasi_masyarakat_penanggung_jawab }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->aspirasi_masyarakat_keterangan }}</td>
-                        <td class="text-right align-middle">
-                            @role('super-admin|supervisor|user')
-                            <a href="{{ route('aspirasimasyarakat.edit', ['id' => $row->aspirasi_masyarakat_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->aspirasi_masyarakat_id }}', '{{ $row->aspirasi_masyarakat_deskripsi_kegiatan.' tahun '.$row->aspirasi_masyarakat_tahun }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
-                            @endrole
-                        </td>
+                        <td class="align-middle">{{ $row['kecamatan'] }}</td>
+                        <td class="align-middle">{{ $row['kelurahan'] }}</td>
+                        <td class="align-middle">{{ $row['infrastruktur_nama'] }}</td>
+                        <td class="align-middle text-right">{{number_format($row['infrastruktur_jumlah']) }}</td>
+                        <td class="align-middle text-right">{{ $row['aspirasi_masyarakat_nilai'] != 0? number_format($row['aspirasi_masyarakat_nilai'], 2): "-" }}</td>
                     </tr>
+                    @php
+                    $total_biaya += $row['aspirasi_masyarakat_nilai'];
+                    $total_infrastruktur += $row['infrastruktur_jumlah'];
+                    @endphp
                     @endforeach
+                    <tr>
+                        <th class="align-middle" colspan="4">Total</th>
+                        <th class="align-middle text-right">{{ number_format($total_infrastruktur) }}</th>
+                        <th class="align-middle text-right">{{ $total_biaya != 0? number_format($total_biaya, 2): "-" }}</th>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <div class="panel-footer form-inline">
-        <div class="col-md-6 col-lg-10 col-xl-10 col-xs-12">
-            {{ $data->links() }}
-        </div>
-        <div class="col-md-6 col-lg-2 col-xl-2 col-xs-12">
-            <label class="pull-right">Jumlah Data : {{ $data->total() }}</label>
-        </div>
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
 </div>
