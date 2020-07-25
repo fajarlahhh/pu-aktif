@@ -17,10 +17,16 @@ class MataairController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = MataAir::where('mata_air_nama', 'like', '%'.$req->cari.'%')->orWhere('mata_air_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = MataAir::whereHas('kelurahan_desa', function($q) use ($req){
+            $q->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kecamatan', function($q) use ($req){
+                $q->where('kecamatan_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kabupaten_kota', function($q) use ($req){
+                    $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+                });
+            });
+        })->orWhere('mata_air_nama', 'like', '%'.$req->cari.'%')->orWhere('mata_air_debit', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.mataair.index', [
+        return view('pages.datainduk.sda.mataair.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,7 +35,7 @@ class MataairController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.mataair.form', [
+        return view('pages.datainduk.sda.mataair.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
@@ -55,7 +61,8 @@ class MataairController extends Controller
         try{
             $data = new MataAir();
             $data->mata_air_nama = $req->get('mata_air_nama');
-            $data->mata_air_keterangan = $req->get('mata_air_keterangan');
+            $data->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'));
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -98,7 +105,6 @@ class MataairController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil menambah mata air', 'success')->autoClose(2000);
@@ -130,7 +136,7 @@ class MataairController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.mataair.form', [
+            return view('pages.datainduk.sda.mataair.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -168,7 +174,8 @@ class MataairController extends Controller
         try{
 			$data = MataAir::findOrFail($req->get('id'));
             $data->mata_air_nama = $req->get('mata_air_nama');
-            $data->mata_air_keterangan = $req->get('mata_air_keterangan');
+            $data->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'));
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -213,7 +220,6 @@ class MataairController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
             toast('Berhasil mengedit mata air', 'success')->autoClose(2000);

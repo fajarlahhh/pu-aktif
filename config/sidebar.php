@@ -14,22 +14,66 @@ return [
     */
 
     'menu' => [[
-		'icon' => 'fad fa-tachometer-alt-fast',
-		'title' => 'Dashboard',
+		'icon' => 'fad fa-home',
+		'title' => 'Beranda',
 		'url' => '/dashboard',
 		'id' => 'dashboard'
 	],[
 		'icon' => 'fad fa-database',
-		'title' => 'Data Master',
+		'title' => 'Data Induk',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'datamaster',
+		'id' => 'datainduk',
 		'sub_menu' => [[
-            'title' => 'ISDA',
+            'title' => 'Bina Marga',
             'url' => 'javascript:;',
             'caret' => true,
-            'id' => 'isda',
+            'id' => 'binamarga',
             'sub_menu' => [[
+				'url' => '/jalan',
+				'id' => 'jalan',
+				'title' => 'Jalan'
+			],[
+				'url' => '/jembatan',
+				'id' => 'jembatan',
+				'title' => 'Jembatan'
+			]]
+        ],[
+            'title' => 'Cipta Karya',
+            'url' => 'javascript:;',
+            'caret' => true,
+            'id' => 'ciptakarya',
+            'sub_menu' => [[
+                'url' => '/das',
+                'id' => 'das',
+                'title' => 'Daerah Aliran Sungai'
+            ],[
+                'url' => '/drainase',
+                'id' => 'drainase',
+                'title' => 'Drainase'
+			],[
+                'url' => '/poshidrologi',
+                'id' => 'poshidrologi',
+                'title' => 'Pos Hidrologi'
+            ],[
+                'url' => '/spam',
+                'id' => 'spam',
+                'title' => 'SPAM'
+            ],[
+                'url' => '/sumur',
+                'id' => 'sumur',
+                'title' => 'Sumur'
+            ]]
+        ],[
+            'title' => 'SDA',
+            'url' => 'javascript:;',
+            'caret' => true,
+            'id' => 'sda',
+            'sub_menu' => [[
+                'url' => '/bendungan',
+                'id' => 'bendungan',
+                'title' => 'Bendungan'
+            ],[
                 'url' => '/daerahirigasi',
                 'id' => 'daerahirigasi',
                 'title' => 'Daerah Irigasi'
@@ -37,30 +81,41 @@ return [
                 'url' => '/embung',
                 'id' => 'embung',
                 'title' => 'Embung'
+            ],[
+                'url' => '/mataair',
+                'id' => 'mataair',
+                'title' => 'Mata Air'
             ]]
-        ],[
-			'url' => '/jalan',
-			'id' => 'jalan',
-			'title' => 'Jalan'
-        ],[
-			'url' => '/jembatan',
-			'id' => 'jembatan',
-			'title' => 'Jembatan'
-		],]
+        ]]
     ],[
-		'icon' => 'fad fa-building',
-		'title' => 'Infrastruktur',
+		'icon' => 'fad fa-lightbulb-on',
+		'title' => 'POKIR',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'infrastruktur',
+		'id' => 'pokir',
 		'sub_menu' => [[
-			'url' => '/aspirasimasyarakat',
-			'id' => 'aspirasimasyarakat',
-			'title' => 'Aspirasi Masyarakat'
+			'url' => '/pembangunanpokir',
+			'id' => 'pembangunanpokir',
+			'title' => 'Pembangunan'
 		],[
-			'url' => '/kewenanganprovinsi',
-			'id' => 'kewenanganprovinsi',
-			'title' => 'Kewenangan Provinsi'
+			'url' => '/pemeliharaanpokir',
+			'id' => 'pemeliharaanpokir',
+			'title' => 'Pemeliharaan'
+        ]]
+    ],[
+		'icon' => 'fad fa-building',
+		'title' => 'Kewenangan Provinsi',
+		'url' => 'javascript:;',
+		'caret' => true,
+		'id' => 'kewenanganprovinsi',
+		'sub_menu' => [[
+			'url' => '/pembangunankewenanganprovinsi',
+			'id' => 'pembangunankewenanganprovinsi',
+			'title' => 'Pembangunan'
+		],[
+			'url' => '/pemeliharaankewenanganprovinsi',
+			'id' => 'pemeliharaankewenanganprovinsi',
+			'title' => 'Pemeliharaan'
         ]]
     ],[
 		'icon' => 'fad fa-file-chart-line',
@@ -78,21 +133,17 @@ return [
 			'title' => 'Kewenangan Provinsi'
         ]]
     ],[
-		'icon' => 'fad fa-user',
-		'title' => 'Pengguna',
-		'url' => '/pengguna',
-		'id' => 'pengguna'
-	],[
 		'icon' => 'fad fa-cog',
 		'title' => 'Setup',
 		'url' => 'javascript:;',
 		'caret' => true,
 		'id' => 'setup',
 		'sub_menu' => [[
-			'url' => '/jenisinfrastruktur',
-			'id' => 'jenisinfrastruktur',
-			'title' => 'Jenis Infrastruktur'
-        ],[
+			'icon' => 'fad fa-user',
+			'title' => 'Pengguna',
+			'url' => '/pengguna',
+			'id' => 'pengguna'
+		],[
 			'url' => '/sumberdana',
 			'id' => 'sumberdana',
 			'title' => 'Sumber Dana'

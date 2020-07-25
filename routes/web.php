@@ -32,6 +32,45 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
+    Route::group(['middleware' => ['role_or_permission:super-admin|das']], function () {
+        Route::prefix('das')->group(function () {
+            Route::get('/', 'DasController@index')->name('das');
+            Route::get('/tambah', 'DasController@tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
+            Route::get('/tambah', 'DasController@tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
+            Route::post('/tambah', 'DasController@do_tambah')->middleware(['role:super-admin|user'])->name('das.tambah');
+            Route::get('/edit', 'DasController@edit')->middleware(['role:super-admin|user'])->name('das.edit');
+            Route::put('/edit', 'DasController@do_edit')->middleware(['role:super-admin|user'])->name('das.edit');
+            Route::get('/peta', 'DasController@peta')->middleware(['role:super-admin|user']);
+            Route::delete('/hapus/{id}', 'DasController@hapus')->name('das.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:super-admin|mataair']], function () {
+        Route::prefix('mataair')->group(function () {
+            Route::get('/', 'MataairController@index')->name('mataair');
+            Route::get('/tambah', 'MataairController@tambah')->middleware(['role:super-admin|user'])->name('mataair.tambah');
+            Route::get('/tambah', 'MataairController@tambah')->middleware(['role:super-admin|user'])->name('mataair.tambah');
+            Route::post('/tambah', 'MataairController@do_tambah')->middleware(['role:super-admin|user'])->name('mataair.tambah');
+            Route::get('/edit', 'MataairController@edit')->middleware(['role:super-admin|user'])->name('mataair.edit');
+            Route::put('/edit', 'MataairController@do_edit')->middleware(['role:super-admin|user'])->name('mataair.edit');
+            Route::get('/peta', 'MataairController@peta')->middleware(['role:super-admin|user']);
+            Route::delete('/hapus/{id}', 'MataairController@hapus')->name('mataair.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:super-admin|bendungan']], function () {
+        Route::prefix('bendungan')->group(function () {
+            Route::get('/', 'BendunganController@index')->name('bendungan');
+            Route::get('/tambah', 'BendunganController@tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
+            Route::get('/tambah', 'BendunganController@tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
+            Route::post('/tambah', 'BendunganController@do_tambah')->middleware(['role:super-admin|user'])->name('bendungan.tambah');
+            Route::get('/edit', 'BendunganController@edit')->middleware(['role:super-admin|user'])->name('bendungan.edit');
+            Route::put('/edit', 'BendunganController@do_edit')->middleware(['role:super-admin|user'])->name('bendungan.edit');
+            Route::get('/peta', 'BendunganController@peta')->middleware(['role:super-admin|user']);
+            Route::delete('/hapus/{id}', 'BendunganController@hapus')->name('bendungan.hapus');
+        });
+    });
+
     Route::group(['middleware' => ['role_or_permission:super-admin|embung']], function () {
         Route::prefix('embung')->group(function () {
             Route::get('/', 'EmbungController@index')->name('embung');

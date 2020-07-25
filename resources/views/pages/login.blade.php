@@ -12,6 +12,13 @@
 	<!-- begin news-feed -->
 	<div class="news-feed">
 	    <div class="news-image" style="background-image: url({{ 'public/assets/img/login-bg/login-bg.jpg' }})"></div>
+        <h4 class="caption-title"><b>Dinas Pekerjaan Umum</b> & Penataan Ruang</h4>
+		<div class="news-caption">
+			<h4 class="caption-title"><b>Dinas Pekerjaan Umum</b> & Penataan Ruang</h4>
+			<p>
+				Program Penyusunan Data & Informasi Keterpaduan Infrastruktur Pekerjaan Umum
+			</p>
+		</div>
 	</div>
 	<!-- end news-feed -->
 	<!-- begin right-content -->
@@ -19,8 +26,8 @@
 		<!-- begin login-header -->
 		<div class="login-header">
 			<div class="brand">
-	            <img src="{{ url('/public/assets/img/logo/favicon.png') }}" height="40">&nbsp;<img src="{{ url('/public/assets/img/logo/pu.png') }}" height="40"> {{ config("app.name") }}
-				<small>{{ env('APP_DESKRIPSI') }}</small>
+	            <img src="{{ url('/public/assets/img/logo/favicon.png') }}" height="40">&nbsp;<img src="{{ url('/public/assets/img/logo/pu.png') }}" height="40"> <strong>A K T I F</strong>
+				<small><strong>Analisa Keterpaduan InFrastruktur</strong></small><br><small>Penyusunan Data & Informasi Keterpaduan Infrastruktur Pekerjaan Umum  </small>
 			</div>
 			<div class="icon">
 				<i class="fad fa-sign-in"></i>
@@ -49,7 +56,7 @@
 				</div>
 				<hr />
 				<p class="text-center text-grey-darker">
-					&copy; {{ env('APP_COMPANY') }} <br><small>{{ env('APP_COMPANY_DESKRIPSI') }}</small>
+					&copy; Copyright 2020. Hak Cipta pada Dinas PUPR Provinsi NTB. <br><small>Support system by <a href="www.lestari-informatika.com">Lestari Informatika</a></small>
 				</p>
 			</form>
 		</div>

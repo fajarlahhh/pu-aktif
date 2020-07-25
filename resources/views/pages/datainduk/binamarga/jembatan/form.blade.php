@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | '.ucFirst($aksi).' Jembatan')
 
@@ -8,6 +8,7 @@
 @endpush
 
 @section('page')
+    <li class="breadcrumb-item"><a href="javascript:;">Bina Marga</a></li>
 	<li class="breadcrumb-item">Jembatan</li>
 	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
@@ -81,16 +82,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label">Kabupaten/Kota</label>
-                                <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-purple" data-width="100%" onchange="caridesa()">
-                                    <option value="">Pilih Kabupaten/Kota</option>
-                                    @foreach ($kabupaten_kota as $row)
-                                    <option value="{{ $row->kabupaten_kota_id }}" {{ $aksi == 'edit' && $data->kabupaten_kota_id == $row->kabupaten_kota_id? 'selected': '' }}>{{ $row->kabupaten_kota_nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
                         </div>
                         <div class="col-md-4">
                             <div class="note note-primary">
@@ -145,7 +136,22 @@
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade" id="default-tab-2">
-                    @include('includes.component.leaflet')
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Kabupaten/Kota</label>
+                                <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-purple" data-width="100%" onchange="caridesa()">
+                                    <option value="">Pilih Kabupaten/Kota</option>
+                                    @foreach ($kabupaten_kota as $row)
+                                    <option value="{{ $row->kabupaten_kota_id }}" {{ $aksi == 'edit' && $data->kabupaten_kota_id == $row->kabupaten_kota_id? 'selected': '' }}>{{ $row->kabupaten_kota_nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
                 <!-- end tab-pane -->
             </div>
@@ -170,15 +176,21 @@
 <script src="{{ url('/public/assets/plugins/autonumeric/autonumeric.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
+        function caridesa(){
+            var alamat = $("#kabupaten_kota_id option:selected").text()+", Nusa Tenggara Barat";
+            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
+            .done(function(data){
+                if(data.length > 0){
+                    position = [data[0].lat,data[0].lon];
+                    map.setView(position,12);
+                }
+            });
+        }
+
         function initMap() {
             setTimeout(function() {
                 map.invalidateSize();
             }, 500);
         }
-
-        AutoNumeric.multiple('.decimal', {
-            modifyValueOnWheel : false,
-            minimumValue: "0"
-        });
     </script>
 @endpush

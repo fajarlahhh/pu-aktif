@@ -1,4 +1,4 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | '.ucFirst($aksi).' DAS')
 
@@ -8,13 +8,13 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
-	<li class="breadcrumb-item">DAS</li>
+    <li class="breadcrumb-item"><a href="javascript:;">Cipta Karya</a></li>
+    <li class="breadcrumb-item"><a href="javascript:;">Daerah Aliran Sungai</a></li>
 	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">DAS <small>{{ ucFirst($aksi) }} Data</small></h1>
+	<h1 class="page-header">Daerah Aliran Sungai <small>{{ ucFirst($aksi) }} Data</small></h1>
 @endsection
 
 @section('subcontent')
@@ -37,36 +37,31 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="control-label">Kode WS</label>
-                        <input class="form-control" type="text" name="das_kode" value="{{ $aksi == 'edit'? $data->das_kode: old('das_kode') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <input class="form-control" type="text" name="das_kode_ws" value="{{ $aksi == 'edit'? $data->das_kode_ws: old('das_kode_ws') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Nama DAS</label>
+                        <label class="control-label">Pola Aliran (Drainage Pattern)</label>
+                        <input class="form-control" type="text" name="das_pola_aliran" value="{{ $aksi == 'edit'? $data->das_pola_aliran: old('das_pola_aliran') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Nama</label>
                         <input class="form-control" type="text" name="das_nama" value="{{ $aksi == 'edit'? $data->das_nama: old('das_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Tahun Pembuatan</label>
-                        <select class="form-control selectpicker" name="das_tahun_pembuatan" id="das_tahun_pembuatan" data-live-search="true" data-style="btn-info" data-width="100%">
-                            @for ($i = date('Y'); $i >= 1900; $i--)
-                            <option value="{{ $i }}" {{ $aksi == 'edit' && $data->das_tahun_pembuatan == $i? 'selected': '' }}>{{ $i }}</option>
-                            @endfor
-                        </select>
+                        <label class="control-label">Luas (Km<sup>2</sup>)</label>
+                        <input class="form-control decimal text-right" type="text" name="das_luas" value="{{ $aksi == 'edit'? $data->das_luas: (old('das_luas')?? 0) }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Biaya Pembuatan</label>
-                        <input class="form-control numbering" type="text" name="das_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->das_biaya_pembuatan: (old('das_biaya_pembuatan')?? 0) }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <label class="control-label">Banyaknya Orde Sungai</label>
+                        <input class="form-control" type="number" name="das_jumlah_orde_sungai" value="{{ $aksi == 'edit'? $data->das_jumlah_orde_sungai: old('das_jumlah_orde_sungai') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Jumlah Desa</label>
+                        <input class="form-control" type="number" name="das_jumlah_desa" value="{{ $aksi == 'edit'? $data->das_jumlah_desa: old('das_jumlah_desa') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group" id="catatan">
                         <label class="control-label">Keterangan</label>
                         <textarea class="form-control" rows="3" id="das_keterangan" name="das_keterangan">{{ $aksi == 'edit'? $data->das_keterangan: old('das_keterangan') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Kelurahan/Desa</label>
-                        <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-info" data-width="100%" data-size="5" onchange="caridesa()">
-                            <option value="">Pilih Kelurahan/Desa</option>
-                            @foreach ($desa as $row)
-                            <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
-                            @endforeach
-                        </select>
                     </div>
                 </div>
                 <div class="col-md-8">

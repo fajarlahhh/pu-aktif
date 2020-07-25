@@ -19,7 +19,7 @@ class JalanController extends Controller
 	{
         $data = Jalan::where('jalan_ruas', 'like', '%'.$req->cari.'%')->orWhere('jalan_subruas', 'like', '%'.$req->cari.'%')->orWhere('jalan_nama', 'like', '%'.$req->cari.'%')->orWhere('jalan_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
         $data->appends(['cari' => $req->cari]);
-        return view('pages.datamaster.jalan.index', [
+        return view('pages.datainduk.binamarga.jalan.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -28,7 +28,7 @@ class JalanController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.datamaster.jalan.form', [
+        return view('pages.datainduk.binamarga.jalan.form', [
             'aksi' => 'tambah',
             'map' => [],
             'back' => Str::contains(url()->previous(), ['jalan/tambah', 'jalan/edit'])? '/jalan': url()->previous(),
@@ -122,7 +122,7 @@ class JalanController extends Controller
             return redirect($req->get('redirect')? $req->get('redirect'): route('jalan'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'embung');
+			return redirect(url()->previous()? url()->previous()->withInput(): 'embung');
 		}
 	}
 
@@ -147,7 +147,7 @@ class JalanController extends Controller
                     ]);
                 }
             }
-            return view('pages.datamaster.jalan.form', [
+            return view('pages.datainduk.binamarga.jalan.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -163,7 +163,7 @@ class JalanController extends Controller
             ]);
 		}catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'jalan');
+			return redirect(url()->previous()? url()->previous()->withInput(): 'jalan');
 		}
     }
 

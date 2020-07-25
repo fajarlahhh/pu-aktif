@@ -16,7 +16,13 @@
 
         AutoNumeric.multiple('.numbering', {
             modifyValueOnWheel : false
-        });
+		});
+
+		AutoNumeric.multiple('.decimal', {
+			modifyValueOnWheel : false,
+			minimumValue: "0"
+		});
+		
         @if(Session::get('gritter_judul'))
 	    setTimeout(function() {
 			$.gritter.add({

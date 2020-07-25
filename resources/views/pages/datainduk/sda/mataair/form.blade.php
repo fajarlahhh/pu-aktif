@@ -1,4 +1,4 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | '.ucFirst($aksi).' Mata Air')
 
@@ -8,7 +8,7 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
+<li class="breadcrumb-item"><a href="javascript:;">SDA</a></li>
 	<li class="breadcrumb-item">Mata Air</li>
 	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection

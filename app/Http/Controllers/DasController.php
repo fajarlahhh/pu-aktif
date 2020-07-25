@@ -17,10 +17,10 @@ class DasController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Das::where('das_nama', 'like', '%'.$req->cari.'%')->orWhere('das_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('das_keterangan', 'like', '%'.$req->cari.'%')->orWhere('das_kode', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Das::where('das_kode_ws', 'like', '%'.$req->cari.'%')->orWhere('das_keterangan', 'like', '%'.$req->cari.'%')->orWhere('das_nama', 'like', '%'.$req->cari.'%')->orWhere('das_pola_aliran', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.das.index', [
+        return view('pages.datainduk.ciptakarya.das.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,7 +29,7 @@ class DasController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.das.form', [
+        return view('pages.datainduk.ciptakarya.das.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
@@ -42,12 +42,12 @@ class DasController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'das_nama' => 'required',
-                'das_kode' => 'required',
-                'das_tahun_pembuatan' => 'required'
+                'das_kode_ws' => 'required',
+                'das_pola_aliran' => 'required'
             ],[
                 'das_nama.required'  => 'Nama DAS tidak boleh kosong',
-                'das_kode.required'  => 'Kode WS tidak boleh kosong',
-                'das_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'das_kode_ws.required'  => 'Kode WS tidak boleh kosong',
+                'das_pola_aliran.required'  => 'Pola Aliran tidak boleh kosong'
             ]
         );
 
@@ -58,11 +58,13 @@ class DasController extends Controller
 
         try{
             $data = new Das();
+            $data->das_kode_ws = $req->get('das_kode_ws');
+            $data->das_pola_aliran = $req->get('das_pola_aliran');
             $data->das_nama = $req->get('das_nama');
-            $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
-            $data->das_biaya_pembuatan = str_replace(',', '', $req->get('das_biaya_pembuatan'));
+            $data->das_luas = str_replace(',', '', $req->get('das_luas'));
+            $data->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai');
+            $data->das_jumlah_desa = $req->get('das_jumlah_desa');
             $data->das_keterangan = $req->get('das_keterangan');
-            $data->das_kode = $req->get('das_kode');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -105,10 +107,9 @@ class DasController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
-            toast('Berhasil menambah das', 'success')->autoClose(2000);
+            toast('Berhasil menambah daerah aliran sungai', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('das'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
@@ -137,7 +138,7 @@ class DasController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.das.form', [
+            return view('pages.datainduk.ciptakarya.das.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -162,12 +163,12 @@ class DasController extends Controller
         $validator = Validator::make($req->all(),
             [
                 'das_nama' => 'required',
-                'das_kode' => 'required',
-                'das_tahun_pembuatan' => 'required'
+                'das_kode_ws' => 'required',
+                'das_pola_aliran' => 'required'
             ],[
                 'das_nama.required'  => 'Nama DAS tidak boleh kosong',
-                'das_kode.required'  => 'Kode WS tidak boleh kosong',
-                'das_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'das_kode_ws.required'  => 'Kode WS tidak boleh kosong',
+                'das_pola_aliran.required'  => 'Pola Aliran tidak boleh kosong'
             ]
         );
 
@@ -178,11 +179,13 @@ class DasController extends Controller
 
         try{
 			$data = Das::findOrFail($req->get('id'));
+            $data->das_kode_ws = $req->get('das_kode_ws');
+            $data->das_pola_aliran = $req->get('das_pola_aliran');
             $data->das_nama = $req->get('das_nama');
-            $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
-            $data->das_biaya_pembuatan = str_replace(',', '', $req->get('das_biaya_pembuatan'));
+            $data->das_luas = str_replace(',', '', $req->get('das_luas'));
+            $data->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai');
+            $data->das_jumlah_desa = $req->get('das_jumlah_desa');
             $data->das_keterangan = $req->get('das_keterangan');
-            $data->das_kode = $req->get('das_kode');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -227,10 +230,9 @@ class DasController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->save();
-            toast('Berhasil mengedit das', 'success')->autoClose(2000);
+            toast('Berhasil mengedit daerah aliran sungai', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('das'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
@@ -281,7 +283,7 @@ class DasController extends Controller
 		try{
             $data = Das::findOrFail($id);
             $data->delete();
-            toast('Berhasil menghapus das '.$data->das_nama, 'success')->autoClose(2000);
+            toast('Berhasil menghapus daerah aliran sungai '.$data->das_nama, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | Embung')
 
@@ -8,7 +8,7 @@
 @endpush
 
 @section('page')
-    <li class="breadcrumb-item"><a href="javascript:;">ISDA</a></li>
+    <li class="breadcrumb-item"><a href="javascript:;">SDA</a></li>
 	<li class="breadcrumb-item active">Embung</li>
 @endsection
 
@@ -49,19 +49,16 @@
                     <tr>
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nama Embung</th>
-                        <th colspan="3" class="text-center">Lokasi</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
                         <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th colspan="7" class="text-center">Data Teknik</th>
                         <th class="align-middle" rowspan="2"></th>
                         <th colspan="4" class="text-center">Fungsi</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90" rowspan="2"></th>
                     </tr>
                     <tr>
-                        <th>Kelurahan/Desa</th>
-                        <th>Kecamatan</th>
-                        <th>Kabupaten/Kota</th>
                         <th>CA (KM<sup>2</sup>)</th>
                         <th>Luas Genangan (Ha)</th>
                         <th>Tipe Konstruksi</th>
@@ -73,6 +70,9 @@
                         <th>Ternak (Ekor)</th>
                         <th>Air Baku (KK)</th>
                         <th>PLTM (KVA)</th>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,9 +88,6 @@
                         {{ $row->embung_nama }}
                         @endif
                         </td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="align-middle">{{ $row->embung_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ $row->embung_biaya_pembuatan != 0? number_format($row->embung_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_ca_km != 0? number_format($row->embung_data_teknik_ca_km): "-" }}</td>
@@ -106,6 +103,9 @@
                         <td class="align-middle text-right">{{ $row->embung_fungsi_air_baku != 0? number_format($row->embung_fungsi_air_baku): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_fungsi_pltm != 0? number_format($row->embung_fungsi_pltm): "-" }}</td>
                         <td class="align-middle">{{ $row->embung_keterangan }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('embung.edit', ['id' => $row->embung_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

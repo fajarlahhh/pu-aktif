@@ -1,6 +1,6 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.datainduk.main')
 
-@section('title', ' | Bendungan')
+@section('title', ' | DAS')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,12 +8,12 @@
 @endpush
 
 @section('page')
-    <li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
-	<li class="breadcrumb-item active">Bendungan</li>
+<li class="breadcrumb-item"><a href="javascript:;">Cipta Karya</a></li>
+	<li class="breadcrumb-item active">Daerah Aliran Sungai</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Bendungan</h1>
+	<h1 class="page-header">Daerah Aliran Sungai</h1>
 @endsection
 
 @section('subcontent')
@@ -24,12 +24,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('bendungan.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('das.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('bendungan') }}" method="GET">
+                <form id="frm-cari" action="{{ route('das') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -48,12 +48,13 @@
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Nama Bendungan</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
+                        <th>Kode WS</th>
+                        <th>Pola Aliran</th>
+                        <th>Nama DAS</th>
+                        <th>Luas</th>
+                        <th>Banyaknya Orde Sungai</th>
+                        <th>Jumlah Desa Yang Dilalui</th>
                         <th>Keterangan</th>
-                        <th>Kelas</th>
-                        <th>Lokasi</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -61,30 +62,25 @@
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->bendungan_nama }}</td>
-                        <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ number_format($row->bendungan_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
-                        <td class="align-middle">{{ $row->bendungan_kelas }}</td>
+                        <td class="align-middle">{{ $row->das_kode_ws }}</td>
+                        <td class="align-middle">{{ $row->das_pola_aliran }}</td>
                         <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->bendungan_id }}')">
-                                @if ($row->kelurahan_desa)
-                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                                @else
-                                Peta
-                                @endif
-                            </a>
-                        @else
-                            @if ($row->kelurahan_desa)
-                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
+                            @if ($row->marker)
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                                    {{ $row->das_nama }}
+                                </a>
+                            @else
+                            {{ $row->das_nama }}
                             @endif
-                        @endif
                         </td>
+                        <td class="align-middle text-right">{{ number_format($row->das_luas, 2) }}</td>
+                        <td class="align-middle text-right">{{ number_format($row->das_jumlah_orde_sungai) }}</td>
+                        <td class="align-middle text-right">{{ number_format($row->das_jumlah_desa) }}</td>
+                        <td class="align-middle">{{ $row->das_keterangan }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('bendungan.edit', ['id' => $row->bendungan_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->bendungan_id }}', '{{ $row->bendungan_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="{{ route('das.edit', ['id' => $row->das_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->das_id }}', '{{ $row->das_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -102,6 +98,7 @@
         </div>
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
+</div>
 @include('includes.component.modal', ['judul' => 'Peta Lokasi'])
 @endsection
 
@@ -113,13 +110,13 @@
     });
 
     function peta(id){
-        $("#modal-content").load("{{ url('/bendungan/peta') }}?id=" + id);
+        $("#modal-content").load("{{ url('/das/peta') }}?id=" + id);
     }
 
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus bendungan ' + ket + '',
+            text: 'Anda akan menghapus daerah aliran sungai ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -134,7 +131,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/bendungan/hapus/") }}/' + id,
+                    url: '{{ url("/das/hapus/") }}/' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

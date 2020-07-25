@@ -1,6 +1,6 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.datainduk.main')
 
-@section('title', ' | DAS')
+@section('title', ' | Bendungan')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,12 +8,12 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
-	<li class="breadcrumb-item active">DAS</li>
+    <li class="breadcrumb-item"><a href="javascript:;">SDA</a></li>
+	<li class="breadcrumb-item active">Bendungan</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">DAS</h1>
+	<h1 class="page-header">Bendungan</h1>
 @endsection
 
 @section('subcontent')
@@ -24,12 +24,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('das.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('bendungan.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('das') }}" method="GET">
+                <form id="frm-cari" action="{{ route('bendungan') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -47,44 +47,59 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Kode WS</th>
-                        <th>Nama DAS</th>
+                        <th rowspan="2" class="align-middle">No.</th>
+                        <th rowspan="2" class="align-middle">Nama Bendungan</th>
+                        <th colspan="4" class="text-center align-middle">Data Teknik</th>
+                        <th rowspan="2" class="align-middle"></th>
+                        <th colspan="4" class="text-center align-middle">Manfaat</th>
+                        <th rowspan="2" class="align-middle"></th>
+                        <th colspan="2" class="text-center align-middle">Status Kelembagaan</th>
+                        <th class="align-middle" rowspan="2">Kabupaten</th>
+                        <th class="width-90" rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th>Tinggi (m)</th>
+                        <th>Volume (m<sup>3</sup>)</th>
                         <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Keterangan</th>
-                        <th>Lokasi</th>
-                        <th class="width-90"></th>
+                        <th>Pengukuran Bathimetri</th>
+                        <th>Air baku (lt/dt)</th>
+                        <th>Irigasi (Ha)</th>
+                        <th>PLTA (MW)</th>
+                        <th>Lainnya</th>
+                        <th>UPB</th>
+                        <th>Petugas</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->das_kode }}</td>
-                        <td class="align-middle">{{ $row->das_nama }}</td>
-                        <td class="align-middle">{{ $row->das_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ number_format($row->das_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->das_keterangan }}</td>
                         <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->das_id }}')">
-                                @if ($row->kelurahan_desa)
-                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                                @else
-                                Peta
-                                @endif
-                            </a>
-                        @else
-                            @if ($row->kelurahan_desa)
-                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
+                            @if ($row->marker)
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                                    {{ $row->bendungan_nama }}
+                                </a>
+                            @else
+                            {{ $row->bendungan_nama }}
                             @endif
-                        @endif
                         </td>
+                        <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_tinggi, 2) }}</td>
+                        <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_volume, 2) }}</td>
+                        <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->bendungan_data_teknik_bathimetri != 0? number_format($row->bendungan_data_teknik_bathimetri): '-' }}</td>
+                        <td class="align-middle">&nbsp;</td>
+                        <td class="align-middle text-right">{{ number_format($row->bendungan_manfaat_air_baku, 2) }}</td>
+                        <td class="align-middle text-right">{{ $row->bendungan_manfaat_irigasi != 0? number_format($row->bendungan_manfaat_irigasi): '-' }}</td>
+                        <td class="align-middle text-right">{{ $row->bendungan_manfaat_plta != 0? number_format($row->bendungan_manfaat_plta): '-' }}</td>
+                        <td class="align-middle">{{ $row->bendungan_manfaat_lainnya }}</td>
+                        <td class="align-middle">&nbsp;</td>
+                        <td class="align-middle">{{ $row->bendungan_kelembagaan_upb }}</td>
+                        <td class="align-middle">{{ $row->bendungan_kelembagaan_petugas }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('das.edit', ['id' => $row->das_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->das_id }}', '{{ $row->das_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="{{ route('bendungan.edit', ['id' => $row->bendungan_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->bendungan_id }}', '{{ $row->bendungan_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -102,7 +117,6 @@
         </div>
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
-</div>
 @include('includes.component.modal', ['judul' => 'Peta Lokasi'])
 @endsection
 
@@ -114,13 +128,13 @@
     });
 
     function peta(id){
-        $("#modal-content").load("{{ url('/das/peta') }}?id=" + id);
+        $("#modal-content").load("{{ url('/bendungan/peta') }}?id=" + id);
     }
 
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus DAS ' + ket + '',
+            text: 'Anda akan menghapus bendungan ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -135,7 +149,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/das/hapus/") }}/' + id,
+                    url: '{{ url("/bendungan/hapus/") }}/' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

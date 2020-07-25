@@ -1,4 +1,4 @@
-@extends('pages.datamaster.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | Jalan')
 
@@ -8,6 +8,7 @@
 @endpush
 
 @section('page')
+    <li class="breadcrumb-item"><a href="javascript:;">Bina Marga</a></li>
 	<li class="breadcrumb-item active">Jalan</li>
 @endsection
 
