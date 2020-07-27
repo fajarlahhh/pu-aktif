@@ -82,6 +82,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class='hakakses checkbox checkbox-css'>
+                                <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
+                                <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <div class="note note-primary">

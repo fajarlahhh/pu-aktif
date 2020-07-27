@@ -63,6 +63,10 @@
                         <label class="control-label">Keterangan</label>
                         <textarea class="form-control" rows="3" id="das_keterangan" name="das_keterangan">{{ $aksi == 'edit'? $data->das_keterangan: old('das_keterangan') }}</textarea>
                     </div>
+                    <div class='hakakses checkbox checkbox-css'>
+                        <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
+                        <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
+                    </div>
                 </div>
                 <div class="col-md-8">
                     <div class="note note-primary">

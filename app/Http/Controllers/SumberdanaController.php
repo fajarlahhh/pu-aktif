@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\SumberDana;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Grimzy\LaravelMysqlSpatial\Types\Point;
-use Grimzy\LaravelMysqlSpatial\Types\Polygon;
-use Grimzy\LaravelMysqlSpatial\Types\LineString;
 
 class SumberdanaController extends Controller
 {

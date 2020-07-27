@@ -17,10 +17,16 @@ class SumurController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Sumur::where('sumur_kode', 'like', '%'.$req->cari.'%')->where('sumur_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('sumur_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Sumur::whereHas('kelurahan_desa', function($q) use ($req){
+            $q->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kecamatan', function($q) use ($req){
+                $q->where('kecamatan_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kabupaten_kota', function($q) use ($req){
+                    $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+                });
+            });
+        })->where('sumur_kode', 'like', '%'.$req->cari.'%')->where('sumur_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('sumur_debit', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.sumur.index', [
+        return view('pages.datainduk.ciptakarya.sumur.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,7 +35,7 @@ class SumurController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.sumur.form', [
+        return view('pages.datainduk.ciptakarya.sumur.form', [
             'aksi' => 'tambah',
             'map' => [],
             'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
@@ -104,6 +110,7 @@ class SumurController extends Controller
             }
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah sumur', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('sumur'));
@@ -134,7 +141,7 @@ class SumurController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.sumur.form', [
+            return view('pages.datainduk.ciptakarya.sumur.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -223,6 +230,7 @@ class SumurController extends Controller
             }
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit sumur', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('sumur'));

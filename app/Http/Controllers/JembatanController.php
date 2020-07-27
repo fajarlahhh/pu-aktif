@@ -121,6 +121,7 @@ class JembatanController extends Controller
                 })->toArray());
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah jembatan', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('jembatan'));
@@ -252,6 +253,7 @@ class JembatanController extends Controller
                 $data->polygon = null;
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit jembatan', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('jembatan'));

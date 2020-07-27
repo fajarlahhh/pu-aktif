@@ -25,7 +25,7 @@
 		<!-- end sidebar user -->
 		<!-- begin sidebar nav -->
 		<ul class="nav">
-			<li class="nav-header">Navigation</li>
+			<li class="nav-header">Menu</li>
 			@php
 				$currentUrl = (Request::path() != '/') ? '/'. explode('/', Request::path())[0] : '/';
 

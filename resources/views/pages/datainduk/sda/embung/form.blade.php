@@ -71,16 +71,10 @@
                                 <label class="control-label">Keterangan</label>
                                 <textarea class="form-control" rows="3" id="embung_keterangan" name="embung_keterangan">{{ $aksi == 'edit'? $data->embung_keterangan: old('embung_keterangan') }}</textarea>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label">Kelurahan/Desa</label>
-                                <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-purple" data-width="100%" data-size="5" onchange="caridesa()">
-                                    <option value="">Pilih Kelurahan/Desa</option>
-                                    @foreach ($desa as $row)
-                                    <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
-                                    @endforeach
-                                </select>
+                            <div class='hakakses checkbox checkbox-css'>
+                                <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
+                                <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                             </div>
-                            
                         </div>
                         <div class="col-md-3">
                             <div class="note note-primary">
@@ -141,7 +135,22 @@
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade" id="default-tab-2">
-                    @include('includes.component.leaflet')
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Kelurahan/Desa</label>
+                                <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-purple" data-width="100%" data-size="5" onchange="caridesa()">
+                                    <option value="">Pilih Kelurahan/Desa</option>
+                                    @foreach ($desa as $row)
+                                    <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
                 <!-- end tab-pane -->
             </div>

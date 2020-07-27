@@ -108,6 +108,7 @@ class DaerahirigasiController extends Controller
                 })->toArray());
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah luasan daerah irigasi', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('daerahirigasi'));
@@ -229,6 +230,7 @@ class DaerahirigasiController extends Controller
                 $data->polygon = null;
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit luasan daerah irigasi', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('daerahirigasi'));

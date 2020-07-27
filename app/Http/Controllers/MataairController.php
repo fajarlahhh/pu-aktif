@@ -61,7 +61,7 @@ class MataairController extends Controller
         try{
             $data = new MataAir();
             $data->mata_air_nama = $req->get('mata_air_nama');
-            $data->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'));
+            $data->mata_air_debit = $req->get('mata_air_debit');
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -106,6 +106,7 @@ class MataairController extends Controller
                 })->toArray());
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah mata air', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('mataair'));
@@ -174,7 +175,7 @@ class MataairController extends Controller
         try{
 			$data = MataAir::findOrFail($req->get('id'));
             $data->mata_air_nama = $req->get('mata_air_nama');
-            $data->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'));
+            $data->mata_air_debit = $req->get('mata_air_debit');
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -221,6 +222,7 @@ class MataairController extends Controller
                 $data->polygon = null;
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit mata air', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('mataair'));

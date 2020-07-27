@@ -1,4 +1,4 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | '.ucFirst($aksi).' Sumur')
 
@@ -8,7 +8,7 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
+<li class="breadcrumb-item"><a href="javascript:;">Cipta Karya</a></li>
 	<li class="breadcrumb-item">Sumur</li>
 	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection
@@ -41,19 +41,15 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Tahun Pembuatan</label>
-                        <select class="form-control selectpicker" name="sumur_tahun_pembuatan" id="sumur_tahun_pembuatan" data-live-search="true" data-style="btn-info" data-width="100%">
-                            @for ($i = date('Y'); $i >= 1900; $i--)
-                            <option value="{{ $i }}" {{ $aksi == 'edit' && $data->sumur_tahun_pembuatan == $i? 'selected': '' }}>{{ $i }}</option>
-                            @endfor
-                        </select>
+                        <input class="form-control" type="text" name="sumur_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_tahun_pembuatan: old('sumur_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Biaya Pembuatan</label>
-                        <input class="form-control numbering" type="text" name="sumur_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_biaya_pembuatan: (old('sumur_biaya_pembuatan')?? 0) }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <label class="control-label">Debit</label>
+                        <input class="form-control" type="text" name="sumur_debit" value="{{ $aksi == 'edit'? $data->sumur_debit: old('sumur_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
-                    <div class="form-group" id="catatan">
-                        <label class="control-label">Keterangan</label>
-                        <textarea class="form-control" rows="3" id="sumur_keterangan" name="sumur_keterangan">{{ $aksi == 'edit'? $data->sumur_keterangan: old('sumur_keterangan') }}</textarea>
+                    <div class="form-group">
+                        <label class="control-label">Kondisi</label>
+                        <input class="form-control" type="text" name="sumur_kondisi" value="{{ $aksi == 'edit'? $data->sumur_kondisi: old('sumur_kondisi') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Kelurahan/Desa</label>
@@ -63,6 +59,10 @@
                             <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class='hakakses checkbox checkbox-css'>
+                        <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
+                        <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
                 <div class="col-md-8">

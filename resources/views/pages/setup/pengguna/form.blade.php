@@ -1,4 +1,4 @@
-@extends('pages.main')
+@extends('pages.setup.main')
 
 @section('title', ' | '.ucFirst($aksi).' Pengguna')
 

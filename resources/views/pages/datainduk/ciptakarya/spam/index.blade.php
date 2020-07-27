@@ -1,6 +1,6 @@
-@extends('pages.setup.main')
+@extends('pages.datainduk.main')
 
-@section('title', ' | Jenis Infrastruktur')
+@section('title', ' | SPAM')
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
@@ -8,11 +8,12 @@
 @endpush
 
 @section('page')
-	<li class="breadcrumb-item active">Jenis Infrastruktur</li>
+<li class="breadcrumb-item"><a href="javascript:;">Cipta Karya</a></li>
+	<li class="breadcrumb-item active">SPAM</li>
 @endsection
 
 @section('header')
-	<h1 class="page-header">Jenis Infrastruktur</h1>
+	<h1 class="page-header">SPAM</h1>
 @endsection
 
 @section('subcontent')
@@ -23,12 +24,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('jenisinfrastruktur.tambah') }}" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('spam.tambah') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('jenisinfrastruktur') }}" method="GET">
+                <form id="frm-cari" action="{{ route('spam') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
@@ -46,22 +47,41 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Infrastruktur</th>
-                        <th class="width-90"></th>
+                        <th class="align-middle" rowspan="2">No.</th>
+                        <th class="align-middle" rowspan="2">Kode</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th colspan="5" class="text-center">Kapasitas</th>
+                        <th class="align-middle" rowspan="2">Jumlah SR</th>
+                        <th class="align-middle" rowspan="2">Jumlah Jiwa Terlayani</th>
+                        <th class="align-middle" rowspan="2">Kabupaten/ Kota</th>
+                        <th class="width-90 align-middle" rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th>Terpasang</th>
+                        <th>Produksi</th>
+                        <th>Distribusi</th>
+                        <th>Terjual</th>
+                        <th>Idle</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $index => $row)
+                    @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">
-                            <span data-toggle="tooltip" data-container="body" data-placement="right" data-html="true" data-placement="top" title="{!! $row->updated_at !!}">{{ $row->infrastruktur_nama }}</span>
-                        </td>
+                        <td class="align-middle">{{ $row->spam_nama_unit }}</td>
+                        <td class="align-middle">{{ $row->spam_tahun_pembuatan  }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_terpasang != 0? number_format($row->spam_kapasitas_terpasang, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_produksi != 0? number_format($row->spam_kapasitas_produksi, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_distribusi != 0? number_format($row->spam_kapasitas_distribusi, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_air_terjual != 0? number_format($row->spam_kapasitas_air_terjual, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_idle != 0? number_format($row->spam_kapasitas_idle, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->das_jumlah_sr != 0? number_format($row->das_jumlah_sr): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->das_jumlah_jiwa_terlayani != 0? number_format($row->das_jumlah_jiwa_terlayani): "-" }}</td>
+                        <td>{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('jenisinfrastruktur.edit', ['id' => $row->infrastruktur_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->infrastruktur_id }}', '{{ $row->infrastruktur_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="{{ route('spam.edit', ['id' => $row->spam_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->spam_id }}', '{{ $row->spam_nama_unit }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -80,7 +100,7 @@
         This page took {{ (microtime(true) - LARAVEL_START) }} seconds to render
     </div>
 </div>
-
+@include('includes.component.modal', ['judul' => 'Peta Lokasi'])
 @endsection
 
 @push('scripts')
@@ -90,10 +110,14 @@
          $("#frm-cari").submit();
     });
 
+    function peta(id){
+        $("#modal-content").load("{{ url('/spam/peta') }}?id=" + id);
+    }
+
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus jenis infrastruktur ' + ket + '',
+            text: 'Anda akan menghapus spam ' + ket + '',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -108,7 +132,7 @@
                     }
                 });
                 $.ajax({
-                    url: '{{ url("/jenisinfrastruktur/hapus")."/" }}' + id,
+                    url: '{{ url("/spam/hapus/") }}/' + id,
                     type: "POST",
                     data: {
                         "_method": 'DELETE'

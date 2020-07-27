@@ -16,7 +16,7 @@ class CreateMataAirTable extends Migration
         Schema::create('mata_air', function (Blueprint $table) {
             $table->bigIncrements('mata_air_id');
             $table->string('mata_air_nama');
-            $table->decimal('mata_air_debit', 15, 2)->default(0)->nullable();
+            $table->string('mata_air_debit')->nullable();
             $table->bigInteger('kelurahan_desa_id')->unsigned()->nullable();
             $table->point('marker')->nullable();
             $table->lineString('polyline')->nullable();

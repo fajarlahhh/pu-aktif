@@ -39,9 +39,9 @@
                         <label class="control-label">Nama Mata Air</label>
                         <input class="form-control" type="text" name="mata_air_nama" value="{{ $aksi == 'edit'? $data->mata_air_nama: old('mata_air_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
-                    <div class="form-group" id="catatan">
-                        <label class="control-label">Keterangan</label>
-                        <textarea class="form-control" rows="3" id="mata_air_keterangan" name="mata_air_keterangan">{{ $aksi == 'edit'? $data->mata_air_keterangan: old('mata_air_keterangan') }}</textarea>
+                    <div class="form-group">
+                        <label class="control-label">Debit</label>
+                        <input class="form-control" type="text" name="mata_air_debit" value="{{ $aksi == 'edit'? $data->mata_air_debit: old('mata_air_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Kelurahan/Desa</label>
@@ -51,6 +51,10 @@
                             <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class='hakakses checkbox checkbox-css'>
+                        <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
+                        <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
                 <div class="col-md-8">

@@ -1,4 +1,4 @@
-@extends('pages.infrastruktur.main')
+@extends('pages.datainduk.main')
 
 @section('title', ' | Sumur')
 
@@ -8,7 +8,7 @@
 @endpush
 
 @section('page')
-<li class="breadcrumb-item"><a href="javascript:;">Infrastruktur</a></li>
+<li class="breadcrumb-item"><a href="javascript:;">Cipta Karya</a></li>
 	<li class="breadcrumb-item active">Sumur</li>
 @endsection
 
@@ -47,13 +47,18 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Kode Sumur</th>
-                        <th>Tahun Pembuatan</th>
-                        <th>Biaya Pembuatan</th>
-                        <th>Keterangan</th>
-                        <th>Lokasi</th>
-                        <th class="width-90"></th>
+                        <th class="align-middle" rowspan="2">No.</th>
+                        <th class="align-middle" rowspan="2">Kode</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Debit (ltr/dtk)</th>
+                        <th class="align-middle" rowspan="2">Kondisi</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
+                        <th class="width-90 align-middle" rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,23 +67,11 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->sumur_kode }}</td>
                         <td class="align-middle">{{ $row->sumur_tahun_pembuatan }}</td>
-                        <td class="align-middle text-center">{{ number_format($row->sumur_biaya_pembuatan, 2) }}</td>
-                        <td class="align-middle">{{ $row->sumur_keterangan }}</td>
-                        <td class="align-middle">
-                        @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->sumur_id }}')">
-                                @if ($row->kelurahan_desa)
-                                {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                                @else
-                                Peta
-                                @endif
-                            </a>
-                        @else
-                            @if ($row->kelurahan_desa)
-                            {{ $row->kelurahan_desa->kelurahan_desa_nama.", ".$row->kelurahan_desa->kecamatan->kecamatan_nama.", ".$row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama }}
-                            @endif
-                        @endif
-                        </td>
+                        <td class="align-middle">{{ $row->sumur_debit }}</td>
+                        <td class="align-middle">{{ $row->sumur_kondisi }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('sumur.edit', ['id' => $row->sumur_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

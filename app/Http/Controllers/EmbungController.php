@@ -119,6 +119,7 @@ class EmbungController extends Controller
                 })->toArray());
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah embung', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));
@@ -247,6 +248,7 @@ class EmbungController extends Controller
                 $data->polygon = null;
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit embung', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('embung'));

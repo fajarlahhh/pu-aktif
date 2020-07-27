@@ -63,6 +63,10 @@
                                 <label class="control-label">Tahun Pembuatan</label>
                                 <input class="form-control" type="number" name="bendungan_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->bendungan_tahun_pembuatan: old('bendungan_tahun_pembuatan') }}" autocomplete="off"  />
                             </div>
+                            <div class='hakakses checkbox checkbox-css'>
+                                <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
+                                <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <div class="note note-primary">

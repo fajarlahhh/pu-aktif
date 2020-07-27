@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\PosHidrologi;
-use App\KelurahanDesa;
+use App\Spam;
+use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,15 +12,17 @@ use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Grimzy\LaravelMysqlSpatial\Types\Polygon;
 use Grimzy\LaravelMysqlSpatial\Types\LineString;
 
-class PosHidrologiController extends Controller
+class SpamController extends Controller
 {
     //
     public function index(Request $req)
 	{
-        $data = PosHidrologi::where('pos_hidrologi_nama_hw', 'like', '%'.$req->cari.'%')->orWhere('pos_hidrologi_operator_hw', 'like', '%'.$req->cari.'%')->orWhere('pos_hidrologi_tahun_pembuatan', 'like', '%'.$req->cari.'%')->orWhere('pos_hidrologi_pengelola_aset', 'like', '%'.$req->cari.'%')->orWhere('pos_hidrologi_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $data = Spam::whereHas('kabupaten_kota', function($q) use ($req){
+            $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+        })->orWhere('spam_nama_unit', 'like', '%'.$req->cari.'%')->orWhere('spam_tahun_pembuatan', 'like', '%'.$req->cari.'%')->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
-        return view('pages.infrastruktur.isda.poshidrologi.index', [
+        return view('pages.datainduk.ciptakarya.spam.index', [
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -29,11 +31,11 @@ class PosHidrologiController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.infrastruktur.isda.poshidrologi.form', [
+        return view('pages.datainduk.ciptakarya.spam.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
-            'back' => Str::contains(url()->previous(), ['poshidrologi/tambah', 'poshidrologi/edit'])? '/poshidrologi': url()->previous(),
+            'kabupaten_kota' => KabupatenKota::all(),
+            'back' => Str::contains(url()->previous(), ['spam/tambah', 'spam/edit'])? '/spam': url()->previous(),
         ]);
     }
 
@@ -41,17 +43,11 @@ class PosHidrologiController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'pos_hidrologi_nama_hw' => 'required',
-                'pos_hidrologi_operator_hw' => 'required',
-                'pos_hidrologi_pengelola_aset' => 'required',
-                'pos_hidrologi_no_hp' => 'required',
-                'pos_hidrologi_tahun_pembuatan' => 'required'
+                'spam_nama_unit' => 'required',
+                'spam_tahun_pembuatan' => 'required'
             ],[
-                'pos_hidrologi_nama_hw.required'  => 'Nama HW tidak boleh kosong',
-                'pos_hidrologi_operator_hw.required'  => 'Operator HW tidak boleh kosong',
-                'pos_hidrologi_pengelola_aset.required'  => 'Pengelola Aset tidak boleh kosong',
-                'pos_hidrologi_no_hp.required'  => 'No. Hp tidak boleh kosong',
-                'pos_hidrologi_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'spam_nama_unit.required'  => 'Nama Unit tidak boleh kosong',
+                'spam_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
             ]
         );
 
@@ -61,14 +57,17 @@ class PosHidrologiController extends Controller
         }
 
         try{
-            $data = new PosHidrologi();
-            $data->pos_hidrologi_nama_hw = $req->get('pos_hidrologi_nama_hw');
-            $data->pos_hidrologi_operator_hw = $req->get('pos_hidrologi_operator_hw');
-            $data->pos_hidrologi_pengelola_aset = $req->get('pos_hidrologi_pengelola_aset');
-            $data->pos_hidrologi_no_hp = $req->get('pos_hidrologi_no_hp');
-            $data->pos_hidrologi_tahun_pembuatan = $req->get('pos_hidrologi_tahun_pembuatan');
-            $data->pos_hidrologi_biaya_pembuatan = str_replace(',', '', $req->get('pos_hidrologi_biaya_pembuatan'));
-            $data->pos_hidrologi_keterangan = $req->get('pos_hidrologi_keterangan');
+            $data = new Spam();
+            $data->spam_nama_unit = $req->get('spam_nama_unit');
+            $data->spam_tahun_pembuatan = $req->get('spam_tahun_pembuatan');
+            $data->spam_kapasitas_terpasang = $req->get('spam_kapasitas_terpasang')? str_replace(',', '', $req->get('spam_kapasitas_terpasang')): 0;
+            $data->spam_kapasitas_produksi = $req->get('spam_kapasitas_produksi')? str_replace(',', '', $req->get('spam_kapasitas_produksi')): 0;
+            $data->spam_kapasitas_distribusi = $req->get('spam_kapasitas_distribusi')? str_replace(',', '', $req->get('spam_kapasitas_distribusi')): 0;
+            $data->spam_kapasitas_air_terjual = $req->get('spam_kapasitas_air_terjual')? str_replace(',', '', $req->get('spam_kapasitas_air_terjual')): 0;
+            $data->spam_kapasitas_idle = $req->get('spam_kapasitas_idle')? str_replace(',', '', $req->get('spam_kapasitas_idle')): 0;
+            $data->spam_jumlah_sr = $req->get('spam_jumlah_sr')? str_replace(',', '', $req->get('spam_jumlah_sr')): 0;
+            $data->spam_jumlah_jiwa_terlayani = $req->get('spam_jumlah_jiwa_terlayani')? str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani')): 0;
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -111,21 +110,21 @@ class PosHidrologiController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
-            toast('Berhasil menambah pos hidrologi', 'success')->autoClose(2000);
-            return redirect($req->get('redirect')? $req->get('redirect'): route('poshidrologi'));
+            toast('Berhasil menambah spam', 'success')->autoClose(2000);
+            return redirect($req->get('redirect')? $req->get('redirect'): route('spam'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'embung');
+			return redirect(url()->previous()? url()->previous(): 'embung')->withInput();
 		}
 	}
 
 	public function edit(Request $req)
 	{
         try{
-            $data = PosHidrologi::findOrFail($req->get('id'));
+            $data = Spam::findOrFail($req->get('id'));
 
             $polygon = [];
             if($data->polygon){
@@ -143,7 +142,7 @@ class PosHidrologiController extends Controller
                     ]);
                 }
             }
-            return view('pages.infrastruktur.isda.poshidrologi.form', [
+            return view('pages.datainduk.ciptakarya.spam.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'map' => [
@@ -154,12 +153,12 @@ class PosHidrologiController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
-                'back' => Str::contains(url()->previous(), ['poshidrologi/tambah', 'poshidrologi/edit'])? '/poshidrologi': url()->previous(),
+                'kabupaten_kota' => KabupatenKota::all(),
+                'back' => Str::contains(url()->previous(), ['spam/tambah', 'spam/edit'])? '/spam': url()->previous(),
             ]);
 		}catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous(): 'poshidrologi');
+			return redirect(url()->previous()? url()->previous()->withInput(): 'spam');
 		}
     }
 
@@ -167,17 +166,11 @@ class PosHidrologiController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'pos_hidrologi_nama_hw' => 'required',
-                'pos_hidrologi_operator_hw' => 'required',
-                'pos_hidrologi_pengelola_aset' => 'required',
-                'pos_hidrologi_no_hp' => 'required',
-                'pos_hidrologi_tahun_pembuatan' => 'required'
+                'spam_nama_unit' => 'required',
+                'spam_tahun_pembuatan' => 'required'
             ],[
-                'pos_hidrologi_nama_hw.required'  => 'Nama HW tidak boleh kosong',
-                'pos_hidrologi_operator_hw.required'  => 'Operator HW tidak boleh kosong',
-                'pos_hidrologi_pengelola_aset.required'  => 'Pengelola Aset tidak boleh kosong',
-                'pos_hidrologi_no_hp.required'  => 'No. Hp tidak boleh kosong',
-                'pos_hidrologi_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'spam_nama_unit.required'  => 'Nama Spam tidak boleh kosong',
+                'spam_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
             ]
         );
 
@@ -187,14 +180,17 @@ class PosHidrologiController extends Controller
         }
 
         try{
-			$data = PosHidrologi::findOrFail($req->get('id'));
-            $data->pos_hidrologi_nama_hw = $req->get('pos_hidrologi_nama_hw');
-            $data->pos_hidrologi_operator_hw = $req->get('pos_hidrologi_operator_hw');
-            $data->pos_hidrologi_pengelola_aset = $req->get('pos_hidrologi_pengelola_aset');
-            $data->pos_hidrologi_no_hp = $req->get('pos_hidrologi_no_hp');
-            $data->pos_hidrologi_tahun_pembuatan = $req->get('pos_hidrologi_tahun_pembuatan');
-            $data->pos_hidrologi_biaya_pembuatan = str_replace(',', '', $req->get('pos_hidrologi_biaya_pembuatan'));
-            $data->pos_hidrologi_keterangan = $req->get('pos_hidrologi_keterangan');
+			$data = Spam::findOrFail($req->get('id'));
+            $data->spam_nama_unit = $req->get('spam_nama_unit');
+            $data->spam_tahun_pembuatan = $req->get('spam_tahun_pembuatan');
+            $data->spam_kapasitas_terpasang = $req->get('spam_kapasitas_terpasang')? str_replace(',', '', $req->get('spam_kapasitas_terpasang')): 0;
+            $data->spam_kapasitas_produksi = $req->get('spam_kapasitas_produksi')? str_replace(',', '', $req->get('spam_kapasitas_produksi')): 0;
+            $data->spam_kapasitas_distribusi = $req->get('spam_kapasitas_distribusi')? str_replace(',', '', $req->get('spam_kapasitas_distribusi')): 0;
+            $data->spam_kapasitas_air_terjual = $req->get('spam_kapasitas_air_terjual')? str_replace(',', '', $req->get('spam_kapasitas_air_terjual')): 0;
+            $data->spam_kapasitas_idle = $req->get('spam_kapasitas_idle')? str_replace(',', '', $req->get('spam_kapasitas_idle')): 0;
+            $data->spam_jumlah_sr = $req->get('spam_jumlah_sr')? str_replace(',', '', $req->get('spam_jumlah_sr')): 0;
+            $data->spam_jumlah_jiwa_terlayani = $req->get('spam_jumlah_jiwa_terlayani')? str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani')): 0;
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -239,21 +235,21 @@ class PosHidrologiController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
-            toast('Berhasil mengedit pos hidrologi', 'success')->autoClose(2000);
-			return redirect($req->get('redirect')? $req->get('redirect'): route('poshidrologi'));
+            toast('Berhasil mengedit spam', 'success')->autoClose(2000);
+			return redirect($req->get('redirect')? $req->get('redirect'): route('spam'));
         }catch(\Exception $e){
             alert()->error('Edit Data', $e->getMessage());
             return redirect()->back()->withInput();
         }
-	}
+    }
 
     public function peta(Request $req)
     {
 		try{
-            $data = PosHidrologi::findOrFail($req->get('id'));
+            $data = Spam::findOrFail($req->get('id'));
 
             $polygon = [];
             if($data->polygon){
@@ -291,9 +287,9 @@ class PosHidrologiController extends Controller
 	public function hapus($id)
 	{
 		try{
-            $data = PosHidrologi::findOrFail($id);
+            $data = Spam::findOrFail($id);
             $data->delete();
-            toast('Berhasil menghapus pos hidrologi '.$data->pos_hidrologi_nama_hw, 'success')->autoClose(2000);
+            toast('Berhasil menghapus spam '.$data->spam_nama_unit, 'success')->autoClose(2000);
 		}catch(\Exception $e){
             alert()->error('Hapus Data', $e->getMessage());
 		}

@@ -108,6 +108,7 @@ class DasController extends Controller
                 })->toArray());
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah daerah aliran sungai', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('das'));
@@ -231,6 +232,7 @@ class DasController extends Controller
                 $data->polygon = null;
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit daerah aliran sungai', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('das'));

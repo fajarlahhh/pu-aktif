@@ -6,24 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 
-class AspirasiMasyarakat extends Model
+class Drainase extends Model
 {
     //
     use SpatialTrait;
     use LogsActivity;
     //
-    protected $table = 'aspirasi_masyarakat';
-    protected $primaryKey = 'aspirasi_masyarakat_id';
+    protected $table = 'drainase';
+    protected $primaryKey = 'drainase_id';
 
     protected $spatialFields = [
         'marker',
         'polyline',
         'polygon'
     ];
-    
-    public function kelurahan_desa()
+
+    public function kabupaten_kota()
     {
-        return $this->belongsTo('App\KelurahanDesa', 'kelurahan_desa_id', 'kelurahan_desa_id');
+        return $this->belongsTo('App\KabupatenKota', 'kabupaten_kota_id', 'kabupaten_kota_id');
     }
 
     public function pengguna(){

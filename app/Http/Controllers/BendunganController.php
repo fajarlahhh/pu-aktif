@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Bendungan;
 use App\KabupatenKota;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -114,6 +113,7 @@ class BendunganController extends Controller
                 })->toArray());
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil menambah bendungan', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));
@@ -240,6 +240,7 @@ class BendunganController extends Controller
                 $data->polygon = null;
             }
             $data->pengguna_id = Auth::id();
+            $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
             toast('Berhasil mengedit bendungan', 'success')->autoClose(2000);
 			return redirect($req->get('redirect')? $req->get('redirect'): route('bendungan'));

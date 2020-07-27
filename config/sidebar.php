@@ -52,10 +52,6 @@ return [
                 'id' => 'drainase',
                 'title' => 'Drainase'
 			],[
-                'url' => '/poshidrologi',
-                'id' => 'poshidrologi',
-                'title' => 'Pos Hidrologi'
-            ],[
                 'url' => '/spam',
                 'id' => 'spam',
                 'title' => 'SPAM'
@@ -88,36 +84,6 @@ return [
             ]]
         ]]
     ],[
-		'icon' => 'fad fa-lightbulb-on',
-		'title' => 'POKIR',
-		'url' => 'javascript:;',
-		'caret' => true,
-		'id' => 'pokir',
-		'sub_menu' => [[
-			'url' => '/pembangunanpokir',
-			'id' => 'pembangunanpokir',
-			'title' => 'Pembangunan'
-		],[
-			'url' => '/pemeliharaanpokir',
-			'id' => 'pemeliharaanpokir',
-			'title' => 'Pemeliharaan'
-        ]]
-    ],[
-		'icon' => 'fad fa-building',
-		'title' => 'Kewenangan Provinsi',
-		'url' => 'javascript:;',
-		'caret' => true,
-		'id' => 'kewenanganprovinsi',
-		'sub_menu' => [[
-			'url' => '/pembangunankewenanganprovinsi',
-			'id' => 'pembangunankewenanganprovinsi',
-			'title' => 'Pembangunan'
-		],[
-			'url' => '/pemeliharaankewenanganprovinsi',
-			'id' => 'pemeliharaankewenanganprovinsi',
-			'title' => 'Pemeliharaan'
-        ]]
-    ],[
 		'icon' => 'fad fa-file-chart-line',
 		'title' => 'Laporan',
 		'url' => 'javascript:;',
@@ -133,13 +99,26 @@ return [
 			'title' => 'Kewenangan Provinsi'
         ]]
     ],[
+		'icon' => 'fad fa-digging',
+		'title' => 'Pembangunan',
+		'url' => '/pembangunan',
+		'id' => 'pembangunan'
+	],[
+		'icon' => 'fad fa-tools',
+		'title' => 'Pemeliharaan',
+		'url' => '/pemeliharaan',
+		'id' => 'pemeliharaan'
+	],[
 		'icon' => 'fad fa-cog',
-		'title' => 'Setup',
+		'title' => 'Pengaturan',
 		'url' => 'javascript:;',
 		'caret' => true,
-		'id' => 'setup',
+		'id' => 'pengaturan',
 		'sub_menu' => [[
-			'icon' => 'fad fa-user',
+			'title' => 'Desa Miskin',
+			'url' => '/desamiskin',
+			'id' => 'desamiskin'
+		],[
 			'title' => 'Pengguna',
 			'url' => '/pengguna',
 			'id' => 'pengguna'

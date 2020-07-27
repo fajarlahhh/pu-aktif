@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInfrastrukturTable extends Migration
+class AddColumnsToJembatanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateInfrastrukturTable extends Migration
      */
     public function up()
     {
-        Schema::create('infrastruktur', function (Blueprint $table) {
-            $table->bigIncrements('infrastruktur_id');
-            $table->string('infrastruktur_nama')->unique();
-            $table->timestamps();
+        Schema::table('jembatan', function (Blueprint $table) {
+            //
+             $table->tinyInteger('kewenangan_provinsi')->after('pengguna_id');
         });
     }
 
@@ -27,6 +26,9 @@ class CreateInfrastrukturTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('infrastruktur');
+        Schema::table('jembatan', function (Blueprint $table) {
+            //
+            $table->dropColumn(['infrastruktur']);
+        });
     }
 }
