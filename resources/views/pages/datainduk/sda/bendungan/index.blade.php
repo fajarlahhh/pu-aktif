@@ -50,10 +50,6 @@
                         <th rowspan="2" class="align-middle">No.</th>
                         <th rowspan="2" class="align-middle">Nama Bendungan</th>
                         <th colspan="4" class="text-center align-middle">Data Teknik</th>
-                        <th rowspan="2" class="align-middle"></th>
-                        <th colspan="4" class="text-center align-middle">Manfaat</th>
-                        <th rowspan="2" class="align-middle"></th>
-                        <th colspan="2" class="text-center align-middle">Status Kelembagaan</th>
                         <th class="align-middle" rowspan="2">Kabupaten</th>
                         <th class="width-90" rowspan="2"></th>
                     </tr>
@@ -62,12 +58,6 @@
                         <th>Volume (m<sup>3</sup>)</th>
                         <th>Tahun Pembuatan</th>
                         <th>Pengukuran Bathimetri</th>
-                        <th>Air baku (lt/dt)</th>
-                        <th>Irigasi (Ha)</th>
-                        <th>PLTA (MW)</th>
-                        <th>Lainnya</th>
-                        <th>UPB</th>
-                        <th>Petugas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,14 +77,6 @@
                         <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_volume, 2) }}</td>
                         <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ $row->bendungan_data_teknik_bathimetri != 0? number_format($row->bendungan_data_teknik_bathimetri): '-' }}</td>
-                        <td class="align-middle">&nbsp;</td>
-                        <td class="align-middle text-right">{{ number_format($row->bendungan_manfaat_air_baku, 2) }}</td>
-                        <td class="align-middle text-right">{{ $row->bendungan_manfaat_irigasi != 0? number_format($row->bendungan_manfaat_irigasi): '-' }}</td>
-                        <td class="align-middle text-right">{{ $row->bendungan_manfaat_plta != 0? number_format($row->bendungan_manfaat_plta): '-' }}</td>
-                        <td class="align-middle">{{ $row->bendungan_manfaat_lainnya }}</td>
-                        <td class="align-middle">&nbsp;</td>
-                        <td class="align-middle">{{ $row->bendungan_kelembagaan_upb }}</td>
-                        <td class="align-middle">{{ $row->bendungan_kelembagaan_petugas }}</td>
                         <td class="align-middle">{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')

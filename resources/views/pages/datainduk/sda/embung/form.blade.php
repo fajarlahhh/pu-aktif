@@ -22,13 +22,7 @@
     @method($aksi == 'tambah'? 'POST': 'PUT')
     @csrf
 	<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
-		<div class="panel-heading">
-			<div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-            </div>
-			<h4 class="panel-title">Form</h4>
-		</div>
-        <div class="panel-body">
+        <div class="panel-body p-0">
             <input type="hidden" name="redirect" value="{{ $back }}">
             @if($aksi == 'edit')
             <input type="hidden" name="id" value="{{ $data->embung_id }}">
@@ -54,7 +48,7 @@
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <div class="form-group">
                                 <label class="control-label">Nama Embung</label>
                                 <input class="form-control" type="text" name="embung_nama" value="{{ $aksi == 'edit'? $data->embung_nama: old('embung_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
@@ -62,10 +56,6 @@
                             <div class="form-group">
                                 <label class="control-label">Tahun Pembuatan</label>
                                 <input class="form-control" type="number" name="embung_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->embung_tahun_pembuatan: old('embung_tahun_pembuatan') }}" autocomplete="off"  />
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Biaya Pembuatan</label>
-                                <input class="form-control numbering" type="text" name="embung_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->embung_biaya_pembuatan: (old('embung_biaya_pembuatan')?? 0) }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                             </div>
                             <div class="form-group" id="catatan">
                                 <label class="control-label">Keterangan</label>
@@ -76,7 +66,7 @@
                                 <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <div class="note note-primary">
                                 <h5>Data Teknik</h5>
                                 <div class="form-group">
@@ -106,27 +96,6 @@
                                 <div class="form-group">
                                     <label class="control-label">Lebar Spillway (m)</label>
                                     <input class="form-control decimal text-right" type="text" name="embung_data_teknik_lebar_spillway" value="{{ $aksi == 'edit'? $data->embung_data_teknik_lebar_spillway: old('embung_data_teknik_lebar_spillway') }}" autocomplete="off"  />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="note note-warning">
-                                <h5>Fungsi</h5>
-                                <div class="form-group">
-                                    <label class="control-label">Irigasi (Ha)</label>
-                                    <input class="form-control decimal text-right" type="text" name="embung_fungsi_irigasi" value="{{ $aksi == 'edit'? $data->embung_fungsi_irigasi: old('embung_fungsi_irigasi') }}" autocomplete="off"  />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Ternak (Ekor)</label>
-                                    <input class="form-control decimal text-right" type="text" name="embung_fungsi_ternak" value="{{ $aksi == 'edit'? $data->embung_fungsi_ternak: old('embung_fungsi_ternak') }}" autocomplete="off"  />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Air Baku (KK)</label>
-                                    <input class="form-control" type="text" name="embung_fungsi_air_baku" value="{{ $aksi == 'edit'? $data->embung_fungsi_air_baku: old('embung_fungsi_air_baku') }}" autocomplete="off"  />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">PLTM (KVA)</label>
-                                    <input class="form-control decimal text-right" type="text" name="embung_fungsi_pltm" value="{{ $aksi == 'edit'? $data->embung_fungsi_pltm: old('embung_fungsi_pltm') }}" autocomplete="off"  />
                                 </div>
                             </div>
                         </div>

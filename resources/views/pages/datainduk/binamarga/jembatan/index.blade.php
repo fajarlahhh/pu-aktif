@@ -47,35 +47,19 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="align-middle" rowspan="3">No.</th>
-                        <th class="align-middle" rowspan="3">Nomor Jembatan</th>
-                        <th class="align-middle" rowspan="3">Nama Jembatan</th>
-                        <th class="align-middle" rowspan="3">Nama Ruas Jalan</th>
+                        <th class="align-middle" rowspan="2">No.</th>
+                        <th class="align-middle" rowspan="2">Nomor Jembatan</th>
+                        <th class="align-middle" rowspan="2">Nama Jembatan</th>
+                        <th class="align-middle" rowspan="2">Nama Ruas Jalan</th>
                         <th colspan="3" class="text-center">Dimensi</th>
-                        <th rowspan="3">&nbsp;</th>
-                        <th colspan="8" class="text-center">Tipe/Kondisi</th>
-                        <th class="align-middle" rowspan="3">Keterangan</th>
-                        <th class="align-middle" rowspan="3">Kabupaten/ Kota</th>
-                        <th class="align-middle" rowspan="3" class="width-90"></th>
-                    </tr>
-                    <tr>                        
-                        <th class="align-middle" rowspan="2">Panjang (M)</th>
-                        <th class="align-middle" rowspan="2">Lebar (M)</th>
-                        <th class="align-middle" rowspan="2">Jumlah Bentang</th>
-                        <th class="text-center" colspan="2">Bangunan Atas</th>
-                        <th class="text-center" colspan="2">Bangunan Bawah</th>
-                        <th class="text-center" colspan="2">Pondasi</th>
-                        <th class="text-center" colspan="2">Lantai</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th class="align-middle" rowspan="2">Kabupaten/ Kota</th>
+                        <th class="align-middle" rowspan="2" class="width-90"></th>
                     </tr>
                     <tr>
-                        <th>Tipe</th>
-                        <th>Kondisi</th>
-                        <th>Tipe</th>
-                        <th>Kondisi</th>
-                        <th>Tipe</th>
-                        <th>Kondisi</th>
-                        <th>Tipe</th>
-                        <th>Kondisi</th>
+                        <th class="align-middle">Panjang (M)</th>
+                        <th class="align-middle">Lebar (M)</th>
+                        <th class="align-middle">Jumlah Bentang (M)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,15 +80,6 @@
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_panjang != 0? number_format($row->jembatan_dimensi_panjang, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_lebar != 0? number_format($row->jembatan_dimensi_lebar, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_bentang != 0? number_format($row->jembatan_dimensi_bentang, 2): "-" }}</td>
-                        <td></td>
-                        <td class="align-middle">{{ $row->jembatan_bangunan_atas_tipe }}</td>
-                        <td class="align-middle text-right">{{ $row->jembatan_bangunan_atas_kondisi != 0? number_format($row->jembatan_bangunan_atas_kondisi, 2): "-" }}</td>
-                        <td class="align-middle">{{ $row->jembatan_bangunan_bawah_tipe }}</td>
-                        <td class="align-middle text-right">{{ $row->jembatan_bangunan_bawah_kondisi != 0? number_format($row->jembatan_bangunan_bawah_kondisi, 2): "-" }}</td>
-                        <td class="align-middle">{{ $row->jembatan_bangunan_pondasi_tipe }}</td>
-                        <td class="align-middle text-right">{{ $row->jembatan_bangunan_pondasi_kondisi != 0? number_format($row->jembatan_bangunan_pondasi_kondisi, 2): "-" }}</td>
-                        <td class="align-middle">{{ $row->jembatan_bangunan_lantai_tipe }}</td>
-                        <td class="align-middle text-right">{{ $row->jembatan_bangunan_lantai_kondisi != 0? number_format($row->jembatan_bangunan_lantai_kondisi, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->jembatan_keterangan }}</td>
                         <td>{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">

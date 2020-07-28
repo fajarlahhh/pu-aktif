@@ -50,10 +50,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nama Embung</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
-                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th colspan="7" class="text-center">Data Teknik</th>
-                        <th class="align-middle" rowspan="2"></th>
-                        <th colspan="4" class="text-center">Fungsi</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90" rowspan="2"></th>
@@ -66,10 +63,6 @@
                         <th>L (m)</th>
                         <th>H (m)</th>
                         <th>Lebar Spillway (m)</th>
-                        <th>Irigasi (Ha)</th>
-                        <th>Ternak (Ekor)</th>
-                        <th>Air Baku (KK)</th>
-                        <th>PLTM (KVA)</th>
                         <th>Kelurahan/Desa</th>
                         <th>Kecamatan</th>
                         <th>Kabupaten/Kota</th>
@@ -89,7 +82,6 @@
                         @endif
                         </td>
                         <td class="align-middle">{{ $row->embung_tahun_pembuatan }}</td>
-                        <td class="align-middle text-right">{{ $row->embung_biaya_pembuatan != 0? number_format($row->embung_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_ca_km != 0? number_format($row->embung_data_teknik_ca_km): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_luasan_genangan != 0? number_format($row->embung_data_teknik_luasan_genangan): "-" }}</td>
                         <td class="align-middle">{{ $row->embung_data_teknik_tipe_konstruksi }}</td>
@@ -97,11 +89,6 @@
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_l != 0? number_format($row->embung_data_teknik_l): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_h != 0? number_format($row->embung_data_teknik_h): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_lebar_spillway != 0? number_format($row->embung_data_teknik_lebar_spillway): "-" }}</td>
-                        <td class="align-middle width-10"></td>
-                        <td class="align-middle text-right">{{ $row->embung_fungsi_irigasi != 0? number_format($row->embung_fungsi_irigasi): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->embung_fungsi_ternak != 0? number_format($row->embung_fungsi_ternak): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->embung_fungsi_air_baku != 0? number_format($row->embung_fungsi_air_baku): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->embung_fungsi_pltm != 0? number_format($row->embung_fungsi_pltm): "-" }}</td>
                         <td class="align-middle">{{ $row->embung_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>

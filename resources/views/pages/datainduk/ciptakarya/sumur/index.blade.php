@@ -51,7 +51,6 @@
                         <th class="align-middle" rowspan="2">Kode</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
                         <th class="align-middle" rowspan="2">Debit (ltr/dtk)</th>
-                        <th class="align-middle" rowspan="2">Kondisi</th>
                         <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90 align-middle" rowspan="2"></th>
                     </tr>
@@ -68,7 +67,6 @@
                         <td class="align-middle">{{ $row->sumur_kode }}</td>
                         <td class="align-middle">{{ $row->sumur_tahun_pembuatan }}</td>
                         <td class="align-middle">{{ $row->sumur_debit }}</td>
-                        <td class="align-middle">{{ $row->sumur_kondisi }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>

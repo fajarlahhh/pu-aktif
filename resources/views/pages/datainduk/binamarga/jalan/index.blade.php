@@ -47,41 +47,17 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="align-middle" rowspan="3">No.</th>
+                        <th class="align-middle" rowspan="2">No.</th>
                         <th colspan="2" class="text-center">Nomor</th>
-                        <th class="align-middle" rowspan="3">Nama Jalan</th>
-                        <th class="align-middle" rowspan="3">Panjang Ruas</th>
-                        <th colspan="2" class="text-center">Fungsi</th>
-                        <th class="align-middle" rowspan="3">Lebar</th>
-                        <th colspan="12" class="text-center">Panjang Tiap Jenis Permukaan</th>
-                        <th class="align-middle" rowspan="3">LHR</th>
-                        <th class="align-middle" rowspan="3">Akses Ke N/P/K</th>
-                        <th class="align-middle" rowspan="3">Keterangan</th>
-                        <th class="align-middle" rowspan="3" class="width-90"></th>
+                        <th class="align-middle" rowspan="2">Nama Jalan</th>
+                        <th class="align-middle" rowspan="2">Panjang Ruas (KM)</th>
+                        <th class="align-middle" rowspan="2">Lebar (M)</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th class="align-middle" rowspan="2" class="width-90"></th>
                     </tr>
                     <tr>
                         <th class="align-middle" rowspan="2">Ruas</th>
                         <th class="align-middle" rowspan="2">Sub Ruas</th>
-                        <th class="align-middle" rowspan="2">KP-2</th>
-                        <th class="align-middle" rowspan="2">KP-3</th>
-                        <th class="align-middle" rowspan="2">Aspal/ Penetrasi/ Makadam</th>
-                        <th class="align-middle" rowspan="2">Perkerasan Beton</th>
-                        <th class="align-middle" rowspan="2">Telford/ Kerikil</th>
-                        <th class="align-middle" rowspan="2">Tanah/ Belum Tembus</th>
-                        <th class="text-center" class="align-middle" colspan="2">Baik</th>
-                        <th class="text-center" class="align-middle" colspan="2">Sedang</th>
-                        <th class="text-center" class="align-middle" colspan="2">Rusak Ringan</th>
-                        <th class="text-center" class="align-middle" colspan="2">Rusak Berat</th>
-                    </tr>
-                    <tr>
-                        <th>KM</th>
-                        <th>%</th>
-                        <th>KM</th>
-                        <th>%</th>
-                        <th>KM</th>
-                        <th>%</th>
-                        <th>KM</th>
-                        <th>%</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,23 +76,7 @@
                         @endif
                         </td>
                         <td class="align-middle text-right">{{ $row->jalan_panjang != 0? number_format($row->jalan_panjang, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_fungsi_kp_2 != 0? number_format($row->jalan_fungsi_kp_2, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_fungsi_kp_3 != 0? number_format($row->jalan_fungsi_kp_3, 2): "-" }}</td>
                         <td class="align-middle text-center">{{ $row->jalan_lebar }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_aspal_penetrasi_makadam != 0? number_format($row->jalan_aspal_penetrasi_makadam, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_perkerasan_beton != 0? number_format($row->jalan_perkerasan_beton, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_telford_kerikil != 0? number_format($row->jalan_telford_kerikil, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_tanah_belum_tembus != 0? number_format($row->jalan_tanah_belum_tembus, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_baik_km != 0? number_format($row->jalan_baik_km, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_baik_persen != 0? number_format($row->jalan_baik_persen, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_sedang_km != 0? number_format($row->jalan_sedang_km, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_sedang_persen != 0? number_format($row->jalan_sedang_persen, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_rusak_ringan_km != 0? number_format($row->jalan_rusak_ringan_km, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_rusak_ringan_persen != 0? number_format($row->jalan_rusak_ringan_persen, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_rusak_berat_km != 0? number_format($row->jalan_rusak_berat_km, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_rusak_berat_persen != 0? number_format($row->jalan_rusak_berat_persen, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->jalan_lhr != 0? number_format($row->jalan_lhr, 2): "-" }}</td>
-                        <td class="align-middle text-center">{{ $row->jalan_akses_ke_npk }}</td>
                         <td class="align-middle">{{ $row->jalan_keterangan }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')

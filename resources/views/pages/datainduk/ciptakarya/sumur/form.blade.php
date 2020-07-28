@@ -48,10 +48,6 @@
                         <input class="form-control" type="text" name="sumur_debit" value="{{ $aksi == 'edit'? $data->sumur_debit: old('sumur_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Kondisi</label>
-                        <input class="form-control" type="text" name="sumur_kondisi" value="{{ $aksi == 'edit'? $data->sumur_kondisi: old('sumur_kondisi') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
-                    </div>
-                    <div class="form-group">
                         <label class="control-label">Kelurahan/Desa</label>
                         <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-info" data-width="100%" data-size="5" onchange="caridesa()">
                             <option value="">Pilih Kelurahan/Desa</option>

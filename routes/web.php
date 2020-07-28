@@ -126,9 +126,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['role_or_permission:super-admin|pembangunan']], function () {
         Route::prefix('pembangunan')->group(function () {
             Route::get('/', 'PembangunanController@index')->name('pembangunan');
+            Route::get('/infrastruktur', 'PembangunanController@index')->name('pembangunan.infrastruktur');
             Route::get('/tambah', 'PembangunanController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
-            Route::post('/tambah/{step}', 'PenjualanairController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
-            Route::post('/tambah', 'PembangunanController@do_tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
+            Route::post('/tambah/{step}', 'PembangunanController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
+            Route::post('/simpan', 'PembangunanController@do_tambah')->middleware(['role:super-admin|user']);
             Route::delete('/hapus/{id}', 'PembangunanController@hapus')->name('pembangunan.hapus');
         });
     });

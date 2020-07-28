@@ -47,20 +47,13 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="align-middle" rowspan="2">No.</th>
-                        <th class="align-middle" rowspan="2">Daerah Irigasi</th>
-                        <th class="align-middle" rowspan="2">Luas Area Potensial</th>
-                        <th colspan="4" class="text-center">Uraian Area Potensial</th>
-                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
-                        <th class="align-middle" rowspan="2">Keterangan</th>
-                        <th class="align-middle" rowspan="2">Kabupaten</th>
-                        <th class="align-middle" rowspan="2" class="width-90"></th>
-                    </tr>
-                    <tr>
-                        <th>Sawah Irigasi</th>
-                        <th>Belum Irigasi</th>
-                        <th>Belum Sawah</th>
-                        <th>Alih Fungsi</th>
+                        <th class="align-middle">No.</th>
+                        <th class="align-middle">Daerah Irigasi</th>
+                        <th class="align-middle">Luas Area Potensial</th>
+                        <th class="align-middle">Tahun Pembuatan</th>
+                        <th class="align-middle">Keterangan</th>
+                        <th class="align-middle">Kabupaten</th>
+                        <th class="align-middle" class="width-90"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,10 +70,6 @@
                             @endif
                         </td>
                         <td class="align-middle text-right">{{ $row->daerah_irigasi_luas_area_potensial != 0? number_format($row->daerah_irigasi_luas_area_potensial): '-' }}</td>
-                        <td class="align-middle text-right">{{ $row->daerah_irigasi_sawah_irigasi != 0? number_format($row->daerah_irigasi_sawah_irigasi): '-' }}</td>
-                        <td class="align-middle text-right">{{ $row->daerah_irigasi_belum_irigasi != 0? number_format($row->daerah_irigasi_belum_irigasi): '-' }}</td>
-                        <td class="align-middle text-right">{{ $row->daerah_irigasi_belum_sawah != 0? number_format($row->daerah_irigasi_belum_sawah): '-' }}</td>
-                        <td class="align-middle text-right">{{ $row->daerah_irigasi_alih_fungsi != 0? number_format($row->daerah_irigasi_alih_fungsi): '-' }}</td>
                         <td class="align-middle">{{ $row->daerah_irigasi_tahun_pembuatan }}</td>
                         <td class="align-middle">{{ $row->daerah_irigasi_keterangan }}</td>
                         <td class="align-middle">{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
