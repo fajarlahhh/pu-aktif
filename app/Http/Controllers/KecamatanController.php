@@ -27,6 +27,13 @@ class KecamatanController extends Controller
         ]);
     }
 
+
+    public function cari($id, Request $req)
+    {
+        $data = Kecamatan::where('kecamatan_nama', 'like', '%'.$req->cari.'%')->where('kabupaten_kota_id', $id)->get();
+        return $data;
+    }
+
 	public function tambah(Request $req)
 	{
         return view('pages.wilayah.kecamatan.form', [

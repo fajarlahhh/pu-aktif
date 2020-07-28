@@ -17,6 +17,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/jenisanggaran/{jenis}', 'AnggaranController@jenis_anggaran');
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/gantisandi', 'PenggunaController@ganti_sandi')->name('gantisandi');
+    Route::get('/jalan/cari', 'JalanController@cari');
+    Route::get('/kecamatan/cari/{id}', 'KecamatanController@cari');
+    Route::get('/kelurahandesa/cari/{id}', 'KelurahandesaController@cari');
     Route::patch('/gantisandi', 'PenggunaController@do_ganti_sandi')->name('gantisandi');
 
     Route::group(['middleware' => ['role_or_permission:super-admin|pengguna']], function () {
@@ -128,8 +131,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/', 'PembangunanController@index')->name('pembangunan');
             Route::get('/infrastruktur', 'PembangunanController@index')->name('pembangunan.infrastruktur');
             Route::get('/tambah', 'PembangunanController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
-            Route::post('/tambah/{step}', 'PembangunanController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
-            Route::post('/simpan', 'PembangunanController@do_tambah')->middleware(['role:super-admin|user']);
+            Route::post('/tambah/{step}', 'PembangunanController@tambah')->middleware(['role:super-admin|user']);
+            Route::post('/simpan', 'PembangunanController@do_tambah')->middleware(['role:super-admin|user'])->name('pembangunan.simpan');
             Route::delete('/hapus/{id}', 'PembangunanController@hapus')->name('pembangunan.hapus');
         });
     });

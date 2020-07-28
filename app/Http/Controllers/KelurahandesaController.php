@@ -29,6 +29,13 @@ class KelurahandesaController extends Controller
         ]);
     }
 
+
+    public function cari($id, Request $req)
+    {
+        $data = KelurahanDesa::where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->where('kecamatan_id', $id)->get();
+        return $data;
+    }
+
 	public function tambah(Request $req)
 	{
         return view('pages.wilayah.kelurahandesa.form', [

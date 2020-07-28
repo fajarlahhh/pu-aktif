@@ -1,6 +1,6 @@
 <div id="step-2" class="p-l-5 p-r-5 p-b-0">
 
-    <form action="{{ url('pembangunan/simpan') }}" name="step" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+    <form action="{{ route('pembangunan.simpan') }}" name="step" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
         @csrf
         <!-- begin nav-tabs -->
         <ul class="nav nav-tabs">
@@ -65,38 +65,50 @@
                     </select>
                 </div>
             </div>
-                @switch ($data->infrastruktur_jenis)
-                @case ('Jalan') :
-                        @include('pages.pembangunan.jalan');
+            @switch ($data->infrastruktur_jenis)
+                @case ('Jalan')
+                        @include('pages.pembangunan.jalan')
                 @break
-                @case ('Jembatan') :
-                        @include('pages.pembangunan.jembatan');
+                @case ('Jembatan')
+                        @include('pages.pembangunan.jembatan')
                 @break
-                @case ('DAS') :
-                        @include('pages.pembangunan.das');
+                @case ('DAS')
+                        @include('pages.pembangunan.das')
                 @break
-                @case ('Drainase') :
-                        @include('pages.pembangunan.drainase');
+                @case ('Drainase')
+                        @include('pages.pembangunan.drainase')
                 @break
-                @case ('SPAM') :
-                        @include('pages.pembangunan.spam');
+                @case ('SPAM')
+                        @include('pages.pembangunan.spam')
                 @break
-                @case ('Sumur') :
-                        @include('pages.pembangunan.sumur');
+                @case ('Sumur')
+                        @include('pages.pembangunan.sumur')
                 @break
-                @case ('Bendungan') :
-                        @include('pages.pembangunan.bendungan');
+                @case ('Bendungan')
+                        @include('pages.pembangunan.bendungan')
                 @break
-                @case ('Daerah Irigasi') :
-                        @include('pages.pembangunan.daerahirigasi');
+                @case ('Daerah Irigasi')
+                        @include('pages.pembangunan.daerahirigasi')
                 @break
-                @case ('Embung') :
-                        @include('pages.pembangunan.embung');
+                @case ('Embung')
+                        @include('pages.pembangunan.embung')
                 @break
-                @case ('Mata Air') :
-                        @include('pages.pembangunan.mataair');
+                @case ('Mata Air')
+                        @include('pages.pembangunan.mataair')
                 @break
             @endswitch
+            <div class="tab-pane fade" id="default-tab-3">
+                <div class="form-group">
+                    <label class="control-label">Kabupaten/Kota</label>
+                    <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-purple" data-width="100%" onchange="caridesa()">
+                        @foreach ($kabupaten_kota as $row)
+                        <option value="{{ $row->kabupaten_kota_id }}" {{ old('kabupaten_kota_id') == $row->kabupaten_kota_id? 'selected': '' }}>{{ $row->kabupaten_kota_nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                    @include('includes.component.leaflet')
+                </div>
+            </div>
         </div>
         <!-- end tab-content -->
     </form>
@@ -104,6 +116,18 @@
 
     @push('scripts')
         <script>
+    
+            function caridesa(){
+                var alamat = $("#kabupaten_kota_id option:selected").text()+", Nusa Tenggara Barat";
+                $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
+                .done(function(data){
+                    if(data.length > 0){
+                        position = [data[0].lat,data[0].lon];
+                        map.setView(position,12);
+                    }
+                });
+            }
+            
             function initMap() {
                 setTimeout(function() {
                     map.invalidateSize();

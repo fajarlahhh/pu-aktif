@@ -20,7 +20,7 @@ class CreatePemeliharaanTable extends Migration
             $table->text('pemeliharaan_jenis');
             $table->string('pemeliharaan_penanggung_jawab');
             $table->string('infrastruktur_jenis');
-            $table->bigInteger('infrastrkutur_id');
+            $table->bigInteger('infrastruktur_id');
             $table->string('pengguna_id');
             $table->timestamps();
             $table->foreign('pengguna_id')->references('pengguna_id')->on('pengguna')->onDelete('restrict')->onUpdate('cascade');

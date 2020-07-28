@@ -85,14 +85,6 @@
                                     <label class="control-label">Distribusi</label>
                                     <input class="form-control decimal text-right" type="text" name="spam_kapasitas_distribusi" value="{{ $aksi == 'edit'? $data->spam_kapasitas_distribusi: old('spam_kapasitas_distribusi') }}" autocomplete="off"  />
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label">Terjual</label>
-                                    <input class="form-control decimal text-right" type="text" name="spam_kapasitas_air_terjual" value="{{ $aksi == 'edit'? $data->spam_kapasitas_air_terjual: old('spam_kapasitas_air_terjual') }}" autocomplete="off"  />
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">Idle</label>
-                                    <input class="form-control decimal text-right" type="text" name="spam_kapasitas_idle" value="{{ $aksi == 'edit'? $data->spam_kapasitas_idle: old('spam_kapasitas_idle') }}" autocomplete="off"  />
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -26,7 +26,7 @@
 		<!-- begin login-header -->
 		<div class="login-header">
 			<div class="brand">
-	            <img src="{{ url('/public/assets/img/logo/favicon.png') }}" height="40">&nbsp;<img src="{{ url('/public/assets/img/logo/pu.png') }}" height="40"> <strong>A K T I F</strong>
+	            <img src="{{ url('/public/assets/img/logo/favicon.png') }}" height="40"> <strong>A K T I F</strong>
 				<small><strong>Analisa Keterpaduan InFrastruktur</strong></small><br><small>Penyusunan Data & Informasi Keterpaduan Infrastruktur Pekerjaan Umum  </small>
 			</div>
 			<div class="icon">

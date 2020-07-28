@@ -33,7 +33,7 @@
     <div class="form-group">
         <label class="control-label">Jenis Pembangunan</label>
         <select class="form-control selectpicker" name="pembangunan_jenis" id="pembangunan_jenis" data-live-search="true" data-style="btn-success" onchange="jenis_infrastruktur()" data-width="100%" required>
-            <option value="Aspirasi Masyarakat" {{ old('pembangunan_jenis') == 'Aspirasi Masyarakat'? 'selected': ''}}>Aspirasi Masyarakat</option>
+            <option value="Kewenangan Provinsi" {{ old('pembangunan_jenis') == 'Kewenangan Provinsi'? 'selected': ''}}>Kewenangan Provinsi</option>
             <option value="Pokir" {{ old('pembangunan_jenis') == 'Pokir'? 'selected': ''}}>POKIR</option>
         </select>
     </div>

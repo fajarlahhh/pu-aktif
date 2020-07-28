@@ -91,6 +91,7 @@
                         <th class="align-middle" rowspan="2">Jenis Pembangunan</th>
                         <th class="align-middle" rowspan="2">Sumber Anggaran</th>
                         <th class="align-middle" rowspan="2">Penanggung Jawab</th>
+                        <th class="align-middle" rowspan="2">Kabupaten/Kota</th>
                         <th class="width-90" rowspan="2"></th>
                     </tr>
                     <tr>
@@ -100,145 +101,82 @@
                 </thead>
                 <tbody>
                     @foreach ($data as $row)
+                    @switch ($row->infrastruktur_jenis)
+                        @case ('Jalan')
+                            @php 
+                                $infrastruktur_nama =  $row->jalan->jalan_nama;
+                                $link = $row->jalan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->jalan_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Jembatan')
+                            @php 
+                                $infrastruktur_nama =  $row->jembatan->jembatan_nama;
+                                $link = $row->jembatan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->jembatan_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('DAS')
+                            @php 
+                                $infrastruktur_nama =  $row->das->das_nama;
+                                $link = $row->das->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->das_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Drainase')
+                            @php 
+                                $infrastruktur_nama =  $row->drainase->drainase_nama;
+                                $link = $row->drainase->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->drainase_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('SPAM')
+                            @php 
+                                $infrastruktur_nama =  $row->spam->spam_nama_unit;
+                                $link = $row->spam->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->spam_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Sumur')
+                            @php 
+                                $infrastruktur_nama =  $row->sumur->sumur_kode;
+                                $link = $row->sumur->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->sumur_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Bendungan')
+                            @php 
+                                $infrastruktur_nama =  $row->bendungan->bendungan_nama;
+                                $link = $row->bendungan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->bendungan_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Daerah Irigasi')
+                            @php 
+                                $infrastruktur_nama =  $row->daerah_irigasi->daerah_irigasi_nama;
+                                $link = $row->daerah_irigasi->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->daerah_irigasi_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Embung')
+                            @php 
+                                $infrastruktur_nama =  $row->embung->embung_nama;
+                                $link = $row->embung->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->embung_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                        @case ('Mata Air')
+                            @php 
+                                $infrastruktur_nama =  $row->mata_air->mata_air_nama;
+                                $link = $row->mata_air->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->mata_air_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                            @endphp
+                        @break
+                    @endswitch
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">
-                            @switch ($row->pembangunan_jenis)
-                                @case ('Jalan') :
-                                    @if ($row->jalan->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Jembatan') :
-                                    @if ($row->jembatan->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('DAS') :
-                                    @if ($row->das->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Drainase') :
-                                    @if ($row->drainase->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('SPAM') :
-                                    @if ($row->spam->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Sumur') :
-                                    @if ($row->sumur->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Bendungan') :
-                                    @if ($row->bendungan->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Daerah Irigasi') :
-                                    @if ($row->daerah_irigasi->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Embung') :
-                                    @if ($row->embung->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                                @case ('Mata Air') :
-                                    @if ($row->mata_air->marker)
-                                        <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
-                                            {{ $row->pembangunan_uraian }}
-                                        </a>
-                                    @else
-                                    {{ $row->pembangunan_uraian }}
-                                    @endif
-                                @break
-                            @endswitch
-                        </td>
-                        <td class="align-middle">{{ $row->pembangunan_jenis }}</td>
-                        <td class="align-middle">
-                            @switch ($row->pembangunan_jenis)
-                                @case ('Jalan') :
-                                    {{ $row->jalan->jalan_nama }}
-                                @break
-                                @case ('Jembatan') :
-                                    {{ $row->jembatan->jembatan_nama }}
-                                @break
-                                @case ('DAS') :
-                                    {{ $row->das->das_nama }}
-                                @break
-                                @case ('Drainase') :
-                                    {{ $row->drainase->drainase_nama }}
-                                @break
-                                @case ('SPAM') :
-                                    {{ $row->spam->spam_nama_unit }}
-                                @break
-                                @case ('Sumur') :
-                                    {{ $row->sumur->sumur_kode }}
-                                @break
-                                @case ('Bendungan') :
-                                    {{ $row->bendungan->bendungan_nama }}
-                                @break
-                                @case ('Daerah Irigasi') :
-                                    {{ $row->daerah_irigasi->daerah_irigasi_nama }}
-                                @break
-                                @case ('Embung') :
-                                    {{ $row->embung->embung_nama }}
-                                @break
-                                @case ('Mata Air') :
-                                    {{ $row->mata_air->mata_air_nama }}
-                                @break
-                            @endswitch
-                        </td>
+                        <td class="align-middle">{{ $link }}</td>
+                        <td class="align-middle">{{ $row->infrastruktur_jenis }}</td>
+                        <td class="align-middle">{{ $infrastruktur_nama }}</td>
                         <td class="align-middle">{{ $row->pembangunan_tahun }}</td>
                         <td class="align-middle text-right">{{ $row->pembangunan_nilai != 0? number_format($row->pembangunan_nilai, 2): "-" }}</td>
+                        <td class="align-middle">{{ $row->pembangunan_jenis }}</td>
                         <td class="align-middle">{{ $row->sumber_dana->sumber_dana_nama }}</td>
                         <td class="align-middle">{{ $row->pembangunan_penanggung_jawab }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota->kabupaten_kota_nama }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
-                            <a href="{{ route('pembangunan.edit', ['id' => $row->pembangunan_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
-                            <a href="javascript:;" onclick="hapus('{{ $row->pembangunan_id }}', '{{ $row->pembangunan_uraian.' tahun '.$row->kewenangan_provinsi_tahun }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
+                            <a href="javascript:;" onclick="hapus('{{ $row->pembangunan_id }}', '{{ $row->pembangunan_uraian.' '.strtolower($row->infrastruktur_jenis).' '.$infrastruktur_nama.' tahun '.$row->pembangunan_tahun }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
                             @endrole
                         </td>
                     </tr>
@@ -274,7 +212,7 @@
     function hapus(id, ket) {
         Swal.fire({
             title: 'Hapus Data',
-            text: 'Anda akan menghapus pembangunan ' + ket + '',
+            text: 'Anda akan menghapus pembangunan ' + ket,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

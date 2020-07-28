@@ -50,7 +50,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Kode</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
-                        <th colspan="5" class="text-center">Kapasitas</th>
+                        <th colspan="2" class="text-center">Kapasitas</th>
                         <th class="align-middle" rowspan="2">Jumlah SR</th>
                         <th class="align-middle" rowspan="2">Jumlah Jiwa Terlayani</th>
                         <th class="align-middle" rowspan="2">Kabupaten/ Kota</th>
@@ -59,9 +59,6 @@
                     <tr>
                         <th>Terpasang</th>
                         <th>Produksi</th>
-                        <th>Distribusi</th>
-                        <th>Terjual</th>
-                        <th>Idle</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,9 +69,6 @@
                         <td class="align-middle">{{ $row->spam_tahun_pembuatan  }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_terpasang != 0? number_format($row->spam_kapasitas_terpasang, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_produksi != 0? number_format($row->spam_kapasitas_produksi, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->spam_kapasitas_distribusi != 0? number_format($row->spam_kapasitas_distribusi, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->spam_kapasitas_air_terjual != 0? number_format($row->spam_kapasitas_air_terjual, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->spam_kapasitas_idle != 0? number_format($row->spam_kapasitas_idle, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->das_jumlah_sr != 0? number_format($row->das_jumlah_sr): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->das_jumlah_jiwa_terlayani != 0? number_format($row->das_jumlah_jiwa_terlayani): "-" }}</td>
                         <td>{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>

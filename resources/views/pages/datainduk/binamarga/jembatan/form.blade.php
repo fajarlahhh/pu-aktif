@@ -61,7 +61,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Ruas Jalan</label>
-                        <select class="form-control selectpicker" name="jalan_id" id="jalan_id" data-live-search="true" data-style="btn-info" data-width="100%" data-size="5" onchange="caridesa()">
+                        <select class="form-control selectpicker" name="jalan_id" id="jalan_id" data-live-search="true" data-style="btn-info" data-width="100%" data-size="5">
                             <option value="">Pilih Jalan</option>
                             @foreach ($jalan as $row)
                             <option value="{{ $row->jalan_id }}" {{ $aksi == 'edit' && $data->jalan_id == $row->jalan_id? 'selected': '' }}>{{ $row->jalan_nama }}</option>

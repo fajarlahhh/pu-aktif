@@ -15,8 +15,10 @@ class AddColumnsToPembangunanTable extends Migration
     {
         Schema::table('pembangunan', function (Blueprint $table) {
             //
-            $table->bigInteger('sumber_dana_id')->unsigned()->after('infrastrkutur_id');
+            $table->bigInteger('sumber_dana_id')->unsigned()->after('infrastruktur_id');
+            $table->bigInteger('kabupaten_kota_id')->unsigned()->after('sumber_dana_id');
             $table->foreign('sumber_dana_id')->references('sumber_dana_id')->on('sumber_dana')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('kabupaten_kota_id')->references('kabupaten_kota_id')->on('kabupaten_kota')->onDelete('restrict')->onUpdate('cascade');
         });
     }
 
@@ -29,7 +31,7 @@ class AddColumnsToPembangunanTable extends Migration
     {
         Schema::table('pembangunan', function (Blueprint $table) {
             //
-            $table->dropColumn(['sumber_dana_id']);
+            $table->dropColumn(['sumber_dana_id', 'kabupaten_kota_id']);
         });
     }
 }

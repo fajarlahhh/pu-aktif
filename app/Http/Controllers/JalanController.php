@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jalan;
+use App\KabupatenKota;
 use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -26,10 +27,17 @@ class JalanController extends Controller
         ]);
     }
 
+    public function cari(Request $req)
+    {
+        $data = Jalan::where('jalan_ruas', 'like', '%'.$req->cari.'%')->orWhere('jalan_subruas', 'like', '%'.$req->cari.'%')->orWhere('jalan_nama', 'like', '%'.$req->cari.'%')->orWhere('jalan_keterangan', 'like', '%'.$req->cari.'%')->get();
+        return $data;
+    }
+
 	public function tambah(Request $req)
 	{
         return view('pages.datainduk.binamarga.jalan.form', [
             'aksi' => 'tambah',
+            'kabupaten_kota' => KabupatenKota::all(),
             'map' => [],
             'back' => Str::contains(url()->previous(), ['jalan/tambah', 'jalan/edit'])? '/jalan': url()->previous(),
         ]);
@@ -55,7 +63,7 @@ class JalanController extends Controller
             $data->jalan_ruas = $req->get('jalan_ruas');
             $data->jalan_subruas = $req->get('jalan_subruas');
             $data->jalan_nama = $req->get('jalan_nama');
-            $data->jalan_panjang = $req->get('jalan_panjang');
+            $data->jalan_panjang = str_replace(',', '', $req->get('jalan_panjang'))?: 0;
             $data->jalan_fungsi_kp_2 = str_replace(',', '', $req->get('jalan_fungsi_kp_2'))?: 0;
             $data->jalan_fungsi_kp_3 = str_replace(',', '', $req->get('jalan_fungsi_kp_3'))?: 0;
             $data->jalan_lebar = $req->get('jalan_lebar');
@@ -116,6 +124,9 @@ class JalanController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -150,6 +161,7 @@ class JalanController extends Controller
             }
             return view('pages.datainduk.binamarga.jalan.form', [
                 'aksi' => 'edit',
+                'kabupaten_kota' => KabupatenKota::all(),
                 'data' => $data,
                 'map' => [
                     'marker' => $data->marker? [
@@ -188,7 +200,7 @@ class JalanController extends Controller
             $data->jalan_ruas = $req->get('jalan_ruas');
             $data->jalan_subruas = $req->get('jalan_subruas');
             $data->jalan_nama = $req->get('jalan_nama');
-            $data->jalan_panjang = $req->get('jalan_panjang');
+            $data->jalan_panjang = str_replace(',', '', $req->get('jalan_panjang'))?: 0;
             $data->jalan_fungsi_kp_2 = str_replace(',', '', $req->get('jalan_fungsi_kp_2'))?: 0;
             $data->jalan_fungsi_kp_3 = str_replace(',', '', $req->get('jalan_fungsi_kp_3'))?: 0;
             $data->jalan_lebar = $req->get('jalan_lebar');

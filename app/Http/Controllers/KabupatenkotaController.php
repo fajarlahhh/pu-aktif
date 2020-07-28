@@ -22,6 +22,12 @@ class KabupatenkotaController extends Controller
         ]);
     }
 
+    public function cari(Request $req)
+    {
+        $data = KabupatenKota::where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%')->get();
+        return $data;
+    }
+
 	public function tambah(Request $req)
 	{
         return view('pages.wilayah.kabupatenkota.form', [

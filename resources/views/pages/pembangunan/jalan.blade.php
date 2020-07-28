@@ -24,6 +24,3 @@
         <textarea class="form-control" rows="3" id="jalan_keterangan" name="jalan_keterangan">{{ old('jalan_keterangan') }}</textarea>
     </div>
 </div>
-<div class="tab-pane fade" id="default-tab-3">
-    @include('includes.component.leaflet')
-</div>
