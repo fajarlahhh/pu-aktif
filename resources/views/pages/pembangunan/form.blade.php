@@ -35,7 +35,16 @@
                 <span class="number">2</span>
                 <span class="info text-ellipsis">
                     Detail Infrastruktur
-                    <small class="text-ellipsis">Data Teknis, Lokasi</small>
+                    <small class="text-ellipsis">Data Teknis</small>
+                </span>
+            </a>
+        </li>
+        <li class="col-md-3 col-sm-4 col-6">
+            <a href="#step-2">
+                <span class="number">2</span>
+                <span class="info text-ellipsis">
+                    Lokasi
+                    <small class="text-ellipsis">Kab/Kota, Peta</small>
                 </span>
             </a>
         </li>
@@ -47,6 +56,9 @@
                 @break
             @case(1)
                 @include('pages.pembangunan.dua')
+                @break
+            @case(2)
+                @include('pages.pembangunan.tiga')
                 @break
             @default
         @endswitch
@@ -81,7 +93,7 @@
                     $('<a></a>').text('Back').addClass('btn btn-grey').on('click', function(){
                         window.history.back();
                     }),
-                    $('<a></a>').text('{{ $step == 1? 'Simpan': 'Next' }}').addClass('btn btn-success').on('click', function(){
+                    $('<a></a>').text('{{ $step == 2? 'Simpan': 'Next' }}').addClass('btn btn-success').on('click', function(){
                         $('form[name="step"]').submit();
                     })
                 ]

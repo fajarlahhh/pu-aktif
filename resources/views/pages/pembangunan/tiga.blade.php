@@ -1,6 +1,6 @@
 <div id="step-2" class="p-l-5 p-r-5 p-b-0">
 
-    <form action="{{ url('pembangunan/tambah/2') }}" name="step" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
+    <form action="{{ route('pembangunan.simpan') }}" name="step" method="post" data-parsley-validate="true" data-parsley-errors-messages-disabled="">
         @csrf
         <!-- begin nav-tabs -->
         <ul class="nav nav-tabs">
@@ -11,9 +11,15 @@
                 </a>
             </li>
             <li class="nav-items">
-                <a href="#default-tab-2" data-toggle="tab" class="nav-link active">
+                <a href="#default-tab-2" data-toggle="tab" class="nav-link">
                     <span class="d-sm-none">Tab 2</span>
                     <span class="d-sm-block d-none">Data Teknis</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#default-tab-3" data-toggle="tab" onclick="initMap()" class="nav-link active">
+                    <span class="d-sm-none">Tab 3</span>
+                    <span class="d-sm-block d-none">Lokasi</span>
                 </a>
             </li>
         </ul>
@@ -91,6 +97,10 @@
                         @include('pages.pembangunan.mataair')
                 @break
             @endswitch
+            <div class="tab-pane fade active show" id="default-tab-3">
+                @include('includes.component.lokasi')
+                @include('includes.component.leaflet')
+            </div>
         </div>
         <!-- end tab-content -->
     </form>

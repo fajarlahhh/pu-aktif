@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\MataAir;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +16,24 @@ class MataairController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = MataAir::whereHas('kelurahan_desa', function($q) use ($req){
-            $q->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kecamatan', function($q) use ($req){
-                $q->where('kecamatan_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kabupaten_kota', function($q) use ($req){
-                    $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
-                });
-            });
-        })->orWhere('mata_air_nama', 'like', '%'.$req->cari.'%')->orWhere('mata_air_debit', 'like', '%'.$req->cari.'%')->paginate(10);
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = MataAir::where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('mata_air_nama', 'like', '%'.$req->cari.'%')->orWhere('mata_air_debit', 'like', '%'.$req->cari.'%');
+        });
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
         return view('pages.datainduk.sda.mataair.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -38,7 +45,7 @@ class MataairController extends Controller
         return view('pages.datainduk.sda.mataair.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'lokasi' => [],
             'back' => Str::contains(url()->previous(), ['mataair/tambah', 'mataair/edit'])? '/mataair': url()->previous(),
         ]);
     }
@@ -62,7 +69,7 @@ class MataairController extends Controller
             $data = new MataAir();
             $data->mata_air_nama = $req->get('mata_air_nama');
             $data->mata_air_debit = $req->get('mata_air_debit');
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+            $data->mata_air_keterangan = $req->get('mata_air_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -105,6 +112,9 @@ class MataairController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -148,7 +158,14 @@ class MataairController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'back' => Str::contains(url()->previous(), ['mataair/tambah', 'mataair/edit'])? '/mataair': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -176,7 +193,7 @@ class MataairController extends Controller
 			$data = MataAir::findOrFail($req->get('id'));
             $data->mata_air_nama = $req->get('mata_air_nama');
             $data->mata_air_debit = $req->get('mata_air_debit');
-            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+            $data->mata_air_keterangan = $req->get('mata_air_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -221,6 +238,9 @@ class MataairController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();

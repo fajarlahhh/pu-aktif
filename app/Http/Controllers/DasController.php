@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Das;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +16,24 @@ class DasController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Das::where('das_kode_ws', 'like', '%'.$req->cari.'%')->orWhere('das_keterangan', 'like', '%'.$req->cari.'%')->orWhere('das_nama', 'like', '%'.$req->cari.'%')->orWhere('das_pola_aliran', 'like', '%'.$req->cari.'%')->paginate(10);
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = Das::where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('das_kode_ws', 'like', '%'.$req->cari.'%')->orWhere('das_keterangan', 'like', '%'.$req->cari.'%')->orWhere('das_nama', 'like', '%'.$req->cari.'%')->orWhere('das_pola_aliran', 'like', '%'.$req->cari.'%');
+        });
 
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
         $data->appends(['cari' => $req->cari]);
         return view('pages.datainduk.ciptakarya.das.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -32,7 +45,7 @@ class DasController extends Controller
         return view('pages.datainduk.ciptakarya.das.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'lokasi' => [],
             'back' => Str::contains(url()->previous(), ['das/tambah', 'das/edit'])? '/das': url()->previous(),
         ]);
     }
@@ -107,6 +120,9 @@ class DasController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -142,6 +158,14 @@ class DasController extends Controller
             return view('pages.datainduk.ciptakarya.das.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),
@@ -150,7 +174,6 @@ class DasController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
                 'back' => Str::contains(url()->previous(), ['das/tambah', 'das/edit'])? '/das': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -231,6 +254,9 @@ class DasController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();

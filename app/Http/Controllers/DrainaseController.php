@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Drainase;
-use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +16,24 @@ class DrainaseController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Drainase::whereHas('kabupaten_kota', function($q) use ($req){
-            $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
-        })->orWhere('drainase_nama', 'like', '%'.$req->cari.'%')->paginate(10);
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = Drainase::where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('drainase_nama', 'like', '%'.$req->cari.'%');
+        });
 
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
         $data->appends(['cari' => $req->cari]);
         return view('pages.datainduk.ciptakarya.drainase.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -34,7 +45,7 @@ class DrainaseController extends Controller
         return view('pages.datainduk.ciptakarya.drainase.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'kabupaten_kota' => KabupatenKota::all(),
+            'lokasi' => [],
             'back' => Str::contains(url()->previous(), ['drainase/tambah', 'drainase/edit'])? '/drainase': url()->previous(),
         ]);
     }
@@ -59,8 +70,9 @@ class DrainaseController extends Controller
         try{
             $data = new Drainase();
             $data->drainase_nama = $req->get('drainase_nama');
+            $data->drainase_keterangan = $req->get('drainase_keterangan');
+            $data->drainase_tahun_pembuatan = $req->get('drainase_tahun_pembuatan');
             $data->drainase_panjang = $req->get('drainase_panjang')? str_replace(',', '', $req->get('drainase_panjang')): 0;
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -103,6 +115,9 @@ class DrainaseController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -138,6 +153,14 @@ class DrainaseController extends Controller
             return view('pages.datainduk.ciptakarya.drainase.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),
@@ -146,7 +169,6 @@ class DrainaseController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'kabupaten_kota' => KabupatenKota::all(),
                 'back' => Str::contains(url()->previous(), ['drainase/tambah', 'drainase/edit'])? '/drainase': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -175,8 +197,9 @@ class DrainaseController extends Controller
         try{
 			$data = Drainase::findOrFail($req->get('id'));
             $data->drainase_nama = $req->get('drainase_nama');
+            $data->drainase_keterangan = $req->get('drainase_keterangan');
+            $data->drainase_tahun_pembuatan = $req->get('drainase_tahun_pembuatan');
             $data->drainase_panjang = $req->get('drainase_panjang')? str_replace(',', '', $req->get('drainase_panjang')): 0;
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -221,6 +244,9 @@ class DrainaseController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Sumur;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +16,23 @@ class SumurController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Sumur::whereHas('kelurahan_desa', function($q) use ($req){
-            $q->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kecamatan', function($q) use ($req){
-                $q->where('kecamatan_nama', 'like', '%'.$req->cari.'%')->orWhereHas('kabupaten_kota', function($q) use ($req){
-                    $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
-                });
-            });
-        })->where('sumur_kode', 'like', '%'.$req->cari.'%')->where('sumur_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('sumur_debit', 'like', '%'.$req->cari.'%')->paginate(10);
-
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = Sumur::where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('sumur_kode', 'like', '%'.$req->cari.'%')->where('sumur_tahun_pembuatan', 'like', '%'.$req->cari.'%')->where('sumur_debit', 'like', '%'.$req->cari.'%');
+        });
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
         $data->appends(['cari' => $req->cari]);
         return view('pages.datainduk.ciptakarya.sumur.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -38,7 +44,7 @@ class SumurController extends Controller
         return view('pages.datainduk.ciptakarya.sumur.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
+            'lokasi' => [],
             'back' => Str::contains(url()->previous(), ['sumur/tambah', 'sumur/edit'])? '/sumur': url()->previous(),
         ]);
     }
@@ -47,11 +53,9 @@ class SumurController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'sumur_kode' => 'required',
-                'sumur_tahun_pembuatan' => 'required'
+                'sumur_kode' => 'required'
             ],[
-                'sumur_kode.required'  => 'Kode Sumur tidak boleh kosong',
-                'sumur_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'sumur_kode.required'  => 'Kode Sumur tidak boleh kosong'
             ]
         );
 
@@ -108,6 +112,8 @@ class SumurController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
@@ -144,6 +150,14 @@ class SumurController extends Controller
             return view('pages.datainduk.ciptakarya.sumur.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),
@@ -152,7 +166,6 @@ class SumurController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'desa' => KelurahanDesa::with('kecamatan.kabupaten_kota')->orderBy('kelurahan_desa_nama')->get(),
                 'back' => Str::contains(url()->previous(), ['sumur/tambah', 'sumur/edit'])? '/sumur': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -228,6 +241,8 @@ class SumurController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
             $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;

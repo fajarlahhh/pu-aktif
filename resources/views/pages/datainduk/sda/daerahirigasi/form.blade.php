@@ -22,19 +22,27 @@
     @method($aksi == 'tambah'? 'POST': 'PUT')
     @csrf
 	<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
-		<div class="panel-heading">
-			<div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-            </div>
-			<h4 class="panel-title">Form</h4>
-		</div>
-        <div class="panel-body">
+        <div class="panel-body p-0">
             <input type="hidden" name="redirect" value="{{ $back }}">
             @if($aksi == 'edit')
             <input type="hidden" name="id" value="{{ $data->daerah_irigasi_id }}">
             @endif
-            <div class="row">
-                <div class="col-md-4">
+            <ul class="nav nav-tabs">
+                <li class="nav-items">
+                    <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+                        <span class="d-sm-none">Tab 1</span>
+                        <span class="d-sm-block d-none">Spesifikasi</span>
+                    </a>
+                </li>
+                <li class="nav-items">
+                    <a href="#default-tab-2" data-toggle="tab" onclick="initMap()" class="nav-link">
+                        <span class="d-sm-none">Tab 2</span>
+                        <span class="d-sm-block d-none">Peta</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="form-group">
                         <label class="control-label">Daerah Irigasi</label>
                         <input class="form-control" type="text" name="daerah_irigasi_nama" value="{{ $aksi == 'edit'? $data->daerah_irigasi_nama: old('daerah_irigasi_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
@@ -51,21 +59,13 @@
                         <label class="control-label">Keterangan</label>
                         <textarea class="form-control" rows="3" id="daerah_irigasi_keterangan" name="daerah_irigasi_keterangan">{{ $aksi == 'edit'? $data->daerah_irigasi_keterangan: old('daerah_irigasi_keterangan') }}</textarea>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Kabupaten/Kota</label>
-                        <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-purple" data-width="100%" onchange="caridesa()">
-                            <option value="">Pilih Kabupaten/Kota</option>
-                            @foreach ($kabupaten_kota as $row)
-                            <option value="{{ $row->kabupaten_kota_id }}" {{ $aksi == 'edit' && $data->kabupaten_kota_id == $row->kabupaten_kota_id? 'selected': '' }}>{{ $row->kabupaten_kota_nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @include('includes.component.lokasi')
                     <div class='hakakses checkbox checkbox-css'>
                         <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                         <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="tab-pane fade" id="default-tab-2">
                     @include('includes.component.leaflet')
                 </div>
             </div>

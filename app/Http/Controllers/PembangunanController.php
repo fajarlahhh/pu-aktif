@@ -16,12 +16,14 @@ use App\SumberDana;
 use App\Pembangunan;
 use App\DaerahIrigasi;
 use App\KabupatenKota;
-use App\KelurahanDesa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
+use Grimzy\LaravelMysqlSpatial\Types\Polygon;
+use Grimzy\LaravelMysqlSpatial\Types\LineString;
 
 class PembangunanController extends Controller
 {
@@ -152,7 +154,17 @@ class PembangunanController extends Controller
                 return view('pages.pembangunan.form', [
                     'step' => $step,
                     'data' => $req,
-                    'kabupaten_kota' => KabupatenKota::all(),
+                    'aksi' => 'tambah',
+                    'data_sumber_dana' => SumberDana::findOrFail($req->sumber_dana_id),
+                    'i' => 0
+                ]);
+            break;
+            case 2:
+                return view('pages.pembangunan.form', [
+                    'aksi' => 'edit',
+                    'step' => $step,
+                    'data' => $req,
+                    'lokasi' => [],
                     'map' => [],
                     'data_sumber_dana' => SumberDana::findOrFail($req->sumber_dana_id),
                     'i' => 0
@@ -202,6 +214,7 @@ class PembangunanController extends Controller
                         $infrastruktur->jalan_ruas = $req->get('jalan_ruas');
                         $infrastruktur->jalan_subruas = $req->get('jalan_subruas');
                         $infrastruktur->jalan_nama = $req->get('jalan_nama');
+                        $infrastruktur->jalan_tahun_pembuatan = $req->get('pembangunan_tahun');
                         $infrastruktur->jalan_panjang = str_replace(',', '', $req->get('jalan_panjang'))?: 0;
                         $infrastruktur->jalan_fungsi_kp_2 = str_replace(',', '', $req->get('jalan_fungsi_kp_2'))?: 0;
                         $infrastruktur->jalan_fungsi_kp_3 = str_replace(',', '', $req->get('jalan_fungsi_kp_3'))?: 0;
@@ -226,20 +239,19 @@ class PembangunanController extends Controller
                         $infrastruktur = new Jembatan();
                         $infrastruktur->jembatan_nomor = $req->get('jembatan_nomor');
                         $infrastruktur->jembatan_nama = $req->get('jembatan_nama');
-                        $infrastruktur->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'));
-                        $infrastruktur->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'));
-                        $infrastruktur->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'));
-                        $infrastruktur->jembatan_bangunan_atas_tipe = str_replace(',', '', ($req->get('jembatan_bangunan_atas_tipe')?? 0));
-                        $infrastruktur->jembatan_bangunan_atas_kondisi = str_replace(',', '', ($req->get('jembatan_bangunan_atas_kondisi')?? 0));
-                        $infrastruktur->jembatan_bangunan_bawah_tipe = str_replace(',', '', ($req->get('jembatan_bangunan_bawah_tipe')?? 0));
-                        $infrastruktur->jembatan_bangunan_bawah_kondisi = str_replace(',', '', ($req->get('jembatan_bangunan_bawah_kondisi')?? 0));
-                        $infrastruktur->jembatan_bangunan_pondasi_tipe = str_replace(',', '', ($req->get('jembatan_bangunan_pondasi_tipe')?? 0));
-                        $infrastruktur->jembatan_bangunan_pondasi_kondisi = str_replace(',', '', ($req->get('jembatan_bangunan_pondasi_kondisi')?? 0));
-                        $infrastruktur->jembatan_bangunan_lantai_tipe = str_replace(',', '', ($req->get('jembatan_bangunan_lantai_tipe')?? 0));
-                        $infrastruktur->jembatan_bangunan_lantai_kondisi = str_replace(',', '', ($req->get('jembatan_bangunan_lantai_kondisi')?? 0));
+                        $infrastruktur->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'))?: 0;
+                        $infrastruktur->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'))?: 0;
+                        $infrastruktur->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'))?: 0;
+                        $infrastruktur->jembatan_bangunan_atas_tipe = str_replace(',', '', $req->get('jembatan_bangunan_atas_tipe'))?: 0;
+                        $infrastruktur->jembatan_bangunan_atas_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_atas_kondisi'))?: 0;
+                        $infrastruktur->jembatan_bangunan_bawah_tipe = str_replace(',', '', $req->get('jembatan_bangunan_bawah_tipe'))?: 0;
+                        $infrastruktur->jembatan_bangunan_bawah_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_bawah_kondisi'))?: 0;
+                        $infrastruktur->jembatan_bangunan_pondasi_tipe = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_tipe'))?: 0;
+                        $infrastruktur->jembatan_bangunan_pondasi_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_kondisi'))?: 0;
+                        $infrastruktur->jembatan_bangunan_lantai_tipe = str_replace(',', '', $req->get('jembatan_bangunan_lantai_tipe'))?: 0;
+                        $infrastruktur->jembatan_bangunan_lantai_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_lantai_kondisi'))?: 0;
                         $infrastruktur->jembatan_keterangan = $req->get('jembatan_keterangan');
                         $infrastruktur->jalan_id = $req->get('jalan_id');
-                        $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
                     break;
                     case 'DAS' :
                         $infrastruktur = new Das();
@@ -254,7 +266,7 @@ class PembangunanController extends Controller
                     case 'Drainase' :
                         $infrastruktur = new Drainase();
                         $infrastruktur->drainase_nama = $req->get('drainase_nama');
-                        $infrastruktur->drainase_panjang = $req->get('drainase_panjang')? str_replace(',', '', $req->get('drainase_panjang')): 0;
+                        $infrastruktur->drainase_panjang = $req->get('drainase_panjang')?: 0;
                         $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
                     break;
                     case 'SPAM' :
@@ -332,7 +344,7 @@ class PembangunanController extends Controller
                 }
                 if($req->get('marker')){
                     $point = explode(',', $req->get('marker'));
-                    $data->marker = new Point($point[1], $point[0]);
+                    $infrastruktur->marker = new Point($point[1], $point[0]);
                 }
                 if($req->get('polygon')){
                     $coordinate = [];
@@ -350,7 +362,7 @@ class PembangunanController extends Controller
                             (float) explode(',', $req->get('polygon'))[0]
                         ]);
                     }
-                    $data->polygon = new Polygon([
+                    $infrastruktur->polygon = new Polygon([
                         new LineString(collect($coordinate)->map(function($point){
                             return new Point($point[0], $point[1]);
                         })->toArray())
@@ -368,10 +380,13 @@ class PembangunanController extends Controller
                             }
                         }
                     }
-                    $data->polyline = new LineString(collect($coordinate)->map(function($point){
+                    $infrastruktur->polyline = new LineString(collect($coordinate)->map(function($point){
                          return new Point($point[0], $point[1]);
                     })->toArray());
                 }
+                $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+                $infrastruktur->kecamatan_id = $req->get('kecamatan_id');
+                $infrastruktur->kelurahan_desa_id = $req->get('kelurahan_desa_id');
                 $infrastruktur->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
                 $infrastruktur->pengguna_id = Auth::id();
                 $infrastruktur->save();
@@ -417,6 +432,8 @@ class PembangunanController extends Controller
                 $data->infrastruktur_id = $infrastruktur_id;
                 $data->sumber_dana_id = $req->get('sumber_dana_id');
                 $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+                $data->kecamatan_id = $req->get('kecamatan_id');
+                $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
                 $data->pengguna_id = Auth::id();
                 $data->save();
             });

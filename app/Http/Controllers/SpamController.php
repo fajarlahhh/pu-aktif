@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Spam;
-use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +16,24 @@ class SpamController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Spam::whereHas('kabupaten_kota', function($q) use ($req){
-            $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
-        })->orWhere('spam_nama_unit', 'like', '%'.$req->cari.'%')->orWhere('spam_tahun_pembuatan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = Spam::where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('spam_nama_unit', 'like', '%'.$req->cari.'%')->orWhere('spam_tahun_pembuatan', 'like', '%'.$req->cari.'%');
+        });
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
 
         $data->appends(['cari' => $req->cari]);
         return view('pages.datainduk.ciptakarya.spam.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -34,7 +45,7 @@ class SpamController extends Controller
         return view('pages.datainduk.ciptakarya.spam.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'kabupaten_kota' => KabupatenKota::all(),
+            'lokasi' => [],
             'back' => Str::contains(url()->previous(), ['spam/tambah', 'spam/edit'])? '/spam': url()->previous(),
         ]);
     }
@@ -60,6 +71,7 @@ class SpamController extends Controller
             $data = new Spam();
             $data->spam_nama_unit = $req->get('spam_nama_unit');
             $data->spam_tahun_pembuatan = $req->get('spam_tahun_pembuatan');
+            $data->spam_keterangan = $req->get('spam_keterangan');
             $data->spam_kapasitas_terpasang = $req->get('spam_kapasitas_terpasang')? str_replace(',', '', $req->get('spam_kapasitas_terpasang')): 0;
             $data->spam_kapasitas_produksi = $req->get('spam_kapasitas_produksi')? str_replace(',', '', $req->get('spam_kapasitas_produksi')): 0;
             $data->spam_kapasitas_distribusi = $req->get('spam_kapasitas_distribusi')? str_replace(',', '', $req->get('spam_kapasitas_distribusi')): 0;
@@ -67,7 +79,6 @@ class SpamController extends Controller
             $data->spam_kapasitas_idle = $req->get('spam_kapasitas_idle')? str_replace(',', '', $req->get('spam_kapasitas_idle')): 0;
             $data->spam_jumlah_sr = $req->get('spam_jumlah_sr')? str_replace(',', '', $req->get('spam_jumlah_sr')): 0;
             $data->spam_jumlah_jiwa_terlayani = $req->get('spam_jumlah_jiwa_terlayani')? str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani')): 0;
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -110,6 +121,9 @@ class SpamController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -145,6 +159,14 @@ class SpamController extends Controller
             return view('pages.datainduk.ciptakarya.spam.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),
@@ -153,7 +175,7 @@ class SpamController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'kabupaten_kota' => KabupatenKota::all(),
+
                 'back' => Str::contains(url()->previous(), ['spam/tambah', 'spam/edit'])? '/spam': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -182,6 +204,7 @@ class SpamController extends Controller
         try{
 			$data = Spam::findOrFail($req->get('id'));
             $data->spam_nama_unit = $req->get('spam_nama_unit');
+            $data->spam_keterangan = $req->get('spam_keterangan');
             $data->spam_tahun_pembuatan = $req->get('spam_tahun_pembuatan');
             $data->spam_kapasitas_terpasang = $req->get('spam_kapasitas_terpasang')? str_replace(',', '', $req->get('spam_kapasitas_terpasang')): 0;
             $data->spam_kapasitas_produksi = $req->get('spam_kapasitas_produksi')? str_replace(',', '', $req->get('spam_kapasitas_produksi')): 0;
@@ -190,7 +213,6 @@ class SpamController extends Controller
             $data->spam_kapasitas_idle = $req->get('spam_kapasitas_idle')? str_replace(',', '', $req->get('spam_kapasitas_idle')): 0;
             $data->spam_jumlah_sr = $req->get('spam_jumlah_sr')? str_replace(',', '', $req->get('spam_jumlah_sr')): 0;
             $data->spam_jumlah_jiwa_terlayani = $req->get('spam_jumlah_jiwa_terlayani')? str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani')): 0;
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -235,6 +257,9 @@ class SpamController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();

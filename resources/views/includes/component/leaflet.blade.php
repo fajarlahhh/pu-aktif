@@ -1,7 +1,20 @@
+
+@push('css')
 <link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
 <link href="{{ url('/public/assets/plugins/leaflet.draw/src/leaflet.draw.css') }}" rel="stylesheet">
+@endpush
 
-<div id="map" style="height: 500px; border: 1px solid rgb(204, 204, 204); position: relative; outline: none;" tabindex="0"></div>
+<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+    <!-- begin panel-heading -->
+    <div class="panel-heading">
+        <div class="panel-heading-btn">
+        </div>
+    </div>
+    <div class="panel-body">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <div id="map" style="height: 500px; border: 1px solid rgb(204, 204, 204); position: relative; outline: none;" tabindex="0"></div>
+    </div>
+</div>
 <input type="hidden" id="marker" name="marker">
 <input type="hidden" id="polygon" name="polygon">
 <input type="hidden" id="polyline" name="polyline">
@@ -146,7 +159,7 @@
     var lat = parseFloat("{{ $map['marker']['lat'] }}");
 
     L.marker([lat, long]).addTo(map);
-    map.setView([lat,long], 14);
+    map.setView([lat,long], 16);
 </script>
 @endif
 @if ($map['polygon'])

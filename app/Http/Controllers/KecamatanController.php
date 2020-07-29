@@ -28,9 +28,9 @@ class KecamatanController extends Controller
     }
 
 
-    public function cari($id, Request $req)
+    public function cari(Request $req)
     {
-        $data = Kecamatan::where('kecamatan_nama', 'like', '%'.$req->cari.'%')->where('kabupaten_kota_id', $id)->get();
+        $data = Kecamatan::where('kecamatan_nama', 'like', '%'.$req->cari.'%')->where('kabupaten_kota_id', $req->id)->get();
         return $data;
     }
 

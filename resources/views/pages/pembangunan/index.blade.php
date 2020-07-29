@@ -91,81 +91,84 @@
                         <th class="align-middle" rowspan="2">Jenis Pembangunan</th>
                         <th class="align-middle" rowspan="2">Sumber Anggaran</th>
                         <th class="align-middle" rowspan="2">Penanggung Jawab</th>
-                        <th class="align-middle" rowspan="2">Kabupaten/Kota</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90" rowspan="2"></th>
                     </tr>
                     <tr>
                         <th>Jenis</th>
                         <th>Nama</th>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data as $row)
                     @switch ($row->infrastruktur_jenis)
                         @case ('Jalan')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->jalan->jalan_nama;
-                                $link = $row->jalan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->jalan_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->jalan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Jembatan')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->jembatan->jembatan_nama;
-                                $link = $row->jembatan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->jembatan_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->jembatan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('DAS')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->das->das_nama;
-                                $link = $row->das->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->das_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->das->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Drainase')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->drainase->drainase_nama;
-                                $link = $row->drainase->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->drainase_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->drainase->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('SPAM')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->spam->spam_nama_unit;
-                                $link = $row->spam->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->spam_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->spam->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Sumur')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->sumur->sumur_kode;
-                                $link = $row->sumur->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->sumur_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->sumur->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Bendungan')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->bendungan->bendungan_nama;
-                                $link = $row->bendungan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->bendungan_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->bendungan->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Daerah Irigasi')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->daerah_irigasi->daerah_irigasi_nama;
-                                $link = $row->daerah_irigasi->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->daerah_irigasi_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->daerah_irigasi->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Embung')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->embung->embung_nama;
-                                $link = $row->embung->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->embung_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->embung->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                         @case ('Mata Air')
-                            @php 
+                            @php
                                 $infrastruktur_nama =  $row->mata_air->mata_air_nama;
-                                $link = $row->mata_air->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\'".$row->mata_air_id."\')'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
+                                $link = $row->mata_air->marker? "<a href='#modal-peta' data-toggle='modal' onclick='peta(\"".$row->infrastruktur_jenis."\",".$row->infrastruktur_id.")'>".$row->pembangunan_uraian."</a>": $row->pembangunan_uraian;
                             @endphp
                         @break
                     @endswitch
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $link }}</td>
+                        <td class="align-middle">{!! $link !!}</td>
                         <td class="align-middle">{{ $row->infrastruktur_jenis }}</td>
                         <td class="align-middle">{{ $infrastruktur_nama }}</td>
                         <td class="align-middle">{{ $row->pembangunan_tahun }}</td>
@@ -173,7 +176,9 @@
                         <td class="align-middle">{{ $row->pembangunan_jenis }}</td>
                         <td class="align-middle">{{ $row->sumber_dana->sumber_dana_nama }}</td>
                         <td class="align-middle">{{ $row->pembangunan_penanggung_jawab }}</td>
-                        <td class="align-middle">{{ $row->kabupaten_kota->kabupaten_kota_nama }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="javascript:;" onclick="hapus('{{ $row->pembangunan_id }}', '{{ $row->pembangunan_uraian.' '.strtolower($row->infrastruktur_jenis).' '.$infrastruktur_nama.' tahun '.$row->pembangunan_tahun }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
@@ -205,8 +210,39 @@
          $("#frm-cari").submit();
     });
 
-    function peta(id){
-        $("#modal-content").load("{{ url('/pembangunan/peta') }}?id=" + id);
+    function peta(tipe, id){
+        switch (tipe) {
+            case 'Jalan' :
+                $("#modal-content").load("{{ url('/jalan/peta') }}?id=" + id);
+            break;
+            case 'Jembatan' :
+                $("#modal-content").load("{{ url('/jembatan/peta') }}?id=" + id);
+            break;
+            case 'DAS' :
+                $("#modal-content").load("{{ url('/das/peta') }}?id=" + id);
+            break;
+            case 'Drainase' :
+                $("#modal-content").load("{{ url('/drainase/peta') }}?id=" + id);
+            break;
+            case 'SPAM' :
+                $("#modal-content").load("{{ url('/spam/peta') }}?id=" + id);
+            break;
+            case 'Sumur' :
+                $("#modal-content").load("{{ url('/sumur/peta') }}?id=" + id);
+            break;
+            case 'Bendungan' :
+                $("#modal-content").load("{{ url('/bendungan/peta') }}?id=" + id);
+            break;
+            case 'Daerah Irigasi' :
+                $("#modal-content").load("{{ url('/daerahirigasi/peta') }}?id=" + id);
+            break;
+            case 'Embung' :
+                $("#modal-content").load("{{ url('/embung/peta') }}?id=" + id);
+            break;
+            case 'Mata Air' :
+                $("#modal-content").load("{{ url('/mataair/peta') }}?id=" + id);
+            break;
+        }
     }
 
     function hapus(id, ket) {

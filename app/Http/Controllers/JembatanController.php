@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Jalan;
 use App\Jembatan;
-use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,14 +17,26 @@ class JembatanController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Jembatan::whereHas('jalan', function($q) use ($req){
-            $q->orWhere('jalan_nama', 'like', '%'.$req->cari.'%');
-        })->orWhereHas('kabupaten_kota', function($q) use ($req){
-            $q->orWhere('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
-        })->orWhere('jembatan_nama', 'like', '%'.$req->cari.'%')->orWhere('jembatan_nomor', 'like', '%'.$req->cari.'%')->orWhere('jembatan_keterangan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = Jembatan::where(function($q) use($req){
+            $q->whereHas('jalan', function($q) use ($req){
+                $q->orWhere('jalan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('jembatan_nama', 'like', '%'.$req->cari.'%')->orWhere('jembatan_nomor', 'like', '%'.$req->cari.'%')->orWhere('jembatan_keterangan', 'like', '%'.$req->cari.'%');
+        });
 
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
         $data->appends(['cari' => $req->cari]);
         return view('pages.datainduk.binamarga.jembatan.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -37,8 +48,9 @@ class JembatanController extends Controller
         return view('pages.datainduk.binamarga.jembatan.form', [
             'aksi' => 'tambah',
             'map' => [],
+            'lokasi' => [],
             'jalan' => Jalan::orderBy('jalan_nama')->get(),
-            'kabupaten_kota' => KabupatenKota::all(),
+
             'back' => Str::contains(url()->previous(), ['jembatan/tambah', 'jembatan/edit'])? '/jembatan': url()->previous(),
         ]);
     }
@@ -64,20 +76,13 @@ class JembatanController extends Controller
             $data = new Jembatan();
             $data->jembatan_nomor = $req->get('jembatan_nomor');
             $data->jembatan_nama = $req->get('jembatan_nama');
-            $data->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'));
-            $data->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'));
-            $data->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'));
-            $data->jembatan_bangunan_atas_tipe = str_replace(',', '', $req->get('jembatan_bangunan_atas_tipe'));
-            $data->jembatan_bangunan_atas_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_atas_kondisi'));
-            $data->jembatan_bangunan_bawah_tipe = str_replace(',', '', $req->get('jembatan_bangunan_bawah_tipe'));
-            $data->jembatan_bangunan_bawah_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_bawah_kondisi'));
-            $data->jembatan_bangunan_pondasi_tipe = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_tipe'));
-            $data->jembatan_bangunan_pondasi_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_kondisi'));
-            $data->jembatan_bangunan_lantai_tipe = str_replace(',', '', $req->get('jembatan_bangunan_lantai_tipe'));
-            $data->jembatan_bangunan_lantai_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_lantai_kondisi'));
+            $data->jembatan_tahun_pembuatan = $req->get('jembatan_tahun_pembuatan');
+            $data->jembatan_biaya_pembuatan = str_replace(',', '', $req->get('jembatan_biaya_pembuatan'))?: 0;
+            $data->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'))?: 0;
+            $data->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'))?: 0;
+            $data->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'))?: 0;
             $data->jembatan_keterangan = $req->get('jembatan_keterangan');
             $data->jalan_id = $req->get('jalan_id');
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -120,6 +125,9 @@ class JembatanController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -127,7 +135,7 @@ class JembatanController extends Controller
             return redirect($req->get('redirect')? $req->get('redirect'): route('jembatan'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());
-			return redirect(url()->previous()? url()->previous()->withInput(): 'embung');
+			return redirect(url()->previous()? url()->previous(): 'embung')->withInput();
 		}
 	}
 
@@ -155,6 +163,14 @@ class JembatanController extends Controller
             return view('pages.datainduk.binamarga.jembatan.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),
@@ -164,7 +180,7 @@ class JembatanController extends Controller
                     'polyline' => $polyline
                 ],
                 'jalan' => Jalan::orderBy('jalan_nama')->get(),
-                'kabupaten_kota' => KabupatenKota::all(),
+
                 'back' => Str::contains(url()->previous(), ['jembatan/tambah', 'jembatan/edit'])? '/jembatan': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -194,20 +210,13 @@ class JembatanController extends Controller
 			$data = Jembatan::findOrFail($req->get('id'));
             $data->jembatan_nomor = $req->get('jembatan_nomor');
             $data->jembatan_nama = $req->get('jembatan_nama');
-            $data->jembatan_dimensi_panjang = $req->get('jembatan_dimensi_panjang')? str_replace(',', '', $req->get('jembatan_dimensi_panjang')): 0;
-            $data->jembatan_dimensi_lebar = $req->get('jembatan_dimensi_lebar')? str_replace(',', '', $req->get('jembatan_dimensi_lebar')): 0;
-            $data->jembatan_dimensi_bentang = $req->get('jembatan_dimensi_bentang')? str_replace(',', '', $req->get('jembatan_dimensi_bentang')): 0;
-            $data->jembatan_bangunan_atas_tipe = $req->get('jembatan_bangunan_atas_tipe')? str_replace(',', '', $req->get('jembatan_bangunan_atas_tipe')): 0;
-            $data->jembatan_bangunan_atas_kondisi = $req->get('jembatan_bangunan_atas_kondisi')? str_replace(',', '', $req->get('jembatan_bangunan_atas_kondisi')): 0;
-            $data->jembatan_bangunan_bawah_tipe = $req->get('jembatan_bangunan_bawah_tipe')? str_replace(',', '', $req->get('jembatan_bangunan_bawah_tipe')): 0;
-            $data->jembatan_bangunan_bawah_kondisi = $req->get('jembatan_bangunan_bawah_kondisi')? str_replace(',', '', $req->get('jembatan_bangunan_bawah_kondisi')): 0;
-            $data->jembatan_bangunan_pondasi_tipe = $req->get('jembatan_bangunan_pondasi_tipe')? str_replace(',', '', $req->get('jembatan_bangunan_pondasi_tipe')): 0;
-            $data->jembatan_bangunan_pondasi_kondisi = $req->get('jembatan_bangunan_pondasi_kondisi')? str_replace(',', '', $req->get('jembatan_bangunan_pondasi_kondisi')): 0;
-            $data->jembatan_bangunan_lantai_tipe = $req->get('jembatan_bangunan_lantai_tipe')? str_replace(',', '', $req->get('jembatan_bangunan_lantai_tipe')): 0;
-            $data->jembatan_bangunan_lantai_kondisi = $req->get('jembatan_bangunan_lantai_kondisi')? str_replace(',', '', $req->get('jembatan_bangunan_lantai_kondisi')): 0;
+            $data->jembatan_tahun_pembuatan = $req->get('jembatan_tahun_pembuatan');
+            $data->jembatan_biaya_pembuatan = str_replace(',', '', $req->get('jembatan_biaya_pembuatan'))?: 0;
+            $data->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'))?: 0;
+            $data->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'))?: 0;
+            $data->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'))?: 0;
             $data->jembatan_keterangan = $req->get('jembatan_keterangan');
             $data->jalan_id = $req->get('jalan_id');
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -252,6 +261,9 @@ class JembatanController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();

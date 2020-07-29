@@ -31,6 +31,13 @@
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
                 <form id="frm-cari" action="{{ route('embung') }}" method="GET">
                     <div class="form-inline pull-right">
+                        <div class="form-group">
+                            <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-danger" data-width="100%">
+                                <option value="semua" {{ $jenis == 'semua'? 'selected': ''}}>Semua Jenis</option>
+                                <option value="1" {{ $jenis == '1'? 'selected': ''}}>Kewenangan Provinsi</option>
+                                <option value="0" {{ $jenis == '0'? 'selected': ''}}>POKIR</option>
+                            </select>
+                        </div>&nbsp;
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
                             <div class="input-group-append">
@@ -90,9 +97,9 @@
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_h != 0? number_format($row->embung_data_teknik_h): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_lebar_spillway != 0? number_format($row->embung_data_teknik_lebar_spillway): "-" }}</td>
                         <td class="align-middle">{{ $row->embung_keterangan }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('embung.edit', ['id' => $row->embung_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

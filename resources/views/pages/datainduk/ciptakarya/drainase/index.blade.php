@@ -31,6 +31,13 @@
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
                 <form id="frm-cari" action="{{ route('drainase') }}" method="GET">
                     <div class="form-inline pull-right">
+                        <div class="form-group">
+                            <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-danger" data-width="100%">
+                                <option value="semua" {{ $jenis == 'semua'? 'selected': ''}}>Semua Jenis</option>
+                                <option value="1" {{ $jenis == '1'? 'selected': ''}}>Kewenangan Provinsi</option>
+                                <option value="0" {{ $jenis == '0'? 'selected': ''}}>POKIR</option>
+                            </select>
+                        </div>&nbsp;
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
                             <div class="input-group-append">
@@ -47,11 +54,18 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>Nama Kawasan</th>
-                        <th>Panjang (m)</th>
-                        <th>Kabupaten/ Kota</th>
-                        <th class="width-90"></th>
+                        <th class="align-middle" rowspan="2">No.</th>
+                        <th class="align-middle" rowspan="2">Nama Kawasan</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Panjang (m)</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
+                        <th class="align-middle" rowspan="2" class="width-90"></th>
+                    </tr>
+                    <tr>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,8 +73,12 @@
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->drainase_nama }}</td>
+                        <td class="align-middle text-center">{{ $row->drainase_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ $row->drainase_panjang != 0? number_format($row->drainase_panjang, 2): "-" }}</td>
-                        <td>{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->drainase_keterangan }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('drainase.edit', ['id' => $row->drainase_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

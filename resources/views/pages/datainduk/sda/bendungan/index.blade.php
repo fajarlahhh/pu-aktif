@@ -49,15 +49,19 @@
                     <tr>
                         <th rowspan="2" class="align-middle">No.</th>
                         <th rowspan="2" class="align-middle">Nama Bendungan</th>
-                        <th colspan="4" class="text-center align-middle">Data Teknik</th>
-                        <th class="align-middle" rowspan="2">Kabupaten</th>
+                        <th rowspan="2" class="align-middle">Tahun Pembuatan</th>
+                        <th colspan="3" class="text-center align-middle">Data Teknik</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90" rowspan="2"></th>
                     </tr>
                     <tr>
                         <th>Tinggi (m)</th>
                         <th>Volume (m<sup>3</sup>)</th>
-                        <th>Tahun Pembuatan</th>
                         <th>Pengukuran Bathimetri</th>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,11 +77,14 @@
                             {{ $row->bendungan_nama }}
                             @endif
                         </td>
+                        <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_tinggi, 2) }}</td>
                         <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_volume, 2) }}</td>
-                        <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ $row->bendungan_data_teknik_bathimetri != 0? number_format($row->bendungan_data_teknik_bathimetri): '-' }}</td>
-                        <td class="align-middle">{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('bendungan.edit', ['id' => $row->bendungan_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

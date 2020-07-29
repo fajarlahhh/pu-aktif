@@ -41,31 +41,24 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Tahun Pembuatan</label>
-                        <input class="form-control" type="text" name="sumur_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_tahun_pembuatan: old('sumur_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <input class="form-control" type="number" name="sumur_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_tahun_pembuatan: old('sumur_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Debit</label>
                         <input class="form-control" type="text" name="sumur_debit" value="{{ $aksi == 'edit'? $data->sumur_debit: old('sumur_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Kelurahan/Desa</label>
-                        <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-info" data-width="100%" data-size="5" onchange="caridesa()">
-                            <option value="">Pilih Kelurahan/Desa</option>
-                            @foreach ($desa as $row)
-                            <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
-                            @endforeach
-                        </select>
+                    <div class="form-group" id="catatan">
+                        <label class="control-label">Keterangan</label>
+                        <textarea class="form-control" rows="3" id="sumur_keterangan" name="sumur_keterangan">{{ $aksi == 'edit'? $data->sumur_keterangan: old('sumur_keterangan') }}</textarea>
                     </div>
+                    @include('includes.component.lokasi')
                     <div class='hakakses checkbox checkbox-css'>
                         <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                         <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <div class="note note-primary">
-                        <h5>Peta</h5>
-                        @include('includes.component.leaflet')
-                    </div>
+                    @include('includes.component.leaflet')
                 </div>
             </div>
         </div>

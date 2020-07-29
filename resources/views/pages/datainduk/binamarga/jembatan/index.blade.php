@@ -31,6 +31,13 @@
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
                 <form id="frm-cari" action="{{ route('jembatan') }}" method="GET">
                     <div class="form-inline pull-right">
+                        <div class="form-group">
+                            <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-danger" data-width="100%">
+                                <option value="semua" {{ $jenis == 'semua'? 'selected': ''}}>Semua Jenis</option>
+                                <option value="1" {{ $jenis == '1'? 'selected': ''}}>Kewenangan Provinsi</option>
+                                <option value="0" {{ $jenis == '0'? 'selected': ''}}>POKIR</option>
+                            </select>
+                        </div>&nbsp;
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
                             <div class="input-group-append">
@@ -50,16 +57,21 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nomor Jembatan</th>
                         <th class="align-middle" rowspan="2">Nama Jembatan</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th class="align-middle" rowspan="2">Nama Ruas Jalan</th>
                         <th colspan="3" class="text-center">Dimensi</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
-                        <th class="align-middle" rowspan="2">Kabupaten/ Kota</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
                         <th class="align-middle" rowspan="2" class="width-90"></th>
                     </tr>
                     <tr>
-                        <th class="align-middle">Panjang (M)</th>
-                        <th class="align-middle">Lebar (M)</th>
-                        <th class="align-middle">Jumlah Bentang (M)</th>
+                        <th>Panjang (M)</th>
+                        <th>Lebar (M)</th>
+                        <th>Jumlah Bentang (M)</th>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +79,7 @@
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->jembatan_nomor }}</td>
-                        <td>
+                        <td class="align-middle">
                         @if ($row->marker)
                             <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
                                 {{ $row->jembatan_nama }}
@@ -76,12 +88,16 @@
                         {{ $row->jembatan_nama }}
                         @endif
                         </td>
-                        <td>{{ $row->jalan? $row->jalan->jalan_nama: '' }}</td>
+                        <td class="align-middle text-center">{{ $row->jembatan_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->jembatan_biaya_pembuatan != 0? number_format($row->jembatan_biaya_pembuatan, 2): "-" }}</td>
+                        <td class="align-middle">{{ $row->jalan_id? $row->jalan->jalan_nama: '' }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_panjang != 0? number_format($row->jembatan_dimensi_panjang, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_lebar != 0? number_format($row->jembatan_dimensi_lebar, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->jembatan_dimensi_bentang != 0? number_format($row->jembatan_dimensi_bentang, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->jembatan_keterangan }}</td>
-                        <td>{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('jembatan.edit', ['id' => $row->jembatan_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

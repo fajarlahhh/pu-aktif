@@ -31,6 +31,13 @@
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
                 <form id="frm-cari" action="{{ route('spam') }}" method="GET">
                     <div class="form-inline pull-right">
+                        <div class="form-group">
+                            <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-danger" data-width="100%">
+                                <option value="semua" {{ $jenis == 'semua'? 'selected': ''}}>Semua Jenis</option>
+                                <option value="1" {{ $jenis == '1'? 'selected': ''}}>Kewenangan Provinsi</option>
+                                <option value="0" {{ $jenis == '0'? 'selected': ''}}>POKIR</option>
+                            </select>
+                        </div>&nbsp;
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
                             <div class="input-group-append">
@@ -50,15 +57,20 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Kode</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
-                        <th colspan="2" class="text-center">Kapasitas</th>
+                        <th colspan="3" class="text-center">Kapasitas</th>
                         <th class="align-middle" rowspan="2">Jumlah SR</th>
                         <th class="align-middle" rowspan="2">Jumlah Jiwa Terlayani</th>
-                        <th class="align-middle" rowspan="2">Kabupaten/ Kota</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
+                        <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90 align-middle" rowspan="2"></th>
                     </tr>
                     <tr>
                         <th>Terpasang</th>
                         <th>Produksi</th>
+                        <th>Distribusi</th>
+                        <th>Kelurahan/Desa</th>
+                        <th>Kecamatan</th>
+                        <th>Kabupaten/Kota</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,9 +81,13 @@
                         <td class="align-middle">{{ $row->spam_tahun_pembuatan  }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_terpasang != 0? number_format($row->spam_kapasitas_terpasang, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_produksi != 0? number_format($row->spam_kapasitas_produksi, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_distribusi != 0? number_format($row->spam_kapasitas_distribusi, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->das_jumlah_sr != 0? number_format($row->das_jumlah_sr): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->das_jumlah_jiwa_terlayani != 0? number_format($row->das_jumlah_jiwa_terlayani): "-" }}</td>
-                        <td>{{ $row->kabupaten_kota? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->spam_keterangan }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('spam.edit', ['id' => $row->spam_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

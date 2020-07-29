@@ -61,6 +61,7 @@
                                 <label class="control-label">Keterangan</label>
                                 <textarea class="form-control" rows="3" id="embung_keterangan" name="embung_keterangan">{{ $aksi == 'edit'? $data->embung_keterangan: old('embung_keterangan') }}</textarea>
                             </div>
+                            @include('includes.component.lokasi')
                             <div class='hakakses checkbox checkbox-css'>
                                 <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                                 <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
@@ -104,22 +105,7 @@
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade" id="default-tab-2">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label">Kelurahan/Desa</label>
-                                <select class="form-control selectpicker" name="kelurahan_desa_id" id="kelurahan_desa_id" data-live-search="true" data-style="btn-purple" data-width="100%" data-size="5" onchange="caridesa()">
-                                    <option value="">Pilih Kelurahan/Desa</option>
-                                    @foreach ($desa as $row)
-                                    <option value="{{ $row->kelurahan_desa_id }}" {{ $aksi == 'edit' && $data->kelurahan_desa_id == $row->kelurahan_desa_id? 'selected': '' }}>{{ $row->kelurahan_desa_nama.", ".$row->kecamatan->kecamatan_nama.", ".$row->kecamatan->kabupaten_kota->kabupaten_kota_nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
                             @include('includes.component.leaflet')
-                        </div>
-                    </div>
                 </div>
                 <!-- end tab-pane -->
             </div>
@@ -143,19 +129,7 @@
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
-        function caridesa(){
-            var alamat = $("#kelurahan_desa_id option:selected").text()+", Nusa Tenggara Barat";
-            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
-            .done(function(data){
-                if(data.length > 0){
-                    position = [data[0].lat,data[0].lon];
-                    map.setView(position,14);
-                }
-            });
-        }
-
         function initMap() {
-            caridesa();
             setTimeout(function() {
                 map.invalidateSize();
             }, 500);

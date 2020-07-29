@@ -48,7 +48,7 @@
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <div class="form-group">
                                 <label class="control-label">Nama Unit</label>
                                 <input class="form-control" type="text" name="spam_nama_unit" value="{{ $aksi == 'edit'? $data->spam_nama_unit: old('spam_nama_unit') }}" autocomplete="off" required />
@@ -57,20 +57,17 @@
                                 <label class="control-label">Tahun Pembuatan</label>
                                 <input class="form-control" type="number" name="spam_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->spam_tahun_pembuatan: old('spam_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                             </div>
-                            <div class="form-group">
-                                <label class="control-label">Jumlah SR</label>
-                                <input class="form-control decimal text-right" type="text" name="spam_jumlah_sr" value="{{ $aksi == 'edit'? $data->spam_jumlah_sr: old('spam_jumlah_sr') }}" autocomplete="off"  />
+                            <div class="form-group" id="catatan">
+                                <label class="control-label">Keterangan</label>
+                                <textarea class="form-control" rows="3" id="spam_keterangan" name="spam_keterangan">{{ $aksi == 'edit'? $data->spam_keterangan: old('spam_keterangan') }}</textarea>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label">Jiwa Terlayani</label>
-                                <input class="form-control decimal text-right" type="text" name="spam_jumlah_jiwa_terlayani" value="{{ $aksi == 'edit'? $data->spam_jumlah_jiwa_terlayani: old('spam_jumlah_jiwa_terlayani') }}" autocomplete="off"  />
-                            </div>
+                            @include('includes.component.lokasi')
                             <div class='hakakses checkbox checkbox-css'>
                                 <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                                 <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="note note-primary">
                                 <h5>Kapasitas</h5>
                                 <div class="form-group">
@@ -85,6 +82,15 @@
                                     <label class="control-label">Distribusi</label>
                                     <input class="form-control decimal text-right" type="text" name="spam_kapasitas_distribusi" value="{{ $aksi == 'edit'? $data->spam_kapasitas_distribusi: old('spam_kapasitas_distribusi') }}" autocomplete="off"  />
                                 </div>
+                                <hr>
+                                <div class="form-group">
+                                    <label class="control-label">Jumlah SR</label>
+                                    <input class="form-control decimal text-right" type="text" name="spam_jumlah_sr" value="{{ $aksi == 'edit'? $data->spam_jumlah_sr: old('spam_jumlah_sr') }}" autocomplete="off"  />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Jiwa Terlayani</label>
+                                    <input class="form-control decimal text-right" type="text" name="spam_jumlah_jiwa_terlayani" value="{{ $aksi == 'edit'? $data->spam_jumlah_jiwa_terlayani: old('spam_jumlah_jiwa_terlayani') }}" autocomplete="off"  />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,22 +98,7 @@
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade" id="default-tab-2">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label">Kabupaten/Kota</label>
-                                <select class="form-control selectpicker" name="kabupaten_kota_id" id="kabupaten_kota_id" data-live-search="true" data-style="btn-purple" data-width="100%" onchange="caridesa()">
-                                    <option value="">Pilih Kabupaten/Kota</option>
-                                    @foreach ($kabupaten_kota as $row)
-                                    <option value="{{ $row->kabupaten_kota_id }}" {{ $aksi == 'edit' && $data->kabupaten_kota_id == $row->kabupaten_kota_id? 'selected': '' }}>{{ $row->kabupaten_kota_nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            @include('includes.component.leaflet')
-                        </div>
-                    </div>
+                    @include('includes.component.leaflet')
                 </div>
                 <!-- end tab-pane -->
             </div>
@@ -132,17 +123,6 @@
 <script src="{{ url('/public/assets/plugins/autonumeric/autonumeric.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
-        function caridesa(){
-            var alamat = $("#kabupaten_kota_id option:selected").text()+", Nusa Tenggara Barat";
-            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
-            .done(function(data){
-                if(data.length > 0){
-                    position = [data[0].lat,data[0].lon];
-                    map.setView(position,12);
-                }
-            });
-        }
-
         function initMap() {
             setTimeout(function() {
                 map.invalidateSize();

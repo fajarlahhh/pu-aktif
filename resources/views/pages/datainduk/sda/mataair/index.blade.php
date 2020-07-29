@@ -31,6 +31,13 @@
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
                 <form id="frm-cari" action="{{ route('mataair') }}" method="GET">
                     <div class="form-inline pull-right">
+                        <div class="form-group">
+                            <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-danger" data-width="100%">
+                                <option value="semua" {{ $jenis == 'semua'? 'selected': ''}}>Semua Jenis</option>
+                                <option value="1" {{ $jenis == '1'? 'selected': ''}}>Kewenangan Provinsi</option>
+                                <option value="0" {{ $jenis == '0'? 'selected': ''}}>POKIR</option>
+                            </select>
+                        </div>&nbsp;
                         <div class="input-group">
                             <input type="text" class="form-control cari" name="cari" placeholder="Pencarian" aria-label="Sizing example input" autocomplete="off" aria-describedby="basic-addon2" value="{{ $cari }}">
                             <div class="input-group-append">
@@ -50,6 +57,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nama Mata Air</th>
                         <th class="align-middle" rowspan="2">Debit (ltr/dtk)</th>
+                        <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
                         <th class="width-90 align-middle" rowspan="2"></th>
                     </tr>
@@ -65,6 +73,7 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->mata_air_nama }}</td>
                         <td class="align-middle">{{ $row->mata_air_debit }}</td>
+                        <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>

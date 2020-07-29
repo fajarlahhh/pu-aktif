@@ -18,8 +18,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/gantisandi', 'PenggunaController@ganti_sandi')->name('gantisandi');
     Route::get('/jalan/cari', 'JalanController@cari');
-    Route::get('/kecamatan/cari/{id}', 'KecamatanController@cari');
-    Route::get('/kelurahandesa/cari/{id}', 'KelurahandesaController@cari');
+    Route::get('/kabupatenkota/cari', 'KabupatenkotaController@cari');
+    Route::get('/kecamatan/cari', 'KecamatanController@cari');
+    Route::get('/kelurahandesa/cari', 'KelurahandesaController@cari');
     Route::patch('/gantisandi', 'PenggunaController@do_ganti_sandi')->name('gantisandi');
 
     Route::group(['middleware' => ['role_or_permission:super-admin|pengguna']], function () {

@@ -30,9 +30,9 @@ class KelurahandesaController extends Controller
     }
 
 
-    public function cari($id, Request $req)
+    public function cari(Request $req)
     {
-        $data = KelurahanDesa::where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->where('kecamatan_id', $id)->get();
+        $data = KelurahanDesa::where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%')->where('kecamatan_id', $req->id)->get();
         return $data;
     }
 

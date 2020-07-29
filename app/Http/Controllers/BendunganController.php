@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Bendungan;
-use App\KabupatenKota;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +16,23 @@ class BendunganController extends Controller
     //
     public function index(Request $req)
 	{
-        $data = Bendungan::whereHas('kabupaten_kota', function($q) use ($req){
-            $q->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
-        })->orWhere('bendungan_nama', 'like', '%'.$req->cari.'%')->orWhere('bendungan_tahun_pembuatan', 'like', '%'.$req->cari.'%')->paginate(10);
+        $jenis = isset($req->jenis)? $req->jenis: 'semua';
+        $data = Bendungan::where(function($q) use ($req){
+            $q->whereHas('kabupaten_kota', function($q1) use ($req){
+                $q1->where('kabupaten_kota_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kecamatan', function($q1) use ($req){
+                $q1->where('kecamatan_nama', 'like', '%'.$req->cari.'%');
+            })->orWhereHas('kelurahan_desa', function($q1) use ($req){
+                $q1->where('kelurahan_desa_nama', 'like', '%'.$req->cari.'%');
+            })->orWhere('bendungan_nama', 'like', '%'.$req->cari.'%')->orWhere('bendungan_tahun_pembuatan', 'like', '%'.$req->cari.'%');
+        });
 
-        $data->appends(['cari' => $req->cari]);
+        if($jenis != 'semua'){
+            $data = $data->where('kewenangan_provinsi', $jenis);
+        }
+        $data = $data->paginate(10);
         return view('pages.datainduk.sda.bendungan.index', [
+            'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
             'cari' => $req->cari
@@ -34,7 +44,7 @@ class BendunganController extends Controller
         return view('pages.datainduk.sda.bendungan.form', [
             'aksi' => 'tambah',
             'map' => [],
-            'kabupaten_kota' => KabupatenKota::all(),
+            'lokasi' => [],
             'back' => Str::contains(url()->previous(), ['bendungan/tambah', 'bendungan/edit'])? '/bendungan': url()->previous(),
         ]);
     }
@@ -43,11 +53,9 @@ class BendunganController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'bendungan_nama' => 'required',
-                'bendungan_tahun_pembuatan' => 'required'
+                'bendungan_nama' => 'required'
             ],[
-                'bendungan_nama.required'  => 'Nama Bendungan tidak boleh kosong',
-                'bendungan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'bendungan_nama.required'  => 'Nama Bendungan tidak boleh kosong'
             ]
         );
 
@@ -69,7 +77,7 @@ class BendunganController extends Controller
             $data->bendungan_manfaat_lainnya = $req->get('bendungan_manfaat_lainnya');
             $data->bendungan_kelembagaan_upb = $req->get('bendungan_kelembagaan_upb');
             $data->bendungan_kelembagaan_petugas = $req->get('bendungan_kelembagaan_petugas');
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->bendungan_keterangan = $req->get('bendungan_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -112,6 +120,9 @@ class BendunganController extends Controller
                      return new Point($point[0], $point[1]);
                 })->toArray());
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
@@ -147,6 +158,14 @@ class BendunganController extends Controller
             return view('pages.datainduk.sda.bendungan.form', [
                 'aksi' => 'edit',
                 'data' => $data,
+                'lokasi' => [
+                    'kabupaten_kota_id' => $data->kabupaten_kota_id,
+                    'kecamatan_id' => $data->kecamatan_id,
+                    'kelurahan_desa_id' => $data->kelurahan_desa_id,
+                    'kabupaten_kota_nama' => $data->kabupaten_kota_id? $data->kabupaten_kota->kabupaten_kota_nama: '',
+                    'kecamatan_nama' => $data->kecamatan_id? $data->kecamatan->kecamatan_nama: '',
+                    'kelurahan_desa_nama' => $data->kelurahan_desa_id? $data->kelurahan_desa->kelurahan_desa_nama: ''
+                ],
                 'map' => [
                     'marker' => $data->marker? [
                         'long' => $data->marker->getLng(),
@@ -155,7 +174,7 @@ class BendunganController extends Controller
                     'polygon' => $polygon,
                     'polyline' => $polyline
                 ],
-                'kabupaten_kota' => KabupatenKota::all(),
+
                 'back' => Str::contains(url()->previous(), ['bendungan/tambah', 'bendungan/edit'])? '/bendungan': url()->previous(),
             ]);
 		}catch(\Exception $e){
@@ -168,11 +187,9 @@ class BendunganController extends Controller
 	{
         $validator = Validator::make($req->all(),
             [
-                'bendungan_nama' => 'required',
-                'bendungan_tahun_pembuatan' => 'required'
+                'bendungan_nama' => 'required'
             ],[
-                'bendungan_nama.required'  => 'Nama Bendungan tidak boleh kosong',
-                'bendungan_tahun_pembuatan.required'  => 'Tahun Pembuatan tidak boleh kosong'
+                'bendungan_nama.required'  => 'Nama Bendungan tidak boleh kosong'
             ]
         );
 
@@ -194,7 +211,7 @@ class BendunganController extends Controller
             $data->bendungan_manfaat_lainnya = $req->get('bendungan_manfaat_lainnya');
             $data->bendungan_kelembagaan_upb = $req->get('bendungan_kelembagaan_upb');
             $data->bendungan_kelembagaan_petugas = $req->get('bendungan_kelembagaan_petugas');
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->bendungan_keterangan = $req->get('bendungan_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);
@@ -239,6 +256,9 @@ class BendunganController extends Controller
                 })->toArray());
                 $data->polygon = null;
             }
+            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+            $data->kecamatan_id = $req->get('kecamatan_id');
+            $data->kelurahan_desa_id = $req->get('kelurahan_desa_id');
             $data->pengguna_id = Auth::id();
             $data->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
             $data->save();
