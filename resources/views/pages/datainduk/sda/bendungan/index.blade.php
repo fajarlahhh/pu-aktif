@@ -50,6 +50,7 @@
                         <th rowspan="2" class="align-middle">No.</th>
                         <th rowspan="2" class="align-middle">Nama Bendungan</th>
                         <th rowspan="2" class="align-middle">Tahun Pembuatan</th>
+                        <th rowspan="2" class="align-middle">Biaya Pembuatan</th>
                         <th colspan="3" class="text-center align-middle">Data Teknik</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
@@ -70,14 +71,15 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">
                             @if ($row->marker)
-                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->bendungan_id }}')">
                                     {{ $row->bendungan_nama }}
                                 </a>
                             @else
                             {{ $row->bendungan_nama }}
                             @endif
                         </td>
-                        <td class="align-middle">{{ $row->bendungan_tahun_pembuatan }}</td>
+                        <td class="align-middle text-center">{{ $row->bendungan_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->bendungan_biaya_pembuatan != 0? number_format($row->bendungan_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_tinggi, 2) }}</td>
                         <td class="align-middle text-right">{{ number_format($row->bendungan_data_teknik_volume, 2) }}</td>
                         <td class="align-middle text-right">{{ $row->bendungan_data_teknik_bathimetri != 0? number_format($row->bendungan_data_teknik_bathimetri): '-' }}</td>

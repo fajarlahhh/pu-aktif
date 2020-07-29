@@ -74,9 +74,11 @@ class DasController extends Controller
             $data->das_kode_ws = $req->get('das_kode_ws');
             $data->das_pola_aliran = $req->get('das_pola_aliran');
             $data->das_nama = $req->get('das_nama');
-            $data->das_luas = str_replace(',', '', $req->get('das_luas'));
-            $data->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai');
-            $data->das_jumlah_desa = $req->get('das_jumlah_desa');
+            $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
+            $data->das_biaya_pembuatan = str_replace(',', '', $req->get('das_biaya_pembuatan'))?: 0;
+            $data->das_luas = str_replace(',', '', $req->get('das_luas'))?: 0;
+            $data->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai')?: 0;
+            $data->das_jumlah_desa = $req->get('das_jumlah_desa')?: 0;
             $data->das_keterangan = $req->get('das_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -206,9 +208,11 @@ class DasController extends Controller
             $data->das_kode_ws = $req->get('das_kode_ws');
             $data->das_pola_aliran = $req->get('das_pola_aliran');
             $data->das_nama = $req->get('das_nama');
-            $data->das_luas = str_replace(',', '', $req->get('das_luas'));
-            $data->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai');
-            $data->das_jumlah_desa = $req->get('das_jumlah_desa');
+            $data->das_tahun_pembuatan = $req->get('das_tahun_pembuatan');
+            $data->das_biaya_pembuatan = str_replace(',', '', $req->get('das_biaya_pembuatan'))?: 0;
+            $data->das_luas = str_replace(',', '', $req->get('das_luas'))?: 0;
+            $data->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai')?: 0;
+            $data->das_jumlah_desa = $req->get('das_jumlah_desa')?: 0;
             $data->das_keterangan = $req->get('das_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));

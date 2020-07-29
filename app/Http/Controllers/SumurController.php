@@ -68,7 +68,7 @@ class SumurController extends Controller
             $data = new Sumur();
             $data->sumur_kode = $req->get('sumur_kode');
             $data->sumur_tahun_pembuatan = $req->get('sumur_tahun_pembuatan');
-            $data->sumur_biaya_pembuatan = str_replace(',', '', $req->get('sumur_biaya_pembuatan'));
+            $data->sumur_biaya_pembuatan = str_replace(',', '', $req->get('sumur_biaya_pembuatan'))?: 0;
             $data->sumur_keterangan = $req->get('sumur_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -195,7 +195,7 @@ class SumurController extends Controller
 			$data = Sumur::findOrFail($req->get('id'));
             $data->sumur_kode = $req->get('sumur_kode');
             $data->sumur_tahun_pembuatan = $req->get('sumur_tahun_pembuatan');
-            $data->sumur_biaya_pembuatan = str_replace(',', '', $req->get('sumur_biaya_pembuatan'));
+            $data->sumur_biaya_pembuatan = str_replace(',', '', $req->get('sumur_biaya_pembuatan'))?: 0;
             $data->sumur_keterangan = $req->get('sumur_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));

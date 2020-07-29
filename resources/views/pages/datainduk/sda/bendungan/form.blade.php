@@ -4,7 +4,6 @@
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
-    <link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -56,11 +55,14 @@
                                 <label class="control-label">Tahun Pembuatan</label>
                                 <input class="form-control" type="number" name="bendungan_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->bendungan_tahun_pembuatan: old('bendungan_tahun_pembuatan') }}" autocomplete="off"  />
                             </div>
+                            <div class="form-group">
+                                <label class="control-label">Biaya Pembuatan</label>
+                                <input class="form-control decimal text-right" type="text" name="bendungan_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->bendungan_biaya_pembuatan: old('bendungan_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                            </div>
                             <div class="form-group" id="catatan">
                                 <label class="control-label">Keterangan</label>
                                 <textarea class="form-control" rows="3" id="bendungan_keterangan" name="bendungan_keterangan">{{ $aksi == 'edit'? $data->bendungan_keterangan: old('bendungan_keterangan') }}</textarea>
                             </div>
-                            @include('includes.component.lokasi')
                             <div class='hakakses checkbox checkbox-css'>
                                 <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                                 <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
@@ -70,7 +72,7 @@
                             <div class="note note-primary">
                                 <h5>Data Teknik</h5>
                                 <div class="form-group">
-                                    <label class="control-label">Tinggi</label>
+                                    <label class="control-label">Tinggi (m)</label>
                                     <input class="form-control decimal text-right" type="text" name="bendungan_data_teknik_tinggi" value="{{ $aksi == 'edit'? $data->bendungan_data_teknik_tinggi: old('bendungan_data_teknik_tinggi') }}" autocomplete="off"  />
                                 </div>
                                 <div class="form-group">
@@ -86,7 +88,14 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
-                    @include('includes.component.leaflet')
+                    <div class="row">
+                        <div class="col-md-3">
+                            @include('includes.component.lokasi')
+                        </div>
+                        <div class="col-md-9">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,23 +115,4 @@
 
 @push('scripts')
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script>
-        function caridesa(){
-            var alamat = $("#kabupaten_kota_id option:selected").text()+", Nusa Tenggara Barat";
-            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
-            .done(function(data){
-                if(data.length > 0){
-                    position = [data[0].lat,data[0].lon];
-                    map.setView(position,12);
-                }
-            });
-        }
-
-        function initMap() {
-            setTimeout(function() {
-                map.invalidateSize();
-            }, 500);
-        }
-    </script>
 @endpush

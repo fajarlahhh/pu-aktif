@@ -4,7 +4,6 @@
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
-    <link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -52,6 +51,10 @@
                         <input class="form-control" type="number" name="drainase_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->drainase_tahun_pembuatan: old('drainase_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
+                        <label class="control-label">Biaya Pembuatan</label>
+                        <input class="form-control decimal text-right" type="text" name="drainase_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->drainase_biaya_pembuatan: old('drainase_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    </div>
+                    <div class="form-group">
                         <label class="control-label">Panjang (m)</label>
                         <input class="form-control decimal text-right" type="text" name="drainase_panjang" value="{{ $aksi == 'edit'? $data->drainase_panjang: old('drainase_panjang') }}" autocomplete="off"  />
                     </div>
@@ -59,14 +62,20 @@
                         <label class="control-label">Keterangan</label>
                         <textarea class="form-control" rows="3" id="drainase_keterangan" name="drainase_keterangan">{{ $aksi == 'edit'? $data->drainase_keterangan: old('drainase_keterangan') }}</textarea>
                     </div>
-                    @include('includes.component.lokasi')
                     <div class='hakakses checkbox checkbox-css'>
                         <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                         <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
-                    @include('includes.component.leaflet')
+                    <div class="row">
+                        <div class="col-md-3">
+                            @include('includes.component.lokasi')
+                        </div>
+                        <div class="col-md-9">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,12 +95,4 @@
 
 @push('scripts')
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script>
-        function initMap() {
-            setTimeout(function() {
-                map.invalidateSize();
-            }, 500);
-        }
-    </script>
 @endpush

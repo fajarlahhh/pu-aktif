@@ -4,7 +4,6 @@
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
-    <link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -57,11 +56,14 @@
                                 <label class="control-label">Tahun Pembuatan</label>
                                 <input class="form-control" type="number" name="spam_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->spam_tahun_pembuatan: old('spam_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                             </div>
+                            <div class="form-group">
+                                <label class="control-label">Biaya Pembuatan</label>
+                                <input class="form-control decimal text-right" type="text" name="spam_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->spam_biaya_pembuatan: old('spam_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                            </div>
                             <div class="form-group" id="catatan">
                                 <label class="control-label">Keterangan</label>
                                 <textarea class="form-control" rows="3" id="spam_keterangan" name="spam_keterangan">{{ $aksi == 'edit'? $data->spam_keterangan: old('spam_keterangan') }}</textarea>
                             </div>
-                            @include('includes.component.lokasi')
                             <div class='hakakses checkbox checkbox-css'>
                                 <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                                 <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
@@ -82,6 +84,10 @@
                                     <label class="control-label">Distribusi</label>
                                     <input class="form-control decimal text-right" type="text" name="spam_kapasitas_distribusi" value="{{ $aksi == 'edit'? $data->spam_kapasitas_distribusi: old('spam_kapasitas_distribusi') }}" autocomplete="off"  />
                                 </div>
+                                <div class="form-group">
+                                    <label class="control-label">Idle</label>
+                                    <input class="form-control decimal text-right" type="text" name="spam_kapasitas_idle" value="{{ $aksi == 'edit'? $data->spam_kapasitas_idle: old('spam_kapasitas_idle') }}" autocomplete="off"  />
+                                </div>
                                 <hr>
                                 <div class="form-group">
                                     <label class="control-label">Jumlah SR</label>
@@ -98,7 +104,14 @@
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade" id="default-tab-2">
-                    @include('includes.component.leaflet')
+                    <div class="row">
+                        <div class="col-md-3">
+                            @include('includes.component.lokasi')
+                        </div>
+                        <div class="col-md-9">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
                 <!-- end tab-pane -->
             </div>
@@ -120,13 +133,4 @@
 
 @push('scripts')
 <script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
-<script src="{{ url('/public/assets/plugins/autonumeric/autonumeric.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script>
-        function initMap() {
-            setTimeout(function() {
-                map.invalidateSize();
-            }, 500);
-        }
-    </script>
 @endpush

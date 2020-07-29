@@ -119,5 +119,4 @@
 
 @push('scripts')
 <script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
-<script src="{{ url('/public/assets/plugins/autonumeric/autonumeric.js') }}"></script>
 @endpush

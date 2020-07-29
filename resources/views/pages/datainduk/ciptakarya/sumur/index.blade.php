@@ -57,6 +57,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Kode</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th class="align-middle" rowspan="2">Debit (ltr/dtk)</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
@@ -72,9 +73,18 @@
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->sumur_kode }}</td>
-                        <td class="align-middle">{{ $row->sumur_tahun_pembuatan }}</td>
-                        <td class="align-middle">{{ $row->sumur_debit }}</td>
+                        <td class="align-middle">
+                            @if ($row->marker)
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->sumur_id }}')">
+                                    {{ $row->sumur_kode }}
+                                </a>
+                            @else
+                            {{ $row->sumur_kode }}
+                            @endif
+                        </td>
+                        <td class="align-middle text-center">{{ $row->sumur_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->sumur_biaya_pembuatan != 0? number_format($row->sumur_biaya_pembuatan, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->sumur_debit }}</td>
                         <td class="align-middle">{{ $row->sumur_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>

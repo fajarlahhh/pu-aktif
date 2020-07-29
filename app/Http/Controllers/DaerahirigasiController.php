@@ -69,11 +69,8 @@ class DaerahirigasiController extends Controller
             $data = new DaerahIrigasi();
             $data->daerah_irigasi_nama = $req->get('daerah_irigasi_nama');
             $data->daerah_irigasi_tahun_pembuatan = $req->get('daerah_irigasi_tahun_pembuatan');
-            $data->daerah_irigasi_luas_area_potensial = $req->get('daerah_irigasi_luas_area_potensial')? str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial')): 0;
-            $data->daerah_irigasi_sawah_irigasi = $req->get('daerah_irigasi_sawah_irigasi')? str_replace(',', '', $req->get('daerah_irigasi_sawah_irigasi')): 0;
-            $data->daerah_irigasi_belum_irigasi = $req->get('daerah_irigasi_belum_irigasi')? str_replace(',', '', $req->get('daerah_irigasi_belum_irigasi')): 0;
-            $data->daerah_irigasi_belum_sawah = $req->get('daerah_irigasi_belum_sawah')? str_replace(',', '', $req->get('daerah_irigasi_belum_sawah')): 0;
-            $data->daerah_irigasi_alih_fungsi = $req->get('daerah_irigasi_alih_fungsi')? str_replace(',', '', $req->get('daerah_irigasi_alih_fungsi')): 0;
+            $data->daerah_irigasi_biaya_pembuatan = str_replace(',', '', $req->get('daerah_irigasi_biaya_pembuatan'))?: 0;
+            $data->daerah_irigasi_luas_area_potensial = str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial'))?: 0;
             $data->daerah_irigasi_keterangan = $req->get('daerah_irigasi_keterangan');
             $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
@@ -199,11 +196,8 @@ class DaerahirigasiController extends Controller
 			$data = DaerahIrigasi::findOrFail($req->get('id'));
             $data->daerah_irigasi_nama = $req->get('daerah_irigasi_nama');
             $data->daerah_irigasi_tahun_pembuatan = $req->get('daerah_irigasi_tahun_pembuatan');
-            $data->daerah_irigasi_luas_area_potensial = $req->get('daerah_irigasi_luas_area_potensial')? str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial')): 0;
-            $data->daerah_irigasi_sawah_irigasi = $req->get('daerah_irigasi_sawah_irigasi')? str_replace(',', '', $req->get('daerah_irigasi_sawah_irigasi')): 0;
-            $data->daerah_irigasi_belum_irigasi = $req->get('daerah_irigasi_belum_irigasi')? str_replace(',', '', $req->get('daerah_irigasi_belum_irigasi')): 0;
-            $data->daerah_irigasi_belum_sawah = $req->get('daerah_irigasi_belum_sawah')? str_replace(',', '', $req->get('daerah_irigasi_belum_sawah')): 0;
-            $data->daerah_irigasi_alih_fungsi = $req->get('daerah_irigasi_alih_fungsi')? str_replace(',', '', $req->get('daerah_irigasi_alih_fungsi')): 0;
+            $data->daerah_irigasi_biaya_pembuatan = str_replace(',', '', $req->get('daerah_irigasi_biaya_pembuatan'))?: 0;
+            $data->daerah_irigasi_luas_area_potensial = str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial'))?: 0;
             $data->daerah_irigasi_keterangan = $req->get('daerah_irigasi_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));

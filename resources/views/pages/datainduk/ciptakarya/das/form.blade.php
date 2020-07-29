@@ -4,7 +4,6 @@
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
-    <link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -58,6 +57,14 @@
                             <div class="form-group">
                                 <label class="control-label">Nama</label>
                                 <input class="form-control" type="text" name="das_nama" value="{{ $aksi == 'edit'? $data->das_nama: old('das_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Tahun Pembuatan</label>
+                                <input class="form-control" type="number" name="das_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->das_tahun_pembuatan: old('das_tahun_pembuatan') }}" required data-parsley-minlength="4" data-parsley-maxlength="4" autocomplete="off"  />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Biaya Pembuatan</label>
+                                <input class="form-control decimal text-right" type="text" name="das_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->das_biaya_pembuatan: old('das_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                             </div>
                             <div class="form-group" id="catatan">
                                 <label class="control-label">Keterangan</label>
@@ -115,12 +122,4 @@
 
 @push('scripts')
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script>
-        function initMap() {
-            setTimeout(function() {
-                map.invalidateSize();
-            }, 500);
-        }
-    </script>
 @endpush

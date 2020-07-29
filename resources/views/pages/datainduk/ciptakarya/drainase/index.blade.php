@@ -57,6 +57,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nama Kawasan</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th class="align-middle" rowspan="2">Panjang (m)</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
@@ -72,8 +73,17 @@
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->drainase_nama }}</td>
+                        <td class="align-middle">
+                            @if ($row->marker)
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->drainase_id }}')">
+                                    {{ $row->drainase_nama }}
+                                </a>
+                            @else
+                            {{ $row->drainase_nama }}
+                            @endif
+                        </td>
                         <td class="align-middle text-center">{{ $row->drainase_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->drainase_biaya_pembuatan != 0? number_format($row->drainase_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->drainase_panjang != 0? number_format($row->drainase_panjang, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->drainase_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>

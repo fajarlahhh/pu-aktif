@@ -81,7 +81,7 @@
                         <td class="align-middle">{{ $row->jembatan_nomor }}</td>
                         <td class="align-middle">
                         @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jembatan_id }}')">
                                 {{ $row->jembatan_nama }}
                             </a>
                         @else

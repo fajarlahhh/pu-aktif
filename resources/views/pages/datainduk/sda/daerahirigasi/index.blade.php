@@ -50,6 +50,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Daerah Irigasi</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th class="align-middle" rowspan="2">Luas Area Potensial</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
@@ -67,14 +68,15 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">
                             @if ($row->marker)
-                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->daerah_irigasi_id }}')">
                                     {{ $row->daerah_irigasi_nama }}
                                 </a>
                             @else
                             {{ $row->daerah_irigasi_nama }}
                             @endif
                         </td>
-                        <td class="align-middle">{{ $row->daerah_irigasi_tahun_pembuatan }}</td>
+                        <td class="align-middle text-center">{{ $row->daerah_irigasi_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->daerah_irigasi_biaya_pembuatan != 0? number_format($row->daerah_irigasi_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->daerah_irigasi_luas_area_potensial != 0? number_format($row->daerah_irigasi_luas_area_potensial): '-' }}</td>
                         <td class="align-middle">{{ $row->daerah_irigasi_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>

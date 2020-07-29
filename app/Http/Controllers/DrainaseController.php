@@ -72,6 +72,7 @@ class DrainaseController extends Controller
             $data->drainase_nama = $req->get('drainase_nama');
             $data->drainase_keterangan = $req->get('drainase_keterangan');
             $data->drainase_tahun_pembuatan = $req->get('drainase_tahun_pembuatan');
+            $data->drainase_biaya_pembuatan = str_replace(',', '', $req->get('drainase_biaya_pembuatan'))?: 0;
             $data->drainase_panjang = $req->get('drainase_panjang')? str_replace(',', '', $req->get('drainase_panjang')): 0;
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -199,6 +200,7 @@ class DrainaseController extends Controller
             $data->drainase_nama = $req->get('drainase_nama');
             $data->drainase_keterangan = $req->get('drainase_keterangan');
             $data->drainase_tahun_pembuatan = $req->get('drainase_tahun_pembuatan');
+            $data->drainase_biaya_pembuatan = str_replace(',', '', $req->get('drainase_biaya_pembuatan'))?: 0;
             $data->drainase_panjang = $req->get('drainase_panjang')? str_replace(',', '', $req->get('drainase_panjang')): 0;
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));

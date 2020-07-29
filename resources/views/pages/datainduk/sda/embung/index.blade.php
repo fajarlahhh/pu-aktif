@@ -57,6 +57,7 @@
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nama Embung</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th colspan="7" class="text-center">Data Teknik</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
@@ -81,14 +82,15 @@
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">
                         @if ($row->marker)
-                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                            <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->embung_id }}')">
                                 {{ $row->embung_nama }}
                             </a>
                         @else
                         {{ $row->embung_nama }}
                         @endif
                         </td>
-                        <td class="align-middle">{{ $row->embung_tahun_pembuatan }}</td>
+                        <td class="align-middle text-center">{{ $row->embung_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->embung_biaya_pembuatan != 0? number_format($row->embung_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_ca_km != 0? number_format($row->embung_data_teknik_ca_km): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->embung_data_teknik_luasan_genangan != 0? number_format($row->embung_data_teknik_luasan_genangan): "-" }}</td>
                         <td class="align-middle">{{ $row->embung_data_teknik_tipe_konstruksi }}</td>

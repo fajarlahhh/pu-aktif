@@ -32,12 +32,6 @@
 <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/select2/dist/js/select2.min.js') }}"></script>
 <script>
-    function initMap() {
-        setTimeout(function() {
-            map.invalidateSize();
-        }, 500);
-    }
-
     $('#kabupaten_kota_id').on('change', function(){
         $("#kecamatan_id").val(null).trigger('change');
         set_map();

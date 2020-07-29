@@ -58,6 +58,8 @@
                         <th class="align-middle" rowspan="2">Kode WS</th>
                         <th class="align-middle" rowspan="2">Pola Aliran</th>
                         <th class="align-middle" rowspan="2">Nama DAS</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th class="align-middle" rowspan="2">Luas</th>
                         <th class="align-middle" rowspan="2">Banyaknya Orde Sungai</th>
                         <th class="align-middle" rowspan="2">Jumlah Desa Yang Dilalui</th>
@@ -79,13 +81,15 @@
                         <td class="align-middle">{{ $row->das_pola_aliran }}</td>
                         <td class="align-middle">
                             @if ($row->marker)
-                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->jalan_id }}')">
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->das_id }}')">
                                     {{ $row->das_nama }}
                                 </a>
                             @else
                             {{ $row->das_nama }}
                             @endif
                         </td>
+                        <td class="align-middle text-center">{{ $row->das_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->das_biaya_pembuatan != 0? number_format($row->das_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ number_format($row->das_luas, 2) }}</td>
                         <td class="align-middle text-right">{{ number_format($row->das_jumlah_orde_sungai) }}</td>
                         <td class="align-middle text-right">{{ number_format($row->das_jumlah_desa) }}</td>

@@ -55,9 +55,10 @@
                 <thead>
                     <tr>
                         <th class="align-middle" rowspan="2">No.</th>
-                        <th class="align-middle" rowspan="2">Kode</th>
+                        <th class="align-middle" rowspan="2">Nama Unit</th>
                         <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
-                        <th colspan="3" class="text-center">Kapasitas</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
+                        <th colspan="4" class="text-center">Kapasitas</th>
                         <th class="align-middle" rowspan="2">Jumlah SR</th>
                         <th class="align-middle" rowspan="2">Jumlah Jiwa Terlayani</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
@@ -68,6 +69,7 @@
                         <th>Terpasang</th>
                         <th>Produksi</th>
                         <th>Distribusi</th>
+                        <th>Idle</th>
                         <th>Kelurahan/Desa</th>
                         <th>Kecamatan</th>
                         <th>Kabupaten/Kota</th>
@@ -77,11 +79,21 @@
                     @foreach ($data as $row)
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
-                        <td class="align-middle">{{ $row->spam_nama_unit }}</td>
+                        <td class="align-middle">
+                            @if ($row->marker)
+                                <a href="#modal-peta" data-toggle="modal" onclick="peta('{{ $row->spam_id }}')">
+                                    {{ $row->spam_nama_unit }}
+                                </a>
+                            @else
+                            {{ $row->spam_nama_unit }}
+                            @endif
+                        </td>
                         <td class="align-middle">{{ $row->spam_tahun_pembuatan  }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_biaya_pembuatan != 0? number_format($row->spam_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_terpasang != 0? number_format($row->spam_kapasitas_terpasang, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_produksi != 0? number_format($row->spam_kapasitas_produksi, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_distribusi != 0? number_format($row->spam_kapasitas_distribusi, 2): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_kapasitas_idle != 0? number_format($row->spam_kapasitas_idle, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->das_jumlah_sr != 0? number_format($row->das_jumlah_sr): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->das_jumlah_jiwa_terlayani != 0? number_format($row->das_jumlah_jiwa_terlayani): "-" }}</td>
                         <td class="align-middle">{{ $row->spam_keterangan }}</td>

@@ -57,11 +57,14 @@
                                 <label class="control-label">Tahun Pembuatan</label>
                                 <input class="form-control" type="number" name="embung_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->embung_tahun_pembuatan: old('embung_tahun_pembuatan') }}" autocomplete="off"  />
                             </div>
+                            <div class="form-group">
+                                <label class="control-label">Biaya Pembuatan</label>
+                                <input class="form-control decimal text-right" type="text" name="embung_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->embung_biaya_pembuatan: old('embung_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                            </div>
                             <div class="form-group" id="catatan">
                                 <label class="control-label">Keterangan</label>
                                 <textarea class="form-control" rows="3" id="embung_keterangan" name="embung_keterangan">{{ $aksi == 'edit'? $data->embung_keterangan: old('embung_keterangan') }}</textarea>
                             </div>
-                            @include('includes.component.lokasi')
                             <div class='hakakses checkbox checkbox-css'>
                                 <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                                 <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
@@ -105,7 +108,14 @@
                 <!-- end tab-pane -->
                 <!-- begin tab-pane -->
                 <div class="tab-pane fade" id="default-tab-2">
+                    <div class="row">
+                        <div class="col-md-3">
+                            @include('includes.component.lokasi')
+                        </div>
+                        <div class="col-md-9">
                             @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
                 <!-- end tab-pane -->
             </div>

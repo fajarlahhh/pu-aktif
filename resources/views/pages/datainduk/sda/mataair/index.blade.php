@@ -56,6 +56,8 @@
                     <tr>
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Nama Mata Air</th>
+                        <th class="align-middle" rowspan="2">Tahun Pembuatan</th>
+                        <th class="align-middle" rowspan="2">Biaya Pembuatan</th>
                         <th class="align-middle" rowspan="2">Debit (ltr/dtk)</th>
                         <th class="align-middle" rowspan="2">Keterangan</th>
                         <th colspan="3" class="text-center">Lokasi</th>
@@ -72,6 +74,8 @@
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{{ $row->mata_air_nama }}</td>
+                        <td class="align-middle text-center">{{ $row->mata_air_tahun_pembuatan }}</td>
+                        <td class="align-middle text-right">{{ $row->mata_air_biaya_pembuatan != 0? number_format($row->mata_air_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->mata_air_debit }}</td>
                         <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>

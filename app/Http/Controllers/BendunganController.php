@@ -68,15 +68,10 @@ class BendunganController extends Controller
             $data = new Bendungan();
             $data->bendungan_nama = $req->get('bendungan_nama');
             $data->bendungan_tahun_pembuatan = $req->get('bendungan_tahun_pembuatan');
-            $data->bendungan_data_teknik_tinggi = $req->get('bendungan_data_teknik_tinggi')? str_replace(',', '', $req->get('bendungan_data_teknik_tinggi')): 0;
-            $data->bendungan_data_teknik_volume = $req->get('bendungan_data_teknik_volume')? str_replace(',', '', $req->get('bendungan_data_teknik_volume')): 0;
-            $data->bendungan_data_teknik_bathimetri = $req->get('bendungan_data_teknik_bathimetri')? str_replace(',', '', $req->get('bendungan_data_teknik_bathimetri')): 0;
-            $data->bendungan_manfaat_air_baku = $req->get('bendungan_manfaat_air_baku')? str_replace(',', '', $req->get('bendungan_manfaat_air_baku')): 0;
-            $data->bendungan_manfaat_irigasi = $req->get('bendungan_manfaat_irigasi')? str_replace(',', '', $req->get('bendungan_manfaat_irigasi')): 0;
-            $data->bendungan_manfaat_plta = $req->get('bendungan_manfaat_plta')? str_replace(',', '', $req->get('bendungan_manfaat_plta')): 0;
-            $data->bendungan_manfaat_lainnya = $req->get('bendungan_manfaat_lainnya');
-            $data->bendungan_kelembagaan_upb = $req->get('bendungan_kelembagaan_upb');
-            $data->bendungan_kelembagaan_petugas = $req->get('bendungan_kelembagaan_petugas');
+            $data->bendungan_biaya_pembuatan = str_replace(',', '', $req->get('bendungan_biaya_pembuatan'))?: 0;
+            $data->bendungan_data_teknik_tinggi = str_replace(',', '', $req->get('bendungan_data_teknik_tinggi'))?: 0;
+            $data->bendungan_data_teknik_volume = str_replace(',', '', $req->get('bendungan_data_teknik_volume'))?: 0;
+            $data->bendungan_data_teknik_bathimetri = str_replace(',', '', $req->get('bendungan_data_teknik_bathimetri'))?: 0;
             $data->bendungan_keterangan = $req->get('bendungan_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -202,15 +197,10 @@ class BendunganController extends Controller
 			$data = Bendungan::findOrFail($req->get('id'));
             $data->bendungan_nama = $req->get('bendungan_nama');
             $data->bendungan_tahun_pembuatan = $req->get('bendungan_tahun_pembuatan');
-            $data->bendungan_data_teknik_tinggi = $req->get('bendungan_data_teknik_tinggi')? str_replace(',', '', $req->get('bendungan_data_teknik_tinggi')): 0;
-            $data->bendungan_data_teknik_volume = $req->get('bendungan_data_teknik_volume')? str_replace(',', '', $req->get('bendungan_data_teknik_volume')): 0;
-            $data->bendungan_data_teknik_bathimetri = $req->get('bendungan_data_teknik_bathimetri')? str_replace(',', '', $req->get('bendungan_data_teknik_bathimetri')): 0;
-            $data->bendungan_manfaat_air_baku = $req->get('bendungan_manfaat_air_baku')? str_replace(',', '', $req->get('bendungan_manfaat_air_baku')): 0;
-            $data->bendungan_manfaat_irigasi = $req->get('bendungan_manfaat_irigasi')? str_replace(',', '', $req->get('bendungan_manfaat_irigasi')): 0;
-            $data->bendungan_manfaat_plta = $req->get('bendungan_manfaat_plta')? str_replace(',', '', $req->get('bendungan_manfaat_plta')): 0;
-            $data->bendungan_manfaat_lainnya = $req->get('bendungan_manfaat_lainnya');
-            $data->bendungan_kelembagaan_upb = $req->get('bendungan_kelembagaan_upb');
-            $data->bendungan_kelembagaan_petugas = $req->get('bendungan_kelembagaan_petugas');
+            $data->bendungan_biaya_pembuatan = str_replace(',', '', $req->get('bendungan_biaya_pembuatan'))?: 0;
+            $data->bendungan_data_teknik_tinggi = str_replace(',', '', $req->get('bendungan_data_teknik_tinggi'))?: 0;
+            $data->bendungan_data_teknik_volume = str_replace(',', '', $req->get('bendungan_data_teknik_volume'))?: 0;
+            $data->bendungan_data_teknik_bathimetri = str_replace(',', '', $req->get('bendungan_data_teknik_bathimetri'))?: 0;
             $data->bendungan_keterangan = $req->get('bendungan_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));

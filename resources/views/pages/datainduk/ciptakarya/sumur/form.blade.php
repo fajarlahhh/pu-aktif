@@ -4,7 +4,6 @@
 
 @push('css')
 	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
-    <link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -22,19 +21,27 @@
     @method($aksi == 'tambah'? 'POST': 'PUT')
     @csrf
 	<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
-		<div class="panel-heading">
-			<div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-            </div>
-			<h4 class="panel-title">Form</h4>
-		</div>
-        <div class="panel-body">
+        <div class="panel-body p-0">
             <input type="hidden" name="redirect" value="{{ $back }}">
             @if($aksi == 'edit')
             <input type="hidden" name="id" value="{{ $data->sumur_id }}">
             @endif
-            <div class="row">
-                <div class="col-md-4">
+            <ul class="nav nav-tabs">
+                <li class="nav-items">
+                    <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+                        <span class="d-sm-none">Tab 1</span>
+                        <span class="d-sm-block d-none">Spesifikasi</span>
+                    </a>
+                </li>
+                <li class="nav-items">
+                    <a href="#default-tab-2" data-toggle="tab" onclick="initMap()" class="nav-link">
+                        <span class="d-sm-none">Tab 2</span>
+                        <span class="d-sm-block d-none">Peta</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="default-tab-1">
                     <div class="form-group">
                         <label class="control-label">Kode Sumur</label>
                         <input class="form-control" type="text" name="sumur_kode" value="{{ $aksi == 'edit'? $data->sumur_kode: old('sumur_kode') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
@@ -44,6 +51,10 @@
                         <input class="form-control" type="number" name="sumur_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_tahun_pembuatan: old('sumur_tahun_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
+                        <label class="control-label">Biaya Pembuatan</label>
+                        <input class="form-control decimal text-right" type="text" name="sumur_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_biaya_pembuatan: old('sumur_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    </div>
+                    <div class="form-group">
                         <label class="control-label">Debit</label>
                         <input class="form-control" type="text" name="sumur_debit" value="{{ $aksi == 'edit'? $data->sumur_debit: old('sumur_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
@@ -51,14 +62,20 @@
                         <label class="control-label">Keterangan</label>
                         <textarea class="form-control" rows="3" id="sumur_keterangan" name="sumur_keterangan">{{ $aksi == 'edit'? $data->sumur_keterangan: old('sumur_keterangan') }}</textarea>
                     </div>
-                    @include('includes.component.lokasi')
                     <div class='hakakses checkbox checkbox-css'>
                         <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                         <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    @include('includes.component.leaflet')
+                <div class="tab-pane fade" id="default-tab-2">
+                    <div class="row">
+                        <div class="col-md-3">
+                            @include('includes.component.lokasi')
+                        </div>
+                        <div class="col-md-9">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,17 +95,4 @@
 
 @push('scripts')
 	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script>
-        function caridesa(){
-            var alamat = $("#kelurahan_desa_id option:selected").text()+", Nusa Tenggara Barat";
-            $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
-            .done(function(data){
-                if(data.length > 0){
-                    position = [data[0].lat,data[0].lon];
-                    map.setView(position,14);
-                }
-            });
-        }
-    </script>
 @endpush

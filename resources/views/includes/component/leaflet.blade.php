@@ -4,17 +4,7 @@
 <link href="{{ url('/public/assets/plugins/leaflet.draw/src/leaflet.draw.css') }}" rel="stylesheet">
 @endpush
 
-<div class="panel panel-inverse" data-sortable-id="form-stuff-1">
-    <!-- begin panel-heading -->
-    <div class="panel-heading">
-        <div class="panel-heading-btn">
-        </div>
-    </div>
-    <div class="panel-body">
-        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-        <div id="map" style="height: 500px; border: 1px solid rgb(204, 204, 204); position: relative; outline: none;" tabindex="0"></div>
-    </div>
-</div>
+        <div id="map" class="height-600" style="border: 1px solid rgb(204, 204, 204);" tabindex="0"></div>
 <input type="hidden" id="marker" name="marker">
 <input type="hidden" id="polygon" name="polygon">
 <input type="hidden" id="polyline" name="polyline">
@@ -102,6 +92,12 @@
                 map.removeLayer(layer);
             }
         });
+    }
+
+    function initMap() {
+        setTimeout(function() {
+            map.invalidateSize();
+        }, 500);
     }
 
     map.on('draw:created', function (e) {

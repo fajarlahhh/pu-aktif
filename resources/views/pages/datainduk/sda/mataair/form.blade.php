@@ -49,17 +49,31 @@
                         <input class="form-control" type="text" name="mata_air_nama" value="{{ $aksi == 'edit'? $data->mata_air_nama: old('mata_air_nama') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Debit</label>
+                        <label class="control-label">Tahun Pembuatan</label>
+                        <input class="form-control" type="number" name="mata_air_tahun_pembuatan" value="{{ $aksi == 'edit'? $data->mata_air_tahun_pembuatan: old('mata_air_tahun_pembuatan') }}" autocomplete="off"  />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Biaya Pembuatan</label>
+                        <input class="form-control decimal text-right" type="text" name="mata_air_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->mata_air_biaya_pembuatan: old('mata_air_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Debit (ltr/dtk)</label>
                         <input class="form-control" type="text" name="mata_air_debit" value="{{ $aksi == 'edit'? $data->mata_air_debit: old('mata_air_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
-                    @include('includes.component.lokasi')
                     <div class='hakakses checkbox checkbox-css'>
                         <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>
                         <label for='kewenangan_provinsi'>Kewenangan Provinsi</label>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="default-tab-2">
-                    @include('includes.component.leaflet')
+                    <div class="row">
+                        <div class="col-md-3">
+                            @include('includes.component.lokasi')
+                        </div>
+                        <div class="col-md-9">
+                            @include('includes.component.leaflet')
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
