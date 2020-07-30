@@ -77,10 +77,10 @@
                         <td class="align-middle text-center">{{ $row->mata_air_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ $row->mata_air_biaya_pembuatan != 0? number_format($row->mata_air_biaya_pembuatan, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->mata_air_debit }}</td>
-                        <td class="align-middle">{{ $row->bendungan_keterangan }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kecamatan_nama: '' }}</td>
-                        <td class="align-middle">{{ $row->kelurahan_desa? $row->kelurahan_desa->kecamatan->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->mata_air_keterangan }}</td>
+                        <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
+                        <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('mataair.edit', ['id' => $row->mata_air_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>

@@ -1,4 +1,4 @@
-<div class="tab-pane fade {{ !$aksi == 'edit'? 'active show': '' }}" id="default-tab-2">
+<div class="tab-pane fade {{ $aksi == 'edit'? '': 'active show' }}" id="default-tab-2">
     <div class="row">
         <div class="col-md-7">
             <div class="form-group">

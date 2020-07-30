@@ -94,8 +94,8 @@
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_produksi != 0? number_format($row->spam_kapasitas_produksi, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_distribusi != 0? number_format($row->spam_kapasitas_distribusi, 2): "-" }}</td>
                         <td class="align-middle text-right">{{ $row->spam_kapasitas_idle != 0? number_format($row->spam_kapasitas_idle, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->das_jumlah_sr != 0? number_format($row->das_jumlah_sr): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->das_jumlah_jiwa_terlayani != 0? number_format($row->das_jumlah_jiwa_terlayani): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_jumlah_sr != 0? number_format($row->spam_jumlah_sr): "-" }}</td>
+                        <td class="align-middle text-right">{{ $row->spam_jumlah_jiwa_terlayani != 0? number_format($row->spam_jumlah_jiwa_terlayani): "-" }}</td>
                         <td class="align-middle">{{ $row->spam_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>

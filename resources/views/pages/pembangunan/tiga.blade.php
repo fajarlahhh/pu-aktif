@@ -98,8 +98,14 @@
                 @break
             @endswitch
             <div class="tab-pane fade active show" id="default-tab-3">
-                @include('includes.component.lokasi')
-                @include('includes.component.leaflet')
+                <div class="row">
+                    <div class="col-md-3">
+                        @include('includes.component.lokasi')
+                    </div>
+                    <div class="col-md-9">
+                        @include('includes.component.leaflet')
+                    </div>
+                </div>
             </div>
         </div>
         <!-- end tab-content -->

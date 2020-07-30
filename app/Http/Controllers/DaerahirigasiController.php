@@ -72,7 +72,6 @@ class DaerahirigasiController extends Controller
             $data->daerah_irigasi_biaya_pembuatan = str_replace(',', '', $req->get('daerah_irigasi_biaya_pembuatan'))?: 0;
             $data->daerah_irigasi_luas_area_potensial = str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial'))?: 0;
             $data->daerah_irigasi_keterangan = $req->get('daerah_irigasi_keterangan');
-            $data->kabupaten_kota_id = $req->get('kabupaten_kota_id');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);

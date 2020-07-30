@@ -55,8 +55,8 @@
                         <input class="form-control decimal text-right" type="text" name="sumur_biaya_pembuatan" value="{{ $aksi == 'edit'? $data->sumur_biaya_pembuatan: old('sumur_biaya_pembuatan') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Debit</label>
-                        <input class="form-control" type="text" name="sumur_debit" value="{{ $aksi == 'edit'? $data->sumur_debit: old('sumur_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <label class="control-label">Debit (ltr/dtk)</label>
+                        <input class="form-control decimal text-right" type="text" name="sumur_debit" value="{{ $aksi == 'edit'? $data->sumur_debit: old('sumur_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
                     </div>
                     <div class="form-group" id="catatan">
                         <label class="control-label">Keterangan</label>

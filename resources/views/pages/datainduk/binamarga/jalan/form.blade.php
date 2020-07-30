@@ -80,11 +80,11 @@
                             <div class="note note-primary">
                                 <h5>Data Teknik</h5>
                                 <div class="form-group">
-                                    <label class="control-label">Panjang Ruas (KM)</label>
+                                    <label class="control-label">Panjang Ruas (m)</label>
                                     <input class="form-control decimal text-right" type="text" name="jalan_panjang" value="{{ $aksi == 'edit'? $data->jalan_panjang: old('jalan_panjang') }}" autocomplete="off"  />
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Lebar (M)</label>
+                                    <label class="control-label">Lebar (m)</label>
                                     <input class="form-control" type="text" name="jalan_lebar" value="{{ $aksi == 'edit'? $data->jalan_lebar: old('jalan_lebar') }}" autocomplete="off"  />
                                 </div>
                             </div>

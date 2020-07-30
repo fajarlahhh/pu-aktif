@@ -66,9 +66,9 @@
                         <th class="align-middle" rowspan="2" class="width-90"></th>
                     </tr>
                     <tr>
-                        <th>Panjang (M)</th>
-                        <th>Lebar (M)</th>
-                        <th>Jumlah Bentang (M)</th>
+                        <th>Panjang (m)</th>
+                        <th>Lebar (m)</th>
+                        <th>Jumlah Bentang (m)</th>
                         <th>Kelurahan/Desa</th>
                         <th>Kecamatan</th>
                         <th>Kabupaten/Kota</th>

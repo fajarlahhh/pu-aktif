@@ -35,7 +35,9 @@ class PembangunanController extends Controller
         $pembangunan = $req->pembangunan? $req->pembangunan: 'semua';
         $dana = $req->dana? $req->dana: 'semua';
 
-        $data = Pembangunan::with('kabupaten_kota')->where('pembangunan_tahun', $tahun)->orWhere('pembangunan_penanggung_jawab', 'like', '%'.$req->cari.'%')->orWhere('pembangunan_uraian', 'like', '%'.$req->cari.'%')->orWhere('pembangunan_nilai', 'like', '%'.$req->cari.'%');
+        $data = Pembangunan::with('kabupaten_kota')->where('pembangunan_tahun', $tahun)->where(function($q) use ($req){
+            $q->orWhere('pembangunan_penanggung_jawab', 'like', '%'.$req->cari.'%')->orWhere('pembangunan_uraian', 'like', '%'.$req->cari.'%')->orWhere('pembangunan_nilai', 'like', '%'.$req->cari.'%');
+        });
 
         if ($infrastruktur != 'semua') {
             $data = $data->where('infrastruktur_jenis', $infrastruktur);
@@ -215,41 +217,20 @@ class PembangunanController extends Controller
                         $infrastruktur->jalan_subruas = $req->get('jalan_subruas');
                         $infrastruktur->jalan_nama = $req->get('jalan_nama');
                         $infrastruktur->jalan_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->jalan_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
                         $infrastruktur->jalan_panjang = str_replace(',', '', $req->get('jalan_panjang'))?: 0;
-                        $infrastruktur->jalan_fungsi_kp_2 = str_replace(',', '', $req->get('jalan_fungsi_kp_2'))?: 0;
-                        $infrastruktur->jalan_fungsi_kp_3 = str_replace(',', '', $req->get('jalan_fungsi_kp_3'))?: 0;
                         $infrastruktur->jalan_lebar = $req->get('jalan_lebar');
-                        $infrastruktur->jalan_aspal_penetrasi_makadam = str_replace(',', '', $req->get('jalan_aspal_penetrasi_makadam'))?: 0;
-                        $infrastruktur->jalan_perkerasan_beton = str_replace(',', '', $req->get('jalan_perkerasan_beton'))?: 0;
-                        $infrastruktur->jalan_telford_kerikil = str_replace(',', '', $req->get('jalan_telford_kerikil'))?: 0;
-                        $infrastruktur->jalan_tanah_belum_tembus = str_replace(',', '', $req->get('jalan_tanah_belum_tembus'))?: 0;
-                        $infrastruktur->jalan_baik_km = str_replace(',', '', $req->get('jalan_baik_km'))?: 0;
-                        $infrastruktur->jalan_baik_persen = str_replace(',', '', $req->get('jalan_baik_persen'))?: 0;
-                        $infrastruktur->jalan_sedang_km = str_replace(',', '', $req->get('jalan_sedang_km'))?: 0;
-                        $infrastruktur->jalan_sedang_persen = str_replace(',', '', $req->get('jalan_sedang_persen'))?: 0;
-                        $infrastruktur->jalan_rusak_ringan_km = str_replace(',', '', $req->get('jalan_rusak_ringan_km'))?: 0;
-                        $infrastruktur->jalan_rusak_ringan_persen = str_replace(',', '', $req->get('jalan_rusak_ringan_persen'))?: 0;
-                        $infrastruktur->jalan_rusak_berat_km = str_replace(',', '', $req->get('jalan_rusak_berat_km'))?: 0;
-                        $infrastruktur->jalan_rusak_berat_persen = str_replace(',', '', $req->get('jalan_rusak_berat_persen'))?: 0;
-                        $infrastruktur->jalan_lhr = $req->get('jalan_lhr');
-                        $infrastruktur->jalan_akses_ke_npk = $req->get('jalan_akses_ke_npk');
                         $infrastruktur->jalan_keterangan = $req->get('jalan_keterangan');
                     break;
                     case 'Jembatan' :
                         $infrastruktur = new Jembatan();
                         $infrastruktur->jembatan_nomor = $req->get('jembatan_nomor');
                         $infrastruktur->jembatan_nama = $req->get('jembatan_nama');
+                        $infrastruktur->jembatan_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->jembatan_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
                         $infrastruktur->jembatan_dimensi_panjang = str_replace(',', '', $req->get('jembatan_dimensi_panjang'))?: 0;
                         $infrastruktur->jembatan_dimensi_lebar = str_replace(',', '', $req->get('jembatan_dimensi_lebar'))?: 0;
                         $infrastruktur->jembatan_dimensi_bentang = str_replace(',', '', $req->get('jembatan_dimensi_bentang'))?: 0;
-                        $infrastruktur->jembatan_bangunan_atas_tipe = str_replace(',', '', $req->get('jembatan_bangunan_atas_tipe'))?: 0;
-                        $infrastruktur->jembatan_bangunan_atas_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_atas_kondisi'))?: 0;
-                        $infrastruktur->jembatan_bangunan_bawah_tipe = str_replace(',', '', $req->get('jembatan_bangunan_bawah_tipe'))?: 0;
-                        $infrastruktur->jembatan_bangunan_bawah_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_bawah_kondisi'))?: 0;
-                        $infrastruktur->jembatan_bangunan_pondasi_tipe = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_tipe'))?: 0;
-                        $infrastruktur->jembatan_bangunan_pondasi_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_pondasi_kondisi'))?: 0;
-                        $infrastruktur->jembatan_bangunan_lantai_tipe = str_replace(',', '', $req->get('jembatan_bangunan_lantai_tipe'))?: 0;
-                        $infrastruktur->jembatan_bangunan_lantai_kondisi = str_replace(',', '', $req->get('jembatan_bangunan_lantai_kondisi'))?: 0;
                         $infrastruktur->jembatan_keterangan = $req->get('jembatan_keterangan');
                         $infrastruktur->jalan_id = $req->get('jalan_id');
                     break;
@@ -258,88 +239,81 @@ class PembangunanController extends Controller
                         $infrastruktur->das_kode_ws = $req->get('das_kode_ws');
                         $infrastruktur->das_pola_aliran = $req->get('das_pola_aliran');
                         $infrastruktur->das_nama = $req->get('das_nama');
-                        $infrastruktur->das_luas = str_replace(',', '', $req->get('das_luas'));
-                        $infrastruktur->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai');
-                        $infrastruktur->das_jumlah_desa = $req->get('das_jumlah_desa');
+                        $infrastruktur->das_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->das_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->das_luas = str_replace(',', '', $req->get('das_luas'))?: 0;
+                        $infrastruktur->das_jumlah_orde_sungai = $req->get('das_jumlah_orde_sungai')?: 0;
+                        $infrastruktur->das_jumlah_desa = $req->get('das_jumlah_desa')?: 0;
                         $infrastruktur->das_keterangan = $req->get('das_keterangan');
                     break;
                     case 'Drainase' :
                         $infrastruktur = new Drainase();
                         $infrastruktur->drainase_nama = $req->get('drainase_nama');
-                        $infrastruktur->drainase_panjang = $req->get('drainase_panjang')?: 0;
-                        $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+                        $infrastruktur->drainase_keterangan = $req->get('drainase_keterangan');
+                        $infrastruktur->drainase_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->drainase_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->drainase_panjang = $req->get('drainase_panjang')? str_replace(',', '', $req->get('drainase_panjang')): 0;
                     break;
                     case 'SPAM' :
                         $infrastruktur = new Spam();
                         $infrastruktur->spam_nama_unit = $req->get('spam_nama_unit');
-                        $infrastruktur->spam_tahun_pembuatan = $req->get('spam_tahun_pembuatan');
-                        $infrastruktur->spam_kapasitas_terpasang = $req->get('spam_kapasitas_terpasang')? str_replace(',', '', $req->get('spam_kapasitas_terpasang')): 0;
-                        $infrastruktur->spam_kapasitas_produksi = $req->get('spam_kapasitas_produksi')? str_replace(',', '', $req->get('spam_kapasitas_produksi')): 0;
-                        $infrastruktur->spam_kapasitas_distribusi = $req->get('spam_kapasitas_distribusi')? str_replace(',', '', $req->get('spam_kapasitas_distribusi')): 0;
-                        $infrastruktur->spam_kapasitas_air_terjual = $req->get('spam_kapasitas_air_terjual')? str_replace(',', '', $req->get('spam_kapasitas_air_terjual')): 0;
-                        $infrastruktur->spam_kapasitas_idle = $req->get('spam_kapasitas_idle')? str_replace(',', '', $req->get('spam_kapasitas_idle')): 0;
-                        $infrastruktur->spam_jumlah_sr = $req->get('spam_jumlah_sr')? str_replace(',', '', $req->get('spam_jumlah_sr')): 0;
-                        $infrastruktur->spam_jumlah_jiwa_terlayani = $req->get('spam_jumlah_jiwa_terlayani')? str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani')): 0;
-                        $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+                        $infrastruktur->spam_keterangan = $req->get('spam_keterangan');
+                        $infrastruktur->spam_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->spam_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->spam_kapasitas_terpasang = str_replace(',', '', $req->get('spam_kapasitas_terpasang'))?: 0;
+                        $infrastruktur->spam_kapasitas_produksi = str_replace(',', '', $req->get('spam_kapasitas_produksi'))?: 0;
+                        $infrastruktur->spam_kapasitas_distribusi = str_replace(',', '', $req->get('spam_kapasitas_distribusi'))?: 0;
+                        $infrastruktur->spam_kapasitas_idle = str_replace(',', '', $req->get('spam_kapasitas_idle'))?: 0;
+                        $infrastruktur->spam_jumlah_sr = str_replace(',', '', $req->get('spam_jumlah_sr'))?: 0;
+                        $infrastruktur->spam_jumlah_jiwa_terlayani = str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani'))?: 0;
                     break;
                     case 'Sumur' :
                         $infrastruktur = new Sumur();
                         $infrastruktur->sumur_kode = $req->get('sumur_kode');
-                        $infrastruktur->sumur_tahun_pembuatan = $req->get('sumur_tahun_pembuatan');
-                        $infrastruktur->sumur_biaya_pembuatan = str_replace(',', '', $req->get('sumur_biaya_pembuatan'));
+                        $infrastruktur->sumur_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->sumur_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->sumur_debit = str_replace(',', '', $req->get('sumur_debit'))?: 0;
                         $infrastruktur->sumur_keterangan = $req->get('sumur_keterangan');
                     break;
                     case 'Bendungan' :
                         $infrastruktur = new Bendungan();
                         $infrastruktur->bendungan_nama = $req->get('bendungan_nama');
-                        $infrastruktur->bendungan_tahun_pembuatan = $req->get('bendungan_tahun_pembuatan');
-                        $infrastruktur->bendungan_data_teknik_tinggi = $req->get('bendungan_data_teknik_tinggi')? str_replace(',', '', $req->get('bendungan_data_teknik_tinggi')): 0;
-                        $infrastruktur->bendungan_data_teknik_volume = $req->get('bendungan_data_teknik_volume')? str_replace(',', '', $req->get('bendungan_data_teknik_volume')): 0;
-                        $infrastruktur->bendungan_data_teknik_bathimetri = $req->get('bendungan_data_teknik_bathimetri')? str_replace(',', '', $req->get('bendungan_data_teknik_bathimetri')): 0;
-                        $infrastruktur->bendungan_manfaat_air_baku = $req->get('bendungan_manfaat_air_baku')? str_replace(',', '', $req->get('bendungan_manfaat_air_baku')): 0;
-                        $infrastruktur->bendungan_manfaat_irigasi = $req->get('bendungan_manfaat_irigasi')? str_replace(',', '', $req->get('bendungan_manfaat_irigasi')): 0;
-                        $infrastruktur->bendungan_manfaat_plta = $req->get('bendungan_manfaat_plta')? str_replace(',', '', $req->get('bendungan_manfaat_plta')): 0;
-                        $infrastruktur->bendungan_manfaat_lainnya = $req->get('bendungan_manfaat_lainnya');
-                        $infrastruktur->bendungan_kelembagaan_upb = $req->get('bendungan_kelembagaan_upb');
-                        $infrastruktur->bendungan_kelembagaan_petugas = $req->get('bendungan_kelembagaan_petugas');
-                        $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
+                        $infrastruktur->bendungan_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->bendungan_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->bendungan_data_teknik_tinggi = str_replace(',', '', $req->get('bendungan_data_teknik_tinggi'))?: 0;
+                        $infrastruktur->bendungan_data_teknik_volume = str_replace(',', '', $req->get('bendungan_data_teknik_volume'))?: 0;
+                        $infrastruktur->bendungan_data_teknik_bathimetri = str_replace(',', '', $req->get('bendungan_data_teknik_bathimetri'))?: 0;
+                        $infrastruktur->bendungan_keterangan = $req->get('bendungan_keterangan');
                     break;
                     case 'Daerah Irigasi' :
                         $infrastruktur = new DaerahIrigasi();
                         $infrastruktur->daerah_irigasi_nama = $req->get('daerah_irigasi_nama');
-                        $infrastruktur->daerah_irigasi_tahun_pembuatan = $req->get('daerah_irigasi_tahun_pembuatan');
-                        $infrastruktur->daerah_irigasi_luas_area_potensial = $req->get('daerah_irigasi_luas_area_potensial')? str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial')): 0;
-                        $infrastruktur->daerah_irigasi_sawah_irigasi = $req->get('daerah_irigasi_sawah_irigasi')? str_replace(',', '', $req->get('daerah_irigasi_sawah_irigasi')): 0;
-                        $infrastruktur->daerah_irigasi_belum_irigasi = $req->get('daerah_irigasi_belum_irigasi')? str_replace(',', '', $req->get('daerah_irigasi_belum_irigasi')): 0;
-                        $infrastruktur->daerah_irigasi_belum_sawah = $req->get('daerah_irigasi_belum_sawah')? str_replace(',', '', $req->get('daerah_irigasi_belum_sawah')): 0;
-                        $infrastruktur->daerah_irigasi_alih_fungsi = $req->get('daerah_irigasi_alih_fungsi')? str_replace(',', '', $req->get('daerah_irigasi_alih_fungsi')): 0;
+                        $infrastruktur->daerah_irigasi_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->daerah_irigasi_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->daerah_irigasi_luas_area_potensial = str_replace(',', '', $req->get('daerah_irigasi_luas_area_potensial'))?: 0;
                         $infrastruktur->daerah_irigasi_keterangan = $req->get('daerah_irigasi_keterangan');
-                        $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
                     break;
                     case 'Embung' :
                         $infrastruktur = new Embung();
                         $infrastruktur->embung_nama = $req->get('embung_nama');
-                        $infrastruktur->embung_tahun_pembuatan = $req->get('embung_tahun_pembuatan');
-                        $infrastruktur->embung_biaya_pembuatan = $req->get('embung_biaya_pembuatan')? str_replace(',', '', $req->get('embung_biaya_pembuatan')): 0;
-                        $infrastruktur->embung_data_teknik_ca_km = $req->get('embung_data_teknik_ca_km')? str_replace(',', '', $req->get('embung_data_teknik_ca_km')): 0;
-                        $infrastruktur->embung_data_teknik_luasan_genangan = $req->get('embung_data_teknik_luasan_genangan')? str_replace(',', '', $req->get('embung_data_teknik_luasan_genangan')): 0;
-                        $infrastruktur->embung_data_teknik_tipe_konstruksi = $req->get('embung_data_teknik_tipe_konstruksi');
-                        $infrastruktur->embung_data_teknik_volume = $req->get('embung_data_teknik_volume')? str_replace(',', '', $req->get('embung_data_teknik_volume')): 0;
-                        $infrastruktur->embung_data_teknik_l = $req->get('embung_data_teknik_l')? str_replace(',', '', $req->get('embung_data_teknik_l')): 0;
-                        $infrastruktur->embung_data_teknik_h = $req->get('embung_data_teknik_h')? str_replace(',', '', $req->get('embung_data_teknik_h')): 0;
-                        $infrastruktur->embung_data_teknik_lebar_spillway = $req->get('embung_data_teknik_lebar_spillway')? str_replace(',', '', $req->get('embung_data_teknik_lebar_spillway')): 0;
-                        $infrastruktur->embung_fungsi_irigasi = $req->get('embung_fungsi_irigasi')? str_replace(',', '', $req->get('embung_fungsi_irigasi')): 0;
-                        $infrastruktur->embung_fungsi_ternak = $req->get('embung_fungsi_ternak')? str_replace(',', '', $req->get('embung_fungsi_ternak')): 0;
-                        $infrastruktur->embung_fungsi_air_baku = $req->get('embung_fungsi_air_baku')? str_replace(',', '', $req->get('embung_fungsi_air_baku')): 0;
-                        $infrastruktur->embung_fungsi_pltm = $req->get('embung_fungsi_pltm')? str_replace(',', '', $req->get('embung_fungsi_pltm')): 0;
+                        $infrastruktur->embung_tahun_pembuatan = $req->get('pembangunan_tahun');
+                        $infrastruktur->embung_biaya_pembuatan = str_replace(',', '', $req->get('pembangunan_nilai'))?: 0;
+                        $infrastruktur->embung_data_teknik_ca_km = str_replace(',', '', $req->get('embung_data_teknik_ca_km'))?: 0;
+                        $infrastruktur->embung_data_teknik_luasan_genangan = str_replace(',', '', $req->get('embung_data_teknik_luasan_genangan'))?: 0;
+                        $infrastruktur->embung_data_teknik_tipe_konstruksi = str_replace(',', '', $req->get('embung_data_teknik_tipe_konstruksi'))?: 0;
+                        $infrastruktur->embung_data_teknik_volume = str_replace(',', '', $req->get('embung_data_teknik_volume'))?: 0;
+                        $infrastruktur->embung_data_teknik_l = str_replace(',', '', $req->get('embung_data_teknik_l'))?: 0;
+                        $infrastruktur->embung_data_teknik_h = str_replace(',', '', $req->get('embung_data_teknik_h'))?: 0;
+                        $infrastruktur->embung_data_teknik_lebar_spillway = str_replace(',', '', $req->get('embung_data_teknik_lebar_spillway'))?: 0;
                         $infrastruktur->embung_keterangan = $req->get('embung_keterangan');
-                        $infrastruktur->kelurahan_desa_id = $req->get('kelurahan_desa_id');
                     break;
                     case 'Mata Air' :
                         $infrastruktur = new MataAir();
                         $infrastruktur->mata_air_nama = $req->get('mata_air_nama');
-                        $infrastruktur->mata_air_debit = $req->get('mata_air_debit');
-                        $infrastruktur->kelurahan_desa_id = $req->get('kelurahan_desa_id');
+                        $infrastruktur->mata_air_tahun_pembuatan = $req->get('mata_air_tahun_pembuatan');
+                        $infrastruktur->mata_air_biaya_pembuatan = str_replace(',', '', $req->get('mata_air_biaya_pembuatan'))?: 0;
+                        $infrastruktur->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'))?: 0;
+                        $infrastruktur->mata_air_keterangan = $req->get('mata_air_keterangan');
                     break;
                 }
                 if($req->get('marker')){
@@ -387,9 +361,10 @@ class PembangunanController extends Controller
                 $infrastruktur->kabupaten_kota_id = $req->get('kabupaten_kota_id');
                 $infrastruktur->kecamatan_id = $req->get('kecamatan_id');
                 $infrastruktur->kelurahan_desa_id = $req->get('kelurahan_desa_id');
-                $infrastruktur->kewenangan_provinsi = $req->get('kewenangan_provinsi')? $req->get('kewenangan_provinsi'): 0;
+                $infrastruktur->kewenangan_provinsi = $req->get('pembangunan_jenis') == 'Kewenangan Provinsi'? 1: 0;
                 $infrastruktur->pengguna_id = Auth::id();
                 $infrastruktur->save();
+
                 switch ($req->get('infrastruktur_jenis')) {
                     case 'Jalan' :
                         $infrastruktur_id = $infrastruktur->jalan_id;
@@ -437,7 +412,7 @@ class PembangunanController extends Controller
                 $data->pengguna_id = Auth::id();
                 $data->save();
             });
-            toast('Berhasil menambah aspirasi masyarakat', 'success')->autoClose(2000);
+            toast('Berhasil menambah pembangunan', 'success')->autoClose(2000);
             return redirect($req->get('redirect')? $req->get('redirect'): route('pembangunan'));
 		}catch(\Exception $e){
             alert()->error('Tambah Data', $e->getMessage());

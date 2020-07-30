@@ -207,12 +207,12 @@ class SpamController extends Controller
             $data->spam_keterangan = $req->get('spam_keterangan');
             $data->spam_tahun_pembuatan = $req->get('spam_tahun_pembuatan');
             $data->spam_biaya_pembuatan = str_replace(',', '', $req->get('spam_biaya_pembuatan'))?: 0;
-            $data->spam_kapasitas_terpasang = $req->get('spam_kapasitas_terpasang')? str_replace(',', '', $req->get('spam_kapasitas_terpasang')): 0;
-            $data->spam_kapasitas_produksi = $req->get('spam_kapasitas_produksi')? str_replace(',', '', $req->get('spam_kapasitas_produksi')): 0;
-            $data->spam_kapasitas_distribusi = $req->get('spam_kapasitas_distribusi')? str_replace(',', '', $req->get('spam_kapasitas_distribusi')): 0;
-            $data->spam_kapasitas_idle = $req->get('spam_kapasitas_idle')? str_replace(',', '', $req->get('spam_kapasitas_idle')): 0;
-            $data->spam_jumlah_sr = $req->get('spam_jumlah_sr')? str_replace(',', '', $req->get('spam_jumlah_sr')): 0;
-            $data->spam_jumlah_jiwa_terlayani = $req->get('spam_jumlah_jiwa_terlayani')? str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani')): 0;
+            $data->spam_kapasitas_terpasang = str_replace(',', '', $req->get('spam_kapasitas_terpasang'))?: 0;
+            $data->spam_kapasitas_produksi = str_replace(',', '', $req->get('spam_kapasitas_produksi'))?: 0;
+            $data->spam_kapasitas_distribusi = str_replace(',', '', $req->get('spam_kapasitas_distribusi'))?: 0;
+            $data->spam_kapasitas_idle = str_replace(',', '', $req->get('spam_kapasitas_idle'))?: 0;
+            $data->spam_jumlah_sr = str_replace(',', '', $req->get('spam_jumlah_sr'))?: 0;
+            $data->spam_jumlah_jiwa_terlayani = str_replace(',', '', $req->get('spam_jumlah_jiwa_terlayani'))?: 0;
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
                 $data->marker = new Point($point[1], $point[0]);

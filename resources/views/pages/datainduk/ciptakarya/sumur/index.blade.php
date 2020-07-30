@@ -84,7 +84,7 @@
                         </td>
                         <td class="align-middle text-center">{{ $row->sumur_tahun_pembuatan }}</td>
                         <td class="align-middle text-right">{{ $row->sumur_biaya_pembuatan != 0? number_format($row->sumur_biaya_pembuatan, 2): "-" }}</td>
-                        <td class="align-middle text-right">{{ $row->sumur_debit }}</td>
+                        <td class="align-middle text-right">{{ $row->sumur_debit != 0? number_format($row->sumur_debit, 2): "-" }}</td>
                         <td class="align-middle">{{ $row->sumur_keterangan }}</td>
                         <td class="align-middle">{{ $row->kelurahan_desa_id? $row->kelurahan_desa->kelurahan_desa_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>

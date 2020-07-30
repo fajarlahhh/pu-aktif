@@ -63,7 +63,7 @@
                             <select class="form-control selectpicker cari" name="dana" data-live-search="true" data-style="btn-success" data-width="100%">
                                 <option value="semua" {{ $dana == 'semua'? 'selected': ''}}>Semua Sumber Dana</option>
                                 @foreach ($data_sumber_dana as $row)
-                                    <option value="{{ $row->sumber_dana_nama }}" {{ $dana == $row->sumber_dana_nama? 'selected': ''}}>{{ $row->sumber_dana_nama }}</option>
+                                    <option value="{{ $row->sumber_dana_id }}" {{ $dana == $row->sumber_dana_id? 'selected': ''}}>{{ $row->sumber_dana_nama }}</option>
                                 @endforeach
                             </select>
                         </div>&nbsp;
@@ -186,6 +186,14 @@
                         </td>
                     </tr>
                     @endforeach
+                    <tr class="bg-grey-transparent-2">
+                        <th colspan="11">
+                            TOTAL
+                        </th>
+                        <th colspan="12" class="text-right">
+                            {{ number_format($data->sum('pembangunan_nilai') ) }}
+                        </th>
+                    </tr>
                 </tbody>
             </table>
         </div>

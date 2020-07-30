@@ -1,14 +1,12 @@
-
 @push('css')
 <link href="{{ url('/public/assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
 @endpush
-<!-- begin tab-pane -->
-<div class="tab-pane fade {{ !$aksi == 'edit'? 'active show': '' }}" id="default-tab-2">
+<div class="tab-pane fade {{ $aksi == 'edit'? '': 'active show' }}" id="default-tab-2">
     <div class="row">
         <div class="col-md-7">
             <div class="form-group">
                 <label class="control-label">Nomor Jembatan</label>
-                <input class="form-control" type="text" name="jembatan_nomor" value="{{ $aksi == 'edit'? $data->jembatan_nomor: old('jembatan_nomor') }}" autocomplete="off"  {{ $aksi == 'edit'? 'readonly': '' }} />
+                <input class="form-control" type="text" name="jembatan_nomor" value="{{ $aksi == 'edit'? $data->jembatan_nomor: old('jembatan_nomor') }}" autocomplete="off" {{ $aksi == 'edit'? 'readonly': '' }} />
             </div>
             <div class="form-group">
                 <label class="control-label">Nama Jembatan</label>
@@ -16,7 +14,7 @@
             </div>
             <div class="form-group" id="catatan">
                 <label class="control-label">Keterangan</label>
-                <textarea class="form-control" rows="3" id="jembatan_keterangan" name="jembatan_keterangan"  {{ $aksi == 'edit'? 'readonly': '' }}>{{ $aksi == 'edit'? $data->jembatan_keterangan: old('jembatan_keterangan') }}</textarea>
+                <textarea class="form-control" rows="3" id="jembatan_keterangan" name="jembatan_keterangan" {{ $aksi == 'edit'? 'readonly': '' }}>{{ $aksi == 'edit'? $data->jembatan_keterangan: old('jembatan_keterangan') }}</textarea>
             </div>
             @if ($aksi == 'edit')
             <input class="form-control" type="text" name="jalan_id" value="{{ $aksi == 'edit'? $data->jalan_id: old('jalan_id') }}" autocomplete="off"  {{ $aksi == 'edit'? 'readonly': '' }} />
@@ -32,15 +30,15 @@
             <div class="note note-primary">
                 <h5>Dimensi</h5>
                 <div class="form-group">
-                    <label class="control-label">Panjang (M)</label>
+                    <label class="control-label">Panjang (m)</label>
                     <input class="form-control decimal text-right" type="text" name="jembatan_dimensi_panjang" value="{{ $aksi == 'edit'? $data->jembatan_dimensi_panjang: old('jembatan_dimensi_panjang') }}" autocomplete="off"  {{ $aksi == 'edit'? 'readonly': '' }} />
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Lebar (M)</label>
+                    <label class="control-label">Lebar (m)</label>
                     <input class="form-control decimal text-right" type="text" name="jembatan_dimensi_lebar" value="{{ $aksi == 'edit'? $data->jembatan_dimensi_lebar: old('jembatan_dimensi_lebar') }}" autocomplete="off"  {{ $aksi == 'edit'? 'readonly': '' }} />
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Bentang (M)</label>
+                    <label class="control-label">Bentang (m)</label>
                     <input class="form-control decimal text-right" type="text" name="jembatan_dimensi_bentang" value="{{ $aksi == 'edit'? $data->jembatan_dimensi_bentang: old('jembatan_dimensi_bentang') }}" autocomplete="off"  {{ $aksi == 'edit'? 'readonly': '' }} />
                 </div>
             </div>

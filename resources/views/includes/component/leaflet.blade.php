@@ -1,16 +1,19 @@
-
+@if (!$preview)
 @push('css')
-<link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
 <link href="{{ url('/public/assets/plugins/leaflet.draw/src/leaflet.draw.css') }}" rel="stylesheet">
 @endpush
+@endif
+@push('css')
+<link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
+@endpush
 
-        <div id="map" class="height-600" style="border: 1px solid rgb(204, 204, 204);" tabindex="0"></div>
+<div id="map" class="height-{{ $y?:'600' }}" style="border: 1px solid rgb(204, 204, 204);" tabindex="0"></div>
 <input type="hidden" id="marker" name="marker">
 <input type="hidden" id="polygon" name="polygon">
 <input type="hidden" id="polyline" name="polyline">
 
+@if (!$preview)
 @push('scripts')
-<script src="{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/Leaflet.draw.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/Leaflet.Draw.Event.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/Control.Draw.js') }}"></script>
@@ -47,7 +50,11 @@
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/edit/handler/Edit.Marker.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/edit/handler/Edit.CircleMarker.js') }}"></script>
 <script src="{{ url('/public/assets/plugins/leaflet.draw/src/edit/handler/Edit.Circle.js') }}"></script>
+@endpush
+@endif
 
+@push('scripts')
+<script src="{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}"></script>
 <script>
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
@@ -60,7 +67,7 @@
         "google": L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
             attribution: 'google'
         })
-    }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
+    }, { 'drawlayer': drawnItems }).addTo(map);
     var drawControl = new L.Control.Draw({
         edit: {
             featureGroup: drawnItems,

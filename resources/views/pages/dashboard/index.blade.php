@@ -13,65 +13,65 @@
 	<h1 class="page-header">Dashboard</h1>
 	<!-- end page-header -->
 	<div class="row">
-		<div class="col-lg-3 col-md-6">
+		<div class="col-lg-6 col-md-6">
 			<div class="widget widget-stats bg-red">
-				<div class="stats-icon"><i class="fad fa-road"></i></div>
+				<div class="stats-icon"><i class="fad fa-digging"></i></div>
 				<div class="stats-info">
-					<h4>Data Jalan per {{ date ('Y')}}</h4>
-					<p class="f-s-16">{{ $jalan }}</p>
+					<h4>Pembangunan {{ date ('Y')}}</h4>
+					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pembangunan->sum('infrastruktur_jumlah'))  }}</p>
+					<p class="f-s-12">Total Biaya : Rp. {{ number_format($pembangunan->sum('pembangunan_nilai'), 2) }}</p>
                 </div>
                 <div class="stats-link">
-                    <a href="{{ url('/jalan')}}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    <a href="{{ url('/pembangunan')}}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                 </div>
 			</div>
 		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="widget widget-stats bg-green">
-				<div class="stats-icon"><i class="fad fa-archway"></i></div>
+		<div class="col-lg-6 col-md-6">
+			<div class="widget widget-stats bg-success">
+				<div class="stats-icon"><i class="fad fa-tools"></i></div>
 				<div class="stats-info">
-					<h4>Data Jembatan per {{ date ('Y')}}</h4>
-					<p class="f-s-16">{{ $jembatan }}</p>
+					<h4>Pemeliharaan {{ date ('Y')}}</h4>
+					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pemeliharaan->sum('infrastruktur_jumlah'))  }}</p>
+					<p class="f-s-12">Total Biaya : Rp. {{ number_format($pemeliharaan->sum('pemeliharaan_nilai'), 2) }}</p>
                 </div>
                 <div class="stats-link">
-                    <a href="{{ url('/jembatan') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                </div>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="widget widget-stats bg-warning">
-				<div class="stats-icon"><i class="fad fa-house-flood"></i></div>
-				<div class="stats-info">
-					<h4>Data Embung per {{ date ('Y')}}</h4>
-					<p class="f-s-16">{{ collect($embung)->sum('y') }}</p>
-                </div>
-                <div class="stats-link">
-                    <a href="{{ url('/embung') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                </div>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6">
-			<div class="widget widget-stats bg-blue">
-				<div class="stats-icon"><i class="fad fa-globe-asia"></i></div>
-				<div class="stats-info">
-					<h4>Data Daerah Irigasi per {{ date ('Y')}}</h4>
-					<p class="f-s-16">{{ collect($daerahirigasi)->sum('y') }}</p>
-                </div>
-                <div class="stats-link">
-                    <a href="{{ url('/daerahirigasi') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    <a href="{{ url('/pemeliharaan')}}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                 </div>
 			</div>
 		</div>
 	</div>
     <div class="row">
-        <div class="col-lg-6 ui-sortable">
-            <div class="panel bg-yellow-transparent-3">
-                <div class="panel-body">
-                    <div id="embung" class="width-full"></div>
+        <div class="col-lg-7 ui-sortable">
+            <div class="panel panel-inverse" data-sortable-id="index-1">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Visitors Origin
+                    </h4>
+                </div>
+                @include('includes.component.leaflet', [ 'y' => 300, 'preview' => 1 ])
+                <div class="list-group">
+                    <a href="javascript:;" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
+                        1. United State
+                        <span class="badge f-w-500 bg-gradient-teal f-s-10">20.95%</span>
+                    </a>
+                    <a href="javascript:;" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
+                        2. India
+                        <span class="badge f-w-500 bg-gradient-blue f-s-10">16.12%</span>
+                    </a>
+                    <a href="javascript:;" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
+                        3. Mongolia
+                        <span class="badge f-w-500 bg-gradient-grey f-s-10">14.99%</span>
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 ui-sortable">
-            <div class="panel bg-blue-transparent-3">
+        <div class="col-lg-5 ui-sortable">
+            <div class="panel bg-red-transparent-3">
+                <div class="panel-body">
+                    <div id="rekap_pembangunan" class="width-full"></div>
+                </div>
+            </div>
+            <div class="panel bg-green-transparent-3">
                 <div class="panel-body">
                     <div id="daerahirigasi" class="width-full"></div>
                 </div>
@@ -85,7 +85,7 @@
 	<script src="{{ url('/public/assets/plugins/highcharts/modules/exporting.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/highcharts/modules/export-data.js') }}"></script>
     <script>
-        Highcharts.chart('embung', {
+        Highcharts.chart('rekap_pembangunan', {
 			chart: {
 				plotBackgroundColor: null,
 				plotBorderWidth: null,
@@ -93,10 +93,10 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Data Embung per Kabupaten/Kota'
+				text: 'Porsi Biaya Pembangunan per Infrastruktur'
 			},
 			tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				pointFormat: '<b>Total Biaya : Rp.{point.nilai}<br>{point.percentage:.1f}%</b>'
 			},
 			plotOptions: {
 				pie: {
@@ -106,10 +106,10 @@
 				}
 			},
 			series: [{
-				name: 'Embung',
+				name: 'Pembangunan',
 				colorByPints: true,
 				data: @php
-                        echo json_encode($embung, JSON_NUMERIC_CHECK)
+                        echo json_encode($rekap_pembangunan, JSON_NUMERIC_CHECK)
                     @endphp
 			}]
 		});
@@ -122,10 +122,10 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Data Daerah Irigasi per Kabupaten/Kota'
+				text: 'Porsi Biaya Pemeliharaan per Infrastruktur'
 			},
 			tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				pointFormat: '<b>Total Biaya : Rp.{point.nilai}<br>{point.percentage:.1f}%</b>'
 			},
 			plotOptions: {
 				pie: {
@@ -135,10 +135,10 @@
 				}
 			},
 			series: [{
-				name: 'DaerahIrigasi',
+				name: 'Pemeliharaan',
 				colorByPints: true,
 				data: @php
-                        echo json_encode($daerahirigasi, JSON_NUMERIC_CHECK)
+                        echo json_encode($rekap_pemeliharaan, JSON_NUMERIC_CHECK)
                     @endphp
 			}]
 		});

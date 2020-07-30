@@ -86,15 +86,15 @@
                             <div class="note note-primary">
                                 <h5>Dimensi</h5>
                                 <div class="form-group">
-                                    <label class="control-label">Panjang (M)</label>
+                                    <label class="control-label">Panjang (m)</label>
                                     <input class="form-control decimal text-right" type="text" name="jembatan_dimensi_panjang" value="{{ $aksi == 'edit'? $data->jembatan_dimensi_panjang: old('jembatan_dimensi_panjang') }}" autocomplete="off"  />
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Lebar (M)</label>
+                                    <label class="control-label">Lebar (m)</label>
                                     <input class="form-control decimal text-right" type="text" name="jembatan_dimensi_lebar" value="{{ $aksi == 'edit'? $data->jembatan_dimensi_lebar: old('jembatan_dimensi_lebar') }}" autocomplete="off"  />
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label">Bentang (M)</label>
+                                    <label class="control-label">Bentang (m)</label>
                                     <input class="form-control decimal text-right" type="text" name="jembatan_dimensi_bentang" value="{{ $aksi == 'edit'? $data->jembatan_dimensi_bentang: old('jembatan_dimensi_bentang') }}" autocomplete="off"  />
                                 </div>
                             </div>

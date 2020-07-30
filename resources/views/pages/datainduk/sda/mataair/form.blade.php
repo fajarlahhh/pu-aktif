@@ -58,7 +58,11 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Debit (ltr/dtk)</label>
-                        <input class="form-control" type="text" name="mata_air_debit" value="{{ $aksi == 'edit'? $data->mata_air_debit: old('mata_air_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                        <input class="form-control decimal text-right" type="text" name="mata_air_debit" value="{{ $aksi == 'edit'? $data->mata_air_debit: old('mata_air_debit') }}" required data-parsley-minlength="1" data-parsley-maxlength="250" autocomplete="off"  />
+                    </div>
+                    <div class="form-group" id="catatan">
+                        <label class="control-label">Keterangan</label>
+                        <textarea class="form-control" rows="3" id="mata_air_keterangan" name="mata_air_keterangan">{{ $aksi == 'edit'? $data->mata_air_keterangan: old('mata_air_keterangan') }}</textarea>
                     </div>
                     <div class='hakakses checkbox checkbox-css'>
                         <input type='checkbox' id='kewenangan_provinsi' {{ $aksi == 'edit'? ($data->kewenangan_provinsi == 1? 'checked': ''): old('kewenangan_provinsi') }} name='kewenangan_provinsi' value='1'/>

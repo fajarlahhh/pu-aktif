@@ -70,7 +70,7 @@ class MataairController extends Controller
             $data->mata_air_nama = $req->get('mata_air_nama');
             $data->mata_air_tahun_pembuatan = $req->get('mata_air_tahun_pembuatan');
             $data->mata_air_biaya_pembuatan = str_replace(',', '', $req->get('mata_air_biaya_pembuatan'))?: 0;
-            $data->mata_air_debit = $req->get('mata_air_debit');
+            $data->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'))?: 0;
             $data->mata_air_keterangan = $req->get('mata_air_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
@@ -196,7 +196,7 @@ class MataairController extends Controller
             $data->mata_air_nama = $req->get('mata_air_nama');
             $data->mata_air_tahun_pembuatan = $req->get('mata_air_tahun_pembuatan');
             $data->mata_air_biaya_pembuatan = str_replace(',', '', $req->get('mata_air_biaya_pembuatan'))?: 0;
-            $data->mata_air_debit = $req->get('mata_air_debit');
+            $data->mata_air_debit = str_replace(',', '', $req->get('mata_air_debit'))?: 0;
             $data->mata_air_keterangan = $req->get('mata_air_keterangan');
             if($req->get('marker')){
                 $point = explode(',', $req->get('marker'));
