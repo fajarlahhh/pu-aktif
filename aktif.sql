@@ -11,7 +11,7 @@
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 30/07/2020 16:03:29
+ Date: 04/08/2020 13:44:27
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `activity_log`  (
   INDEX `activity_log_log_name_index`(`log_name`) USING BTREE,
   INDEX `subject`(`subject_id`, `subject_type`) USING BTREE,
   INDEX `causer`(`causer_id`, `causer_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 235 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 240 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of activity_log
@@ -274,6 +274,11 @@ INSERT INTO `activity_log` VALUES (231, 'default', 'created', '873', 'App\\MataA
 INSERT INTO `activity_log` VALUES (232, 'default', 'created', '22', 'App\\Pembangunan', 'admin', 'App\\Pengguna', '[]', '2020-07-30 08:41:05', '2020-07-30 08:41:05');
 INSERT INTO `activity_log` VALUES (233, 'default', 'created', '189', 'App\\Embung', 'admin', 'App\\Pengguna', '[]', '2020-07-30 09:22:25', '2020-07-30 09:22:25');
 INSERT INTO `activity_log` VALUES (234, 'default', 'created', '23', 'App\\Pembangunan', 'admin', 'App\\Pengguna', '[]', '2020-07-30 09:22:25', '2020-07-30 09:22:25');
+INSERT INTO `activity_log` VALUES (235, 'default', 'created', '1', 'App\\Pemeliharaan', 'admin', 'App\\Pengguna', '[]', '2020-08-03 11:44:55', '2020-08-03 11:44:55');
+INSERT INTO `activity_log` VALUES (236, 'default', 'created', '2', 'App\\Pemeliharaan', 'admin', 'App\\Pengguna', '[]', '2020-08-03 11:47:39', '2020-08-03 11:47:39');
+INSERT INTO `activity_log` VALUES (237, 'default', 'created', '3', 'App\\Pemeliharaan', 'admin', 'App\\Pengguna', '[]', '2020-08-03 11:49:57', '2020-08-03 11:49:57');
+INSERT INTO `activity_log` VALUES (238, 'default', 'created', '4', 'App\\Pemeliharaan', 'admin', 'App\\Pengguna', '[]', '2020-08-04 13:36:36', '2020-08-04 13:36:36');
+INSERT INTO `activity_log` VALUES (239, 'default', 'created', '5', 'App\\Pemeliharaan', 'admin', 'App\\Pengguna', '[]', '2020-08-04 13:37:05', '2020-08-04 13:37:05');
 
 -- ----------------------------
 -- Table structure for bendungan
@@ -304,9 +309,9 @@ CREATE TABLE `bendungan`  (
   INDEX `bendungan_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `bendungan_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   CONSTRAINT `bendungan_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `bendungan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `bendungan_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `bendungan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `bendungan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `bendungan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -379,9 +384,9 @@ CREATE TABLE `daerah_irigasi`  (
   INDEX `daerah_irigasi_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `daerah_irigasi_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   CONSTRAINT `daerah_irigasi_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `daerah_irigasi_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `daerah_irigasi_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `daerah_irigasi_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `daerah_irigasi_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `daerah_irigasi_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1253 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -791,10 +796,10 @@ CREATE TABLE `das`  (
   INDEX `das_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
   INDEX `das_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `das_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
-  CONSTRAINT `das_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `das_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `das_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `das_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `das_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `das_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 202 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1052,9 +1057,9 @@ CREATE TABLE `drainase`  (
   INDEX `drainase_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `drainase_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   CONSTRAINT `drainase_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `drainase_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `drainase_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `drainase_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `drainase_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `drainase_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1096,10 +1101,10 @@ CREATE TABLE `embung`  (
   INDEX `embung_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   INDEX `embung_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
   INDEX `embung_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
-  CONSTRAINT `embung_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `embung_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `embung_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `embung_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `embung_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `embung_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `embung_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 190 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1316,10 +1321,10 @@ CREATE TABLE `jalan`  (
   INDEX `jalan_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   INDEX `jalan_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
   INDEX `jalan_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
-  CONSTRAINT `jalan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `jalan_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `jalan_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `jalan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `jalan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `jalan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 122 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -1472,9 +1477,9 @@ CREATE TABLE `jembatan`  (
   INDEX `jembatan_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   CONSTRAINT `jembatan_jalan_id_foreign` FOREIGN KEY (`jalan_id`) REFERENCES `jalan` (`jalan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `jembatan_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `jembatan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `jembatan_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `jembatan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `jembatan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `jembatan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 768 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -3630,10 +3635,10 @@ CREATE TABLE `mata_air`  (
   INDEX `mata_air_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   INDEX `mata_air_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
   INDEX `mata_air_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
-  CONSTRAINT `mata_air_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `mata_air_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `mata_air_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `mata_air_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `mata_air_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `mata_air_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `mata_air_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 874 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -4622,18 +4627,18 @@ CREATE TABLE `pembangunan`  (
   INDEX `pembangunan_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
   INDEX `pembangunan_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `pembangunan_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
-  CONSTRAINT `pembangunan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `pembangunan_sumber_dana_id_foreign` FOREIGN KEY (`sumber_dana_id`) REFERENCES `sumber_dana` (`sumber_dana_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `pembangunan_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `pembangunan_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `pembangunan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `pembangunan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `pembangunan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `pembangunan_sumber_dana_id_foreign` FOREIGN KEY (`sumber_dana_id`) REFERENCES `sumber_dana` (`sumber_dana_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pembangunan
 -- ----------------------------
 INSERT INTO `pembangunan` VALUES (7, 2020, 'Uraian', 100000000.00, 'Pokir', 'Penanggung Jawab', 'Jalan', 119, 3, 2, NULL, NULL, 'admin', '2020-07-29 10:56:41', '2020-07-29 10:56:41');
-INSERT INTO `pembangunan` VALUES (8, 2020, 'Uraian', 400000000.00, 'Kewenangan Provinsi', 'Penanggung Jawab', 'Jembatan', 764, 2, NULL, NULL, NULL, 'admin', '2020-07-29 11:04:03', '2020-07-29 11:04:03');
+INSERT INTO `pembangunan` VALUES (8, 2020, 'Uraian', 400000000.00, 'Kewenangan Provinsi', 'Penanggung Jawab', 'Jembatan', 764, 2, 2, NULL, NULL, 'admin', '2020-07-29 11:04:03', '2020-07-29 11:04:03');
 INSERT INTO `pembangunan` VALUES (9, 2020, 'Uraian', 200000000.00, 'Kewenangan Provinsi', 'adf', 'DAS', 200, 3, 3, NULL, NULL, 'admin', '2020-07-29 11:15:00', '2020-07-29 11:15:00');
 INSERT INTO `pembangunan` VALUES (10, 2020, 'Uraian', 2000000000.00, 'Kewenangan Provinsi', 'Penanggung Jawab', 'Jalan', 120, 3, 2, NULL, NULL, 'admin', '2020-07-29 11:19:15', '2020-07-29 11:19:15');
 INSERT INTO `pembangunan` VALUES (11, 2020, 'Uraian', 220000000.00, 'Kewenangan Provinsi', 'Penanggung Jawab', 'Jembatan', 766, 3, 11, NULL, NULL, 'admin', '2020-07-29 11:38:45', '2020-07-29 11:38:45');
@@ -4646,7 +4651,7 @@ INSERT INTO `pembangunan` VALUES (17, 2020, 'afsdf', 200000000.00, 'Kewenangan P
 INSERT INTO `pembangunan` VALUES (18, 2020, 'gsumasdfasdf', 679900000.00, 'Pokir', '434asdfas', 'Sumur', 432, 4, 8, NULL, NULL, 'admin', '2020-07-30 08:27:18', '2020-07-30 08:27:18');
 INSERT INTO `pembangunan` VALUES (19, 2020, 'sdfasdf', 231234700.00, 'Pokir', 'asfasdf', 'Bendungan', 36, 2, 11, NULL, NULL, 'admin', '2020-07-30 08:30:10', '2020-07-30 08:30:10');
 INSERT INTO `pembangunan` VALUES (20, 2020, 'sdfadsf', 231000005.00, 'Kewenangan Provinsi', 'asdfasdf', 'Daerah Irigasi', 1252, 4, 10, NULL, NULL, 'admin', '2020-07-30 08:32:38', '2020-07-30 08:32:38');
-INSERT INTO `pembangunan` VALUES (21, 2020, 'asdfsadf', 24250000.00, 'Kewenangan Provinsi', 'asdfasdfasdf', 'Embung', 188, 2, NULL, NULL, NULL, 'admin', '2020-07-30 08:35:28', '2020-07-30 08:35:28');
+INSERT INTO `pembangunan` VALUES (21, 2020, 'asdfsadf', 24250000.00, 'Kewenangan Provinsi', 'asdfasdfasdf', 'Embung', 188, 2, 2, NULL, NULL, 'admin', '2020-07-30 08:35:28', '2020-07-30 08:35:28');
 INSERT INTO `pembangunan` VALUES (22, 2020, 'asdfas', 416264356.00, 'Pokir', 'asdfasdf', 'Mata Air', 873, 4, 6, NULL, NULL, 'admin', '2020-07-30 08:41:05', '2020-07-30 08:41:05');
 INSERT INTO `pembangunan` VALUES (23, 2020, 'asdfasdf', 500000000.00, 'Kewenangan Provinsi', 'asdf', 'Embung', 189, 3, 3, NULL, NULL, 'admin', '2020-07-30 09:22:25', '2020-07-30 09:22:25');
 
@@ -4664,7 +4669,7 @@ CREATE TABLE `pemeliharaan`  (
   `infrastruktur_jenis` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `infrastruktur_id` bigint(20) NOT NULL,
   `sumber_dana_id` bigint(20) UNSIGNED NOT NULL,
-  `kabupaten_kota_id` bigint(20) UNSIGNED NOT NULL,
+  `kabupaten_kota_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
   `kecamatan_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
   `kelurahan_desa_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
   `pengguna_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
@@ -4676,12 +4681,18 @@ CREATE TABLE `pemeliharaan`  (
   INDEX `pemeliharaan_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
   INDEX `pemeliharaan_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `pemeliharaan_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
-  CONSTRAINT `pemeliharaan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `pemeliharaan_sumber_dana_id_foreign` FOREIGN KEY (`sumber_dana_id`) REFERENCES `sumber_dana` (`sumber_dana_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `pemeliharaan_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `pemeliharaan_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `pemeliharaan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+  CONSTRAINT `pemeliharaan_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `pemeliharaan_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `pemeliharaan_sumber_dana_id_foreign` FOREIGN KEY (`sumber_dana_id`) REFERENCES `sumber_dana` (`sumber_dana_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of pemeliharaan
+-- ----------------------------
+INSERT INTO `pemeliharaan` VALUES (4, 2020, 'Uraian', 24000000070.00, 'Kewenangan Provinsi', 'dfsg', 'Jalan', 8, 3, 5, NULL, NULL, 'admin', '2020-08-04 13:36:36', '2020-08-04 13:36:36');
+INSERT INTO `pemeliharaan` VALUES (5, 2020, 'asdfasd fasd f', 45735680000.00, 'Pokir', 'gasd asdf asdf', 'Mata Air', 172, 4, 10, NULL, NULL, 'admin', '2020-08-04 13:37:05', '2020-08-04 13:37:05');
 
 -- ----------------------------
 -- Table structure for pengguna
@@ -4810,9 +4821,9 @@ CREATE TABLE `spam`  (
   INDEX `spam_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   INDEX `spam_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   CONSTRAINT `spam_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `spam_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `spam_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `spam_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `spam_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `spam_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -4870,10 +4881,10 @@ CREATE TABLE `sumur`  (
   INDEX `sumur_kelurahan_desa_id_foreign`(`kelurahan_desa_id`) USING BTREE,
   INDEX `sumur_kecamatan_id_foreign`(`kecamatan_id`) USING BTREE,
   INDEX `sumur_kabupaten_kota_id_foreign`(`kabupaten_kota_id`) USING BTREE,
-  CONSTRAINT `sumur_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `sumur_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `sumur_kabupaten_kota_id_foreign` FOREIGN KEY (`kabupaten_kota_id`) REFERENCES `kabupaten_kota` (`kabupaten_kota_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `sumur_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `sumur_kecamatan_id_foreign` FOREIGN KEY (`kecamatan_id`) REFERENCES `kecamatan` (`kecamatan_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `sumur_kelurahan_desa_id_foreign` FOREIGN KEY (`kelurahan_desa_id`) REFERENCES `kelurahan_desa` (`kelurahan_desa_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `sumur_pengguna_id_foreign` FOREIGN KEY (`pengguna_id`) REFERENCES `pengguna` (`pengguna_id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 433 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
