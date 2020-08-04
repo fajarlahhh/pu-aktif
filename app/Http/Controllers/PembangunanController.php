@@ -191,7 +191,8 @@ class PembangunanController extends Controller
                 'pembangunan_penanggung_jawab' => 'required',
                 'infrastruktur_jenis' => 'required',
                 'pembangunan_jenis' => 'required',
-                'sumber_dana_id' => 'required'
+                'sumber_dana_id' => 'required',
+                'kabupaten_kota_id' => 'required'
             ],[
                 'pembangunan_uraian.required'  => 'Uraian tidak boleh kosong',
                 'pembangunan_tahun.required'  => 'Tahun tidak boleh kosong',
@@ -199,7 +200,8 @@ class PembangunanController extends Controller
                 'pembangunan_penanggung_jawab.required'  => 'Penanggung Jawab tidak boleh kosong',
                 'infrastruktur_jenis.required'  => 'Jenis Infrastruktur tidak boleh kosong',
                 'pembangunan_jenis.required'  => 'Jenis Pembangunan tidak boleh kosong',
-                'sumber_dana_id.required'  => 'Sumber Dana tidak boleh kosong'
+                'sumber_dana_id.required'  => 'Sumber Dana tidak boleh kosong',
+                'kabupaten_kota_id.required'  => 'Kabupaten/Kota tidak boleh kosong'
             ]
         );
 

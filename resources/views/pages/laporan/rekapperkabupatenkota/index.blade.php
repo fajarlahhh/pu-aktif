@@ -23,12 +23,12 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('rekapperinfrastruktur.cetak', [ 'tahun' => $tahun, 'dana' => $dana, 'wilayah' => $wilayah ]) }}" target="_blank" class="btn btn-warning">Cetak</a>
+                    <a href="{{ route('rekapperkabupatenkota.cetak', [ 'tahun' => $tahun, 'dana' => $dana, 'infrastruktur' => $infrastruktur ]) }}" target="_blank" class="btn btn-warning">Cetak</a>
                 </div>
                 @endrole
             </div>
             <div class="col-md-10 col-lg-10 col-xl-10 col-xs-12">
-                <form id="frm-cari" action="{{ route('rekapperinfrastruktur') }}" method="GET">
+                <form id="frm-cari" action="{{ route('rekapperkabupatenkota') }}" method="GET">
                     <div class="form-inline pull-right">
                         <div class="form-group">
                             <select class="form-control selectpicker cari" name="tahun" data-live-search="true" data-size="5" data-style="btn-info" data-width="100%">
@@ -46,11 +46,18 @@
                             </select>
                         </div>&nbsp;
                         <div class="form-group">
-                            <select class="form-control selectpicker cari" name="wilayah" data-live-search="true" data-style="btn-primary" data-width="100%">
-                                <option value="semua" {{ $wilayah == 'semua'? 'selected': ''}}>Semua Kabupaten/Kota</option>
-                                @foreach ($kabupaten_kota as $row)
-                                    <option value="{{ $row->kabupaten_kota_id }}" {{ $wilayah == $row->kabupaten_kota_id? 'selected': ''}}>{{ $row->kabupaten_kota_nama }}</option>
-                                @endforeach
+                            <select class="form-control selectpicker cari" name="infrastruktur" data-live-search="true" data-style="btn-primary" data-width="100%">
+                                <option value="semua" {{ $infrastruktur == 'semua'? 'selected': ''}}>Semua Infrastruktur</option>
+                                <option value="Jalan" {{ $infrastruktur == 'Jalan'? 'selected': ''}}>Jalan</option>
+                                <option value="Jembatan" {{ $infrastruktur == 'Jembatan'? 'selected': ''}}>Jembatan</option>
+                                <option value="DAS" {{ $infrastruktur == 'DAS'? 'selected': ''}}>Daerah Aliran Sungai</option>
+                                <option value="Drainase" {{ $infrastruktur == 'Drainase'? 'selected': ''}}>Drainase</option>
+                                <option value="SPAM" {{ $infrastruktur == 'SPAM'? 'selected': ''}}>SPAM</option>
+                                <option value="Sumur" {{ $infrastruktur == 'Sumur'? 'selected': ''}}>Sumur</option>
+                                <option value="Bendungan" {{ $infrastruktur == 'Bendungan'? 'selected': ''}}>Bendungan</option>
+                                <option value="Daerah Irigasi" {{ $infrastruktur == 'Daerah Irigasi'? 'selected': ''}}>Daerah Irigasi</option>
+                                <option value="Embung" {{ $infrastruktur == 'Embung'? 'selected': ''}}>Embung</option>
+                                <option value="Mata Air" {{ $infrastruktur == 'Mata Air'? 'selected': ''}}>Mata Air</option>
                             </select>
                         </div>
                     </div>
@@ -65,13 +72,13 @@
                     <tr>
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Kegiatan</th>
-                        @foreach ($infrastruktur as $row)
-                        <th class="align-middle text-center" colspan="2">{{ $row }}</th>
+                        @foreach ($kabupaten_kota as $row)
+                        <th class="align-middle text-center" colspan="2">{{ $row->kabupaten_kota_nama }}</th>
                         @endforeach
                         <th class="align-middle text-center" colspan="2">Total</th>
                     </tr>
                     <tr>
-                        @foreach ($infrastruktur as $row)
+                        @foreach ($kabupaten_kota as $row)
                         <th>Jumlah</th>
                         <th>Biaya</th>
                         @endforeach
@@ -105,7 +112,7 @@
                         @php
                             $i = 0;
                         @endphp
-                        @foreach ($infrastruktur as $row)
+                        @foreach ($kabupaten_kota as $row)
                         <td class="align-middle text-right">{{ number_format($laporan_pembangunan{$i}['jumlah'] + $laporan_pemeliharaan{$i}['jumlah']) }}</td>
                         <td class="align-middle text-right">{{ number_format($laporan_pembangunan{$i}['nilai'] + $laporan_pemeliharaan{$i}['nilai']) }}</td>
                         @php

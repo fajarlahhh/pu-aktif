@@ -94,9 +94,9 @@ return [
 			'id' => 'rekapperinfrastruktur',
 			'title' => 'Rekap Per Infrastruktur'
 		],[
-			'url' => '/rekapbiayaperkabupaten',
-			'id' => 'rekapbiayaperkabupaten',
-			'title' => 'Rekap Per Kabupaten'
+			'url' => '/rekapperkabupatenkota',
+			'id' => 'rekapperkabupatenkota',
+			'title' => 'Rekap Per Kabupaten/Kota'
         ]]
     ],[
 		'icon' => 'fad fa-digging',

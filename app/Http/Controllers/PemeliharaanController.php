@@ -238,7 +238,8 @@ class PemeliharaanController extends Controller
                 'pemeliharaan_penanggung_jawab' => 'required',
                 'infrastruktur_id' => 'required',
                 'pemeliharaan_jenis' => 'required',
-                'sumber_dana_id' => 'required'
+                'sumber_dana_id' => 'required',
+                'kabupaten_kota_id' => 'required'
             ],[
                 'pemeliharaan_uraian.required'  => 'Uraian tidak boleh kosong',
                 'pemeliharaan_tahun.required'  => 'Tahun tidak boleh kosong',
@@ -246,7 +247,8 @@ class PemeliharaanController extends Controller
                 'pemeliharaan_penanggung_jawab.required'  => 'Penanggung Jawab tidak boleh kosong',
                 'infrastruktur_id.required'  => 'Infrastruktur tidak boleh kosong',
                 'pemeliharaan_jenis.required'  => 'Jenis Pemeliharaan tidak boleh kosong',
-                'sumber_dana_id.required'  => 'Sumber Dana tidak boleh kosong'
+                'sumber_dana_id.required'  => 'Sumber Dana tidak boleh kosong',
+                'kabupaten_kota_id.required'  => 'Kabupaten/Kota tidak boleh kosong'
             ]
         );
 

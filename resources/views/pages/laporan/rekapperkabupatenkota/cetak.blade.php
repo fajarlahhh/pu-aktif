@@ -4,13 +4,13 @@
                     <tr>
                         <th class="align-middle" rowspan="2">No.</th>
                         <th class="align-middle" rowspan="2">Kegiatan</th>
-                        @foreach ($infrastruktur as $row)
-                        <th class="align-middle text-center" colspan="2">{{ $row }}</th>
+                        @foreach ($kabupaten_kota as $row)
+                        <th class="align-middle text-center" colspan="2">{{ $row->kabupaten_kota_nama }}</th>
                         @endforeach
                         <th class="align-middle text-center" colspan="2">Total</th>
                     </tr>
                     <tr>
-                        @foreach ($infrastruktur as $row)
+                        @foreach ($kabupaten_kota as $row)
                         <th>Jumlah</th>
                         <th>Biaya</th>
                         @endforeach
@@ -44,7 +44,7 @@
                         @php
                             $i = 0;
                         @endphp
-                        @foreach ($infrastruktur as $row)
+                        @foreach ($kabupaten_kota as $row)
                         <td class="align-middle text-right">{{ number_format($laporan_pembangunan{$i}['jumlah'] + $laporan_pemeliharaan{$i}['jumlah']) }}</td>
                         <td class="align-middle text-right">{{ number_format($laporan_pembangunan{$i}['nilai'] + $laporan_pemeliharaan{$i}['nilai']) }}</td>
                         @php

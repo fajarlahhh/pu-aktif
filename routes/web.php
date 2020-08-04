@@ -162,17 +162,17 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporanpembangunan']], function () {
-        Route::prefix('laporanpembangunan')->group(function () {
-            Route::get('/', 'PembangunanController@index_laporan')->name('laporanpembangunan');
-            Route::get('/cetak', 'PembangunanController@cetak')->middleware(['role:super-admin|user'])->name('laporanpembangunan.cetak');
-        });
-    });
-
     Route::group(['middleware' => ['role_or_permission:super-admin|rekapperinfrastruktur']], function () {
         Route::prefix('rekapperinfrastruktur')->group(function () {
             Route::get('/', 'RekapperinfrastrukturController@index')->name('rekapperinfrastruktur');
             Route::get('/cetak', 'RekapperinfrastrukturController@cetak')->middleware(['role:super-admin|user'])->name('rekapperinfrastruktur.cetak');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:super-admin|rekapperkabupatenkota']], function () {
+        Route::prefix('rekapperkabupatenkota')->group(function () {
+            Route::get('/', 'RekapperkabupatenkotaController@index')->name('rekapperkabupatenkota');
+            Route::get('/cetak', 'RekapperkabupatenkotaController@cetak')->middleware(['role:super-admin|user'])->name('rekapperkabupatenkota.cetak');
         });
     });
 
