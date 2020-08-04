@@ -84,7 +84,7 @@ class DashboardController extends Controller
             DB::raw('ST_X(marker) as latitude')
         ]);
         $mataair = MataAir::get([
-            'mata_air_nama',
+            'mata_air_nama as nama',
             DB::raw('"grey" as warna'),
             DB::raw('"Mata Air" as jenis'),
             DB::raw('ST_Y(marker) as longitude'),
@@ -118,9 +118,9 @@ class DashboardController extends Controller
         $rekap_pemeliharaan = [];
         foreach ($pemeliharaan_group_by_infrastruktur as $row) {
             array_push($rekap_pemeliharaan,[
-                "name" => $row->infrastruktur_jenis,
-                "y" => $row->pemeliharaan_nilai,
-                "nilai" => number_format($row->pemeliharaan_nilai, 2)
+                "name" => $row['infrastruktur_jenis'],
+                "y" => $row['pemeliharaan_nilai'],
+                "nilai" => number_format($row['pemeliharaan_nilai'], 2)
             ]);
         }
 

@@ -90,13 +90,13 @@ return [
 		'caret' => true,
 		'id' => 'laporan',
 		'sub_menu' => [[
-			'url' => '/laporanaspirasimasyarakat',
-			'id' => 'laporanaspirasimasyarakat',
-			'title' => 'Aspirasi Masyarakat'
+			'url' => '/rekapperinfrastruktur',
+			'id' => 'rekapperinfrastruktur',
+			'title' => 'Rekap Per Infrastruktur'
 		],[
-			'url' => '/laporankewenanganprovinsi',
-			'id' => 'laporankewenanganprovinsi',
-			'title' => 'Kewenangan Provinsi'
+			'url' => '/rekapbiayaperkabupaten',
+			'id' => 'rekapbiayaperkabupaten',
+			'title' => 'Rekap Per Kabupaten'
         ]]
     ],[
 		'icon' => 'fad fa-digging',

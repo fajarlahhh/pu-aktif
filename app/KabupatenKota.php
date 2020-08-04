@@ -19,9 +19,14 @@ class KabupatenKota extends Model
         return $this->belongsTo('App\Pengguna', 'pengguna_id', 'pengguna_id');
     }
 
-    public function daerah_irigasi()
+    public function pembangunan()
     {
-        return $this->hasMany('App\DaerahIrigasi', 'kabupaten_kota_id', 'kabupaten_kota_id');
+        return $this->hasMany('App\Pembangunan', 'kabupaten_kota_id', 'kabupaten_kota_id');
+    }
+
+    public function pemeliharaan()
+    {
+        return $this->hasMany('App\Pemeliharaan', 'kabupaten_kota_id', 'kabupaten_kota_id');
     }
 
     public function getCreatedAtAttribute($value)

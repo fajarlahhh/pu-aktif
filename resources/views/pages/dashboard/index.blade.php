@@ -22,7 +22,7 @@
 				<div class="stats-icon"><i class="fad fa-digging"></i></div>
 				<div class="stats-info">
 					<h4>Pembangunan {{ date ('Y')}}</h4>
-					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pembangunan->sum('infrastruktur_jumlah'))  }}</p>
+					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pembangunan->count())  }}</p>
 					<p class="f-s-12">Total Biaya : Rp. {{ number_format($pembangunan->sum('pembangunan_nilai'), 2) }}</p>
                 </div>
                 <div class="stats-link">
@@ -35,7 +35,7 @@
 				<div class="stats-icon"><i class="fad fa-tools"></i></div>
 				<div class="stats-info">
 					<h4>Pemeliharaan {{ date ('Y')}}</h4>
-					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pemeliharaan->sum('infrastruktur_jumlah'))  }}</p>
+					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pemeliharaan->count())  }}</p>
 					<p class="f-s-12">Total Biaya : Rp. {{ number_format($pemeliharaan->sum('pemeliharaan_nilai'), 2) }}</p>
                 </div>
                 <div class="stats-link">
@@ -58,6 +58,7 @@
 	</div>
     <div class="row">
         <div class="col-xl-7 col-lg-12 ui-sortable">
+            <div id="rekap_biaya_perkabupaten" class="height-300"></div><br>
             <div class="panel panel-inverse" data-sortable-id="index-1">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -126,7 +127,6 @@
                     </div>
                 </div>
             </div>
-            <div id="rekap_biaya_perkabupaten" class="height-250"></div>
         </div>
         <div class="col-xl-5 col-lg-12 ui-sortable">
             <div id="rekap_pembangunan" class="width-full"></div>
@@ -205,7 +205,7 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Porsi Biaya Pemeliharaan per Infrastruktur tahun {{ date('Y') }}r'
+				text: 'Porsi Biaya Pemeliharaan per Infrastruktur tahun {{ date('Y') }}'
 			},
 			tooltip: {
 				pointFormat: '<b>Total Biaya : Rp.{point.nilai}<br>{point.percentage:.1f}%</b>'
@@ -231,7 +231,7 @@
                 type: 'column'
             },
             title: {
-                text: 'Porsi Pembiayaan Per Kabupaten'
+                text: 'Porsi Pembiayaan Per Kabupaten tahun {{ date('Y') }}'
             },
             accessibility: {
                 announceNewData: {

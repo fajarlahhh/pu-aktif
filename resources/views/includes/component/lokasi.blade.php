@@ -60,7 +60,6 @@
     function set_map() {
         if ($("#kabupaten_kota_id option:selected").text()) {
             var alamat = $("#kelurahan_desa_id option:selected").text() + ", " + $("#kecamatan_id option:selected").text() + ", " + $("#kabupaten_kota_id option:selected").text() + ", Nusa Tenggara Barat";
-            console.log(alamat);
             if (map) {
                 $.get("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q="+alamat+"&country=Indonesia&limit=1")
                 .done(function(data){

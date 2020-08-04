@@ -132,9 +132,20 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/', 'PembangunanController@index')->name('pembangunan');
             Route::get('/infrastruktur', 'PembangunanController@index')->name('pembangunan.infrastruktur');
             Route::get('/tambah', 'PembangunanController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
-            Route::post('/tambah/{step}', 'PembangunanController@tambah')->middleware(['role:super-admin|user']);
             Route::post('/simpan', 'PembangunanController@do_tambah')->middleware(['role:super-admin|user'])->name('pembangunan.simpan');
             Route::delete('/hapus/{id}', 'PembangunanController@hapus')->name('pembangunan.hapus');
+        });
+    });
+
+    Route::group(['middleware' => ['role_or_permission:super-admin|pemeliharaan']], function () {
+        Route::prefix('pemeliharaan')->group(function () {
+            Route::get('/', 'PemeliharaanController@index')->name('pemeliharaan');
+            Route::get('/cari', 'PemeliharaanController@cari_infrastruktur');
+            Route::get('/infrastruktur', 'PemeliharaanController@index')->name('pemeliharaan.infrastruktur');
+            Route::get('/tambah', 'PemeliharaanController@tambah')->middleware(['role:super-admin|user'])->name('pemeliharaan.tambah');
+            Route::post('/tambah/{step}', 'PemeliharaanController@tambah')->middleware(['role:super-admin|user']);
+            Route::post('/simpan', 'PemeliharaanController@do_tambah')->middleware(['role:super-admin|user'])->name('pemeliharaan.simpan');
+            Route::delete('/hapus/{id}', 'PemeliharaanController@hapus')->name('pemeliharaan.hapus');
         });
     });
 
@@ -158,10 +169,10 @@ Route::group(['middleware' => ['auth']], function () {
         });
     });
 
-    Route::group(['middleware' => ['role_or_permission:super-admin|laporankewenanganprovinsi']], function () {
-        Route::prefix('laporankewenanganprovinsi')->group(function () {
-            Route::get('/', 'KewenanganprovinsiController@index_laporan')->name('laporankewenanganprovinsi');
-            Route::get('/cetak', 'KewenanganprovinsiController@cetak')->middleware(['role:super-admin|user'])->name('laporankewenanganprovinsi.cetak');
+    Route::group(['middleware' => ['role_or_permission:super-admin|rekapperinfrastruktur']], function () {
+        Route::prefix('rekapperinfrastruktur')->group(function () {
+            Route::get('/', 'RekapperinfrastrukturController@index')->name('rekapperinfrastruktur');
+            Route::get('/cetak', 'RekapperinfrastrukturController@cetak')->middleware(['role:super-admin|user'])->name('rekapperinfrastruktur.cetak');
         });
     });
 
