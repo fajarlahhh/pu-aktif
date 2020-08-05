@@ -17,10 +17,15 @@ class RekapperinfrastrukturController extends Controller
         $tahun = $req->tahun? $req->tahun: date('Y');
         $dana = $req->dana? $req->dana: 'semua';
         $wilayah = $req->wilayah? $req->wilayah: 'semua';
+        $jenis  = $req->jenis ? $req->jenis : 'semua';
 
         $pembangunan = Pembangunan::where('pembangunan_tahun', $tahun);
         $pemeliharaan = Pemeliharaan::where('pemeliharaan_tahun', $tahun);
 
+        if ($jenis != 'semua') {
+            $pembangunan = $pembangunan->where('pembangunan_jenis', $jenis);
+            $pemeliharaan = $pemeliharaan->where('pemeliharaan_jenis', $jenis);
+        }
         if ($wilayah != 'semua') {
             $pembangunan = $pembangunan->where('kabupaten_kota_id', $wilayah);
             $pemeliharaan = $pemeliharaan->where('kabupaten_kota_id', $wilayah);
@@ -73,6 +78,7 @@ class RekapperinfrastrukturController extends Controller
         return view('pages.laporan.rekapperinfrastruktur.index', [
             'tahun' => $tahun,
             'dana' => $dana,
+            'jenis' => $jenis,
             'wilayah' => $wilayah,
             'kabupaten_kota' => $kabupaten_kota,
             'sumber_dana' => $sumber_dana,
@@ -87,10 +93,15 @@ class RekapperinfrastrukturController extends Controller
         $tahun = $req->tahun? $req->tahun: date('Y');
         $dana = $req->dana? $req->dana: 'semua';
         $wilayah = $req->wilayah? $req->wilayah: 'semua';
+        $jenis  = $req->jenis ? $req->jenis : 'semua';
 
         $pembangunan = Pembangunan::where('pembangunan_tahun', $tahun);
         $pemeliharaan = Pemeliharaan::where('pemeliharaan_tahun', $tahun);
 
+        if ($jenis != 'semua') {
+            $pembangunan = $pembangunan->where('pembangunan_jenis', $jenis);
+            $pemeliharaan = $pemeliharaan->where('pemeliharaan_jenis', $jenis);
+        }
         if ($wilayah != 'semua') {
             $pembangunan = $pembangunan->where('kabupaten_kota_id', $wilayah);
             $pemeliharaan = $pemeliharaan->where('kabupaten_kota_id', $wilayah);
@@ -147,10 +158,11 @@ class RekapperinfrastrukturController extends Controller
             'wilayah' => $wilayah,
             'kabupaten_kota' => $kabupaten_kota,
             'sumber_dana' => $sumber_dana,
+            'jenis' => $jenis,
             'laporan_pembangunan' => collect($laporan_pembangunan),
             'laporan_pemeliharaan' => collect($laporan_pemeliharaan),
             'infrastruktur' => $infrastruktur,
-            'judul' => '<h4>Rekap Per Infrastruktur<br><small>Tahun '.$tahun.' '.($wilayah  == 'semua'? 'Semua Kabupaten/Kota': $kabupaten_kota->filter(function($q) use ($wilayah){
+            'judul' => '<h4>Rekap Per Infrastruktur'.($jenis != 'semua'? ' ('.$jenis.')': '' ).'<br><small>Tahun '.$tahun.' '.($wilayah  == 'semua'? 'Semua Kabupaten/Kota': $kabupaten_kota->filter(function($q) use ($wilayah){
                 return $q->kabupaten_kota_id == $wilayah;
             })->first()->kabupaten_kota_nama).', Sumber Dana : '.($dana  == 'semua'? 'Semua Sumber Dana': $sumber_dana->filter(function($q) use ($dana){
                 return $q->sumber_dana_id == $dana;

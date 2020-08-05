@@ -23,7 +23,7 @@
             <div class="col-md-2 col-lg-2 col-xl-2 col-xs-12">
                 @role('user|super-admin|supervisor')
                 <div class="form-inline">
-                    <a href="{{ route('rekapperkabupatenkota.cetak', [ 'tahun' => $tahun, 'dana' => $dana, 'infrastruktur' => $infrastruktur ]) }}" target="_blank" class="btn btn-warning">Cetak</a>
+                    <a href="{{ route('rekapperkabupatenkota.cetak', [ 'tahun' => $tahun, 'jenis' => $jenis, 'dana' => $dana, 'infrastruktur' => $infrastruktur ]) }}" target="_blank" class="btn btn-warning">Cetak</a>
                 </div>
                 @endrole
             </div>
@@ -35,6 +35,13 @@
                                 @for($thn=2015; $thn <= date('Y') + 5; $thn++)
                                 <option value="{{ $thn }}" {{ $tahun == $thn? 'selected': ''}}>{{ $thn }}</option>
                                 @endfor
+                            </select>
+                        </div>&nbsp;
+                        <div class="form-group">
+                            <select class="form-control selectpicker cari" name="jenis" data-live-search="true" data-style="btn-warning" data-width="100%">
+                                <option value="semua" {{ $jenis == 'semua'? 'selected': ''}}>Semua Jenis Pembangunan</option>
+                                <option value="Kewenangan Provinsi" {{ $jenis == 'Kewenangan Provinsi'? 'selected': ''}}>Kewenangan Provinsi</option>
+                                <option value="Pokir" {{ $jenis == 'Pokir'? 'selected': ''}}>POKIR</option>
                             </select>
                         </div>&nbsp;
                         <div class="form-group">
