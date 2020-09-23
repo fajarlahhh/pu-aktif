@@ -4,6 +4,7 @@
 
 @push('css')
 <link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
+<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -17,11 +18,26 @@
 	<h1 class="page-header">Dashboard</h1>
 	<!-- end page-header -->
 	<div class="row">
+        <div class="col-xs-12">
+            <form id="frm-cari" action="{{ route('dashboard') }}" class="form-inline" method="GET">
+                <label for="">Data tahun : &nbsp;</label>
+                <div class="form-group">
+                    <select class="form-control selectpicker cari" name="tahun" data-live-search="true" data-size="5" data-style="btn-info" data-width="100%">
+                        @for($thn=2014; $thn <= date('Y') + 5; $thn++)
+                        <option value="{{ $thn }}" {{ $tahun == $thn? 'selected': ''}}>{{ $thn }}</option>
+                        @endfor
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="row">
 		<div class="col-lg-4 col-md-6">
 			<div class="widget widget-stats bg-red">
 				<div class="stats-icon"><i class="fad fa-digging"></i></div>
 				<div class="stats-info">
-					<h4>Pembangunan {{ date ('Y')}}</h4>
+					<h4>Pembangunan {{ $tahun }}</h4>
 					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pembangunan->count())  }}</p>
 					<p class="f-s-12">Total Biaya : Rp. {{ number_format($pembangunan->sum('pembangunan_nilai'), 2) }}</p>
                 </div>
@@ -34,7 +50,7 @@
 			<div class="widget widget-stats bg-primary">
 				<div class="stats-icon"><i class="fad fa-tools"></i></div>
 				<div class="stats-info">
-					<h4>Pemeliharaan {{ date ('Y')}}</h4>
+					<h4>Pemeliharaan {{ $tahun }}</h4>
 					<p class="f-s-12">Jumlah Infrastruktur : {{ number_format($pemeliharaan->count())  }}</p>
 					<p class="f-s-12">Total Biaya : Rp. {{ number_format($pemeliharaan->sum('pemeliharaan_nilai'), 2) }}</p>
                 </div>
@@ -47,7 +63,7 @@
 			<div class="widget widget-stats bg-success">
 				<div class="stats-icon"><i class="fad fa-tools"></i></div>
 				<div class="stats-info">
-					<h4>Total Biaya {{ date ('Y')}}</h4>
+					<h4>Total Biaya {{ $tahun}}</h4>
                     <p class="f-s-24">{{ number_format($pembangunan->sum('pembangunan_nilai') + $pemeliharaan->sum('pemeliharaan_nilai'), 2) }}</p>
                 </div>
                 <div class="stats-link">
@@ -141,7 +157,11 @@
 	<script src="{{ url('/public/assets/plugins/highcharts/highcharts.js') }}"></script>
 	<script src="{{ url('/public/assets/plugins/highcharts/modules/exporting.js') }}"></script>
     <script src="{{ url('/public/assets/plugins/highcharts/modules/export-data.js') }}"></script>
+    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
+        $(".cari").change(function() {
+             $("#frm-cari").submit();
+        });
         var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
         osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -176,7 +196,7 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Porsi Biaya Pembangunan per Infrastruktur tahun {{ date('Y') }}'
+				text: 'Porsi Biaya Pembangunan per Infrastruktur tahun {{ $tahun }}'
 			},
 			tooltip: {
 				pointFormat: '<b>Total Biaya : Rp.{point.nilai}<br>{point.percentage:.1f}%</b>'
@@ -205,7 +225,7 @@
 				type: 'pie'
 			},
 			title: {
-				text: 'Porsi Biaya Pemeliharaan per Infrastruktur tahun {{ date('Y') }}'
+				text: 'Porsi Biaya Pemeliharaan per Infrastruktur tahun {{ $tahun }}'
 			},
 			tooltip: {
 				pointFormat: '<b>Total Biaya : Rp.{point.nilai}<br>{point.percentage:.1f}%</b>'
@@ -231,7 +251,7 @@
                 type: 'column'
             },
             title: {
-                text: 'Porsi Pembiayaan Per Kabupaten tahun {{ date('Y') }}'
+                text: 'Porsi Pembiayaan Per Kabupaten tahun {{ $tahun }}'
             },
             accessibility: {
                 announceNewData: {

@@ -14,12 +14,14 @@ use App\Bendungan;
 use App\Pembangunan;
 use App\Pemeliharaan;
 use App\DaerahIrigasi;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $req)
     {
+        $tahun = $req->tahun? $req->tahun: date('Y');
         $jalan = Jalan::get([
             DB::raw('jalan_nama as nama'),
             DB::raw('"blue" as warna'),
@@ -93,14 +95,14 @@ class DashboardController extends Controller
 
         $point = collect($jalan)->merge(collect($jembatan))->merge(collect($das))->merge(collect($drainase))->merge(collect($spam))->merge(collect($sumur))->merge(collect($bendungan))->merge(collect($di))->merge(collect($embung))->merge(collect($mataair));
 
-        $pembangunan = Pembangunan::with('kabupaten_kota')->where('pembangunan_tahun', date('Y'))->get();
+        $pembangunan = Pembangunan::with('kabupaten_kota')->where('pembangunan_tahun', $tahun)->get();
         $pembangunan_group_by_infrastruktur = $pembangunan->groupBy('infrastruktur_jenis')->map(function ($q) {
             return [
                 'infrastruktur_jenis'  => $q->first()->infrastruktur_jenis,
                 'pembangunan_nilai'  => $q->sum('pembangunan_nilai'),
             ];
         });
-        $pemeliharaan = Pemeliharaan::with('kabupaten_kota')->where('pemeliharaan_tahun', date('Y'))->get();
+        $pemeliharaan = Pemeliharaan::with('kabupaten_kota')->where('pemeliharaan_tahun', $tahun)->get();
         $pemeliharaan_group_by_infrastruktur = $pemeliharaan->groupBy('infrastruktur_jenis')->map(function ($q) {
             return [
                 'infrastruktur_jenis'  => $q->first()->infrastruktur_jenis,
@@ -151,6 +153,7 @@ class DashboardController extends Controller
         }
 
 		return view('pages.dashboard.index', [
+            'tahun' => $tahun,
             'point' => $point,
             'jalan' => $jalan,
             'jembatan' => $jembatan,
