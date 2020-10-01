@@ -104,6 +104,11 @@
                 </thead>
                 <tbody>
                     @foreach ($data as $row)
+                    @php
+                    $infrastruktur_nama = '';
+                        $link = $row->pemeliharaan_uraian;
+                    @endphp
+                    @if ($row->infrastruktur_id)
                     @switch ($row->infrastruktur_jenis)
                         @case ('Jalan')
                             @php
@@ -166,6 +171,7 @@
                             @endphp
                         @break
                     @endswitch
+                    @endif
                     <tr>
                         <td class="align-middle width-10">{{ ++$i }}</td>
                         <td class="align-middle">{!! $link !!}</td>
