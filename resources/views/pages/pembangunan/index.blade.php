@@ -49,12 +49,12 @@
                                 <option value="semua" {{ $infrastruktur == 'semua'? 'selected': ''}}>Semua Infrastruktur</option>
                                 <option value="Jalan" {{ $infrastruktur == 'Jalan'? 'selected': ''}}>Bina Marga - Jalan</option>
                                 <option value="Jembatan" {{ $infrastruktur == 'Jembatan'? 'selected': ''}}>Bina Marga - Jembatan</option>
-                                <option value="DAS" {{ $infrastruktur == 'DAS'? 'selected': ''}}>Cipta Karya - Daerah Aliran Sungai</option>
                                 <option value="Drainase" {{ $infrastruktur == 'Drainase'? 'selected': ''}}>Cipta Karya - Drainase</option>
                                 <option value="SPAM" {{ $infrastruktur == 'SPAM'? 'selected': ''}}>Cipta Karya - SPAM</option>
                                 <option value="Sumur" {{ $infrastruktur == 'Sumur'? 'selected': ''}}>Cipta Karya - Sumur</option>
                                 <option value="Bendungan" {{ $infrastruktur == 'Bendungan'? 'selected': ''}}>SDA - Bendungan</option>
                                 <option value="Daerah Irigasi" {{ $infrastruktur == 'Daerah Irigasi'? 'selected': ''}}>SDA - Daerah Irigasi</option>
+                                <option value="DAS" {{ $infrastruktur == 'DAS'? 'selected': ''}}>SDA - Daerah Aliran Sungai</option>
                                 <option value="Embung" {{ $infrastruktur == 'Embung'? 'selected': ''}}>SDA - Embung</option>
                                 <option value="Mata Air" {{ $infrastruktur == 'Mata Air'? 'selected': ''}}>SDA - Mata Air</option>
                             </select>

@@ -7,7 +7,7 @@
 @endpush
 
 @section('page')
-    <li class="breadcrumb-item"><a href="javascript:;">Cipta Karya</a></li>
+<li class="breadcrumb-item"><a href="javascript:;">SDA</a></li>
     <li class="breadcrumb-item"><a href="javascript:;">Daerah Aliran Sungai</a></li>
 	<li class="breadcrumb-item active">{{ ucFirst($aksi) }} Data</li>
 @endsection

@@ -46,12 +46,12 @@
         <select class="form-control selectpicker" name="infrastruktur_jenis" id="infrastruktur_jenis" data-live-search="true" data-style="btn-danger" data-width="100%" required>
             <option value="Jalan" {{ old('infrastruktur_jenis') == 'Jalan'? 'selected': ''}}>Bina Marga - Jalan</option>
             <option value="Jembatan" {{ old('infrastruktur_jenis') == 'Jembatan'? 'selected': ''}}>Bina Marga - Jembatan</option>
-            <option value="DAS" {{ old('infrastruktur_jenis') == 'DAS'? 'selected': ''}}>Cipta Karya - Daerah Aliran Sungai</option>
             <option value="Drainase" {{ old('infrastruktur_jenis') == 'Drainase'? 'selected': ''}}>Cipta Karya - Drainase</option>
             <option value="SPAM" {{ old('infrastruktur_jenis') == 'SPAM'? 'selected': ''}}>Cipta Karya - SPAM</option>
             <option value="Sumur" {{ old('infrastruktur_jenis') == 'Sumur'? 'selected': ''}}>Cipta Karya - Sumur</option>
             <option value="Bendungan" {{ old('infrastruktur_jenis') == 'Bendungan'? 'selected': ''}}>SDA - Bendungan</option>
             <option value="Daerah Irigasi" {{ old('infrastruktur_jenis') == 'Daerah Irigasi'? 'selected': ''}}>SDA - Daerah Irigasi</option>
+            <option value="DAS" {{ old('infrastruktur_jenis') == 'DAS'? 'selected': ''}}>SDA - Daerah Aliran Sungai</option>
             <option value="Embung" {{ old('infrastruktur_jenis') == 'Embung'? 'selected': ''}}>SDA - Embung</option>
             <option value="Mata Air" {{ old('infrastruktur_jenis') == 'Mata Air'? 'selected': ''}}>SDA - Mata Air</option>
         </select>

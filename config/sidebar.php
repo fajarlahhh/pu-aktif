@@ -44,10 +44,6 @@ return [
             'caret' => true,
             'id' => 'ciptakarya',
             'sub_menu' => [[
-                'url' => '/das',
-                'id' => 'das',
-                'title' => 'Daerah Aliran Sungai'
-            ],[
                 'url' => '/drainase',
                 'id' => 'drainase',
                 'title' => 'Drainase'
@@ -73,6 +69,10 @@ return [
                 'url' => '/daerahirigasi',
                 'id' => 'daerahirigasi',
                 'title' => 'Daerah Irigasi'
+            ],[
+                'url' => '/das',
+                'id' => 'das',
+                'title' => 'Daerah Aliran Sungai'
             ],[
                 'url' => '/embung',
                 'id' => 'embung',
