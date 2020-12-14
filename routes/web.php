@@ -132,6 +132,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/', 'PembangunanController@index')->name('pembangunan');
             Route::get('/infrastruktur', 'PembangunanController@index')->name('pembangunan.infrastruktur');
             Route::get('/tambah', 'PembangunanController@tambah')->middleware(['role:super-admin|user'])->name('pembangunan.tambah');
+            Route::post('/tambah/{step}', 'PembangunanController@tambah')->middleware(['role:super-admin|user']);
             Route::post('/simpan', 'PembangunanController@do_tambah')->middleware(['role:super-admin|user'])->name('pembangunan.simpan');
             Route::delete('/hapus/{id}', 'PembangunanController@hapus')->name('pembangunan.hapus');
         });
