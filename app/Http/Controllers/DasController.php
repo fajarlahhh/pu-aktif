@@ -32,7 +32,7 @@ class DasController extends Controller
         }
         $data = $data->paginate(10);
         $data->appends(['cari' => $req->cari]);
-        return view('pages.datainduk.ciptakarya.das.index', [
+        return view('pages.datainduk.sda.das.index', [
             'jenis' => $jenis,
             'data' => $data,
             'i' => ($req->input('page', 1) - 1) * 10,
@@ -42,7 +42,7 @@ class DasController extends Controller
 
 	public function tambah(Request $req)
 	{
-        return view('pages.datainduk.ciptakarya.das.form', [
+        return view('pages.datainduk.sda.das.form', [
             'aksi' => 'tambah',
             'map' => [],
             'lokasi' => [],
@@ -157,7 +157,7 @@ class DasController extends Controller
                     ]);
                 }
             }
-            return view('pages.datainduk.ciptakarya.das.form', [
+            return view('pages.datainduk.sda.das.form', [
                 'aksi' => 'edit',
                 'data' => $data,
                 'lokasi' => [
