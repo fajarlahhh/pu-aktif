@@ -88,11 +88,11 @@
                         <div class="list-group">
                             <a href="{{ url('jalan') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Jalan
-                            <span class="badge f-w-500 bg-gradient-{{ $jalan->first()->warna }} f-s-10">{{ $jalan->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $jalan->count() > 0? $jalan->first()->warna: '' }} f-s-10">{{ $jalan->count() }}</span>
                             </a>
                             <a href="{{ url('jembatan') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Jembatan
-                                <span class="badge f-w-500 bg-{{ $jembatan->first()->warna }}-blue f-s-10">{{ $jembatan->count() }}</span>
+                                <span class="badge f-w-500 bg-{{ $jembatan->count() > 0? $jembatan->first()->warna: '' }}-blue f-s-10">{{ $jembatan->count() }}</span>
                             </a>
                         </div>
                         <br>
@@ -102,19 +102,19 @@
                         <div class="list-group">
                             <a href="{{ url('das') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Daerah Aliran Sungai
-                            <span class="badge f-w-500 bg-gradient-{{ $das->first()->warna }} f-s-10">{{ $das->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $das->count() > 0? $das->first()->warna: '' }} f-s-10">{{ $das->count() }}</span>
                             </a>
                             <a href="{{ url('drainase') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Drainase
-                            <span class="badge f-w-500 bg-gradient-{{ $drainase->first()->warna }} f-s-10">{{ $drainase->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $drainase->count() > 0? $drainase->first()->warna: '' }} f-s-10">{{ $drainase->count() }}</span>
                             </a>
                             <a href="{{ url('spam') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 SPAM
-                            <span class="badge f-w-500 bg-gradient-{{ $spam->first()->warna }} f-s-10">{{ $spam->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $spam->count() > 0? $spam->first()->warna: '' }} f-s-10">{{ $spam->count() }}</span>
                             </a>
                             <a href="{{ url('sumur') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Sumur
-                            <span class="badge f-w-500 bg-gradient-{{ $sumur->first()->warna }} f-s-10">{{ $sumur->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $sumur->count() > 0? $sumur->first()->warna: '' }} f-s-10">{{ $sumur->count() }}</span>
                             </a>
                         </div>
                         <br>
@@ -124,19 +124,19 @@
                         <div class="list-group">
                             <a href="{{ url('bendungan') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Bendungan
-                            <span class="badge f-w-500 bg-gradient-{{ $bendungan->first()->warna }} f-s-10">{{ $bendungan->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $bendungan? $bendungan->first()->warna: '' }} f-s-10">{{ $bendungan->count() }}</span>
                             </a>
                             <a href="{{ url('daerahirigasi') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Daerah Irigasi
-                            <span class="badge f-w-500 bg-gradient-{{ $di->first()->warna }} f-s-10">{{ $di->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $di->count() > 0? $di->first()->warna: '' }} f-s-10">{{ $di->count() }}</span>
                             </a>
                             <a href="{{ url('embung') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Embung
-                            <span class="badge f-w-500 bg-gradient-{{ $embung->first()->warna }} f-s-10">{{ $embung->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $embung->count() > 0? $embung->first()->warna: '' }} f-s-10">{{ $embung->count() }}</span>
                             </a>
                             <a href="{{ url('mataair') }}" class="list-group-item list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
                                 Mata Air
-                            <span class="badge f-w-500 bg-gradient-{{ $mataair->first()->warna }} f-s-10">{{ $mataair->count() }}</span>
+                            <span class="badge f-w-500 bg-gradient-{{ $mataair->count() > 0? $mataair->first()->warna: '' }} f-s-10">{{ $mataair->count() }}</span>
                             </a>
                         </div>
                         <br>
