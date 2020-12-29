@@ -56,10 +56,7 @@
     map = new L.Map('map', { center: new L.LatLng(-8.5783,117.5098), zoom: 8 }),
     drawnItems = L.featureGroup().addTo(map);
     L.control.layers({
-        'osm': osm.addTo(map),
-        "google": L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
-            attribution: 'google'
-        })
+        'osm': osm.addTo(map)
     }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
     var drawControl = new L.Control.Draw({
         edit: {
