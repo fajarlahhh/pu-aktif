@@ -83,6 +83,9 @@
                         <td class="align-middle">{{ $row->kecamatan_id? $row->kecamatan->kecamatan_nama: '' }}</td>
                         <td class="align-middle">{{ $row->kabupaten_kota_id? $row->kabupaten_kota->kabupaten_kota_nama: '' }}</td>
                         <td class="text-right align-middle">
+                            @if ($row->daerah_irigasi_file)
+                            <a href="{{ $row->daerah_irigasi_file }}" target="_blank" class="m-2"><i class='fad fa-file fa-lg text-green-darker'></i></a>
+                            @endif
                             @role('super-admin|supervisor|user')
                             <a href="{{ route('daerahirigasi.edit', ['id' => $row->daerah_irigasi_id]) }}" class="m-2"><i class='fad fa-edit fa-lg text-blue-darker'></i></a>
                             <a href="javascript:;" onclick="hapus('{{ $row->daerah_irigasi_id }}', '{{ $row->daerah_irigasi_nama }}')" class="m-2" id='btn-del' data-toggle="tooltip" title="Hapus Data"><i class='fad fa-trash fa-lg text-red-darker'></i></a>
