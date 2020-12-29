@@ -57,7 +57,7 @@
     drawnItems = L.featureGroup().addTo(map);
     L.control.layers({
         'osm': osm.addTo(map)
-    }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
+    }, { 'drawlayer': drawnItems }).addTo(map);
     var drawControl = new L.Control.Draw({
         edit: {
             featureGroup: drawnItems,
