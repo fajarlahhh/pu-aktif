@@ -1,8 +1,8 @@
-<script src="{{ url('/public/assets/js/bundle.js') }}"></script>
-<script src="{{ url('/public/assets/js/theme/default.min.js') }}"></script>
-<script src="{{ url('/public/assets/js/apps.min.js') }}"></script>
-<script src="{{ url('/public/assets/plugins/gritter/js/jquery.gritter.min.js') }}"></script>
-<script src="{{ url('/public/assets/plugins/autonumeric/autoNumeric.js') }}"></script>
+<script src="{{ url('/assets/js/bundle.js') }}"></script>
+<script src="{{ url('/assets/js/theme/default.min.js') }}"></script>
+<script src="{{ url('/assets/js/apps.min.js') }}"></script>
+<script src="{{ url('/assets/plugins/gritter/js/jquery.gritter.min.js') }}"></script>
+<script src="{{ url('/assets/plugins/autonumeric/autoNumeric.js') }}"></script>
 
 <script>
 	$(document).ready(function() {
@@ -22,7 +22,7 @@
 			modifyValueOnWheel : false,
 			minimumValue: "0"
 		});
-		
+
         @if(Session::get('gritter_judul'))
 	    setTimeout(function() {
 			$.gritter.add({

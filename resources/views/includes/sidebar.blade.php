@@ -7,7 +7,7 @@
 			<li class="nav-profile">
 				<a href="javascript:;" data-toggle="nav-profile">
 					<div class="cover with-shadow"></div>
-					<img src="{{ url('/public/assets/img/user/user.png') }}" alt="" class="image"/>
+					<img src="{{ url('/assets/img/user/user.png') }}" alt="" class="image"/>
 					<div class="info">
 						<b class="caret pull-right"></b>
 						{{ $nama_pegawai }}

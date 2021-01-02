@@ -3,8 +3,8 @@
 @section('title', ' | Dashboard')
 
 @push('css')
-<link href="{{ url('/public/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
-<link href="{{ url('/public/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
+<link href="{{ url('/assets/plugins/leaflet/dist/leaflet.css') }}" rel="stylesheet">
+<link href="{{ url('/assets/plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -153,11 +153,11 @@
 @endsection
 
 @push('scripts')
-<script src="{{ url('/public/assets/plugins/leaflet/dist/leaflet.js') }}"></script>
-	<script src="{{ url('/public/assets/plugins/highcharts/highcharts.js') }}"></script>
-	<script src="{{ url('/public/assets/plugins/highcharts/modules/exporting.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/highcharts/modules/export-data.js') }}"></script>
-    <script src="{{ url('/public/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ url('/assets/plugins/leaflet/dist/leaflet.js') }}"></script>
+	<script src="{{ url('/assets/plugins/highcharts/highcharts.js') }}"></script>
+	<script src="{{ url('/assets/plugins/highcharts/modules/exporting.js') }}"></script>
+    <script src="{{ url('/assets/plugins/highcharts/modules/export-data.js') }}"></script>
+    <script src="{{ url('/assets/plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script>
         $(".cari").change(function() {
              $("#frm-cari").submit();

@@ -3,7 +3,7 @@
 @section('title', ' | '.ucFirst($aksi).' Sumur')
 
 @push('css')
-	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
+	<link href="{{ url('/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
 @endpush
 
 @section('page')
@@ -94,5 +94,5 @@
 @endsection
 
 @push('scripts')
-	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
+	<script src="{{ url('/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
 @endpush

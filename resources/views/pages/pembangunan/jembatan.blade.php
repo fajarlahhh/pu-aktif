@@ -1,5 +1,5 @@
 @push('css')
-<link href="{{ url('/public/assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
+<link href="{{ url('/assets/plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" />
 @endpush
 <div class="tab-pane fade {{ $aksi == 'edit'? '': 'active show' }}" id="default-tab-2">
     <div class="row">
@@ -50,7 +50,7 @@
 <!-- end tab-pane -->
 
 @push('scripts')
-<script src="{{ url('/public/assets/plugins/select2/dist/js/select2.min.js') }}"></script>
+<script src="{{ url('/assets/plugins/select2/dist/js/select2.min.js') }}"></script>
 <script>
     $('#jalan_id').select2({
         ajax:{

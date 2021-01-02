@@ -3,7 +3,7 @@
 @section('title', ' | Login')
 
 @push('css')
-	<link href="{{ url('/public/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
+	<link href="{{ url('/assets/plugins/parsleyjs/src/parsley.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -11,7 +11,7 @@
 <div class="login login-with-news-feed">
 	<!-- begin news-feed -->
 	<div class="news-feed">
-	    <div class="news-image" style="background-image: url({{ 'public/assets/img/login-bg/login-bg.jpg' }})"></div>
+	    <div class="news-image" style="background-image: url({{ 'assets/img/login-bg/login-bg.jpg' }})"></div>
         <h4 class="caption-title"><b>Dinas Pekerjaan Umum</b> & Penataan Ruang</h4>
 		<div class="news-caption">
 			<h4 class="caption-title"><b>Dinas Pekerjaan Umum</b> & Penataan Ruang</h4>
@@ -26,7 +26,7 @@
 		<!-- begin login-header -->
 		<div class="login-header">
 			<div class="brand">
-	            <img src="{{ url('/public/assets/img/logo/favicon.png') }}" height="40"> <strong>A K T I F</strong>
+	            <img src="{{ url('/assets/img/logo/favicon.png') }}" height="40"> <strong>A K T I F</strong>
 				<small><strong>Analisa Keterpaduan InFrastruktur</strong></small><br><small>Penyusunan Data & Informasi Keterpaduan Infrastruktur Pekerjaan Umum  </small>
 			</div>
 			<div class="icon">
@@ -70,5 +70,5 @@
 
 
 @push('scripts')
-	<script src="{{ url('/public/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
+	<script src="{{ url('/assets/plugins/parsleyjs/dist/parsley.js') }}"></script>
 @endpush

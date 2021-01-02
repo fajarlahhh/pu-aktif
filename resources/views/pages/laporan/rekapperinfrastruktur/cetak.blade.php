@@ -56,7 +56,7 @@
                     </tr>
                 </tbody>
             </table>
-<script src="{{ url('/public/assets/js/bundle.js') }}"></script>
+<script src="{{ url('/assets/js/bundle.js') }}"></script>
 <script>
     $('document').ready(function(){
         window.print();

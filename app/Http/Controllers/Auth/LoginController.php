@@ -72,13 +72,7 @@ class LoginController extends Controller
             return Redirect::back()->withInput();
         }
 
-        try {$pengguna = Pengguna::findOrFail($req->uid);
-            if($pengguna){
-                if ($pengguna->pengguna_status == 0){
-                    alert()->error('Login Gagal','ID sudah tidak aktif');
-                    return Redirect::back();
-                }
-            }
+        try {
             $remember = ($req->remember == 'on') ? true : false;
 
             if (Auth::attempt(['pengguna_id' => $req->uid, 'password' => $req->password], $remember)) {
